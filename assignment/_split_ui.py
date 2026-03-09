@@ -1,10 +1,8 @@
 """
-split_ui.py
-===========
 Interactive Jupyter widget UI for manually splitting spatial samples.
 
 This module is intentionally kept separate from the core logic in
-``splitter.py``.  It handles all ipywidgets / matplotlib concerns and
+the assignment module.  It handles all ipywidgets / matplotlib concerns and
 manages the mutable split-session state (history, pending preview) in a
 local object rather than in global variables.
 
@@ -34,15 +32,6 @@ from ._assignment_module import (
     make_diagonal_record,
     plot_samples
 )
-
-# ---------------------------------------------------------------------------
-# plot_samples: import from assignment_module, or fall back to a basic stub.
-# If your plot_samples lives elsewhere, replace the import below.
-# ---------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------
-# Drawing helpers (UI-only, kept here intentionally)
-# ---------------------------------------------------------------------------
 
 def _draw_cut(ax: plt.Axes, record: dict) -> None:
     """Overlay a split line on *ax* based on a split record."""
@@ -77,7 +66,7 @@ def _render(
         plt.close(fig)
 
 # ---------------------------------------------------------------------------
-# Session class — encapsulates all mutable state
+# Session class: splits samples interactively.
 # ---------------------------------------------------------------------------
 
 class SplitSession:
@@ -104,10 +93,6 @@ class SplitSession:
         # Build initial state
         self._df, self._ids = replay_all_splits(self._base_df, self._history)
 
-    # ------------------------------------------------------------------
-    # Public API
-    # ------------------------------------------------------------------
-
     def result(self):
         """
         Return the current segmentation.
@@ -130,12 +115,8 @@ class SplitSession:
         """Build and display the interactive widget in the current Jupyter cell."""
         self._build_ui()
 
-    # ------------------------------------------------------------------
-    # Widget construction
-    # ------------------------------------------------------------------
-
     def _build_ui(self) -> None:
-        # --- Input widgets ---
+        # input widgets
         w_type = widgets.RadioButtons(
             options=["vertical (x)", "horizontal (y)", "diagonal"],
             value="vertical (x)",
@@ -173,7 +154,7 @@ class SplitSession:
         ])
         w_diag_rows.layout.display = "none"
 
-        # --- Action buttons ---
+        # action buttons
         w_btn_preview = widgets.Button(description="Preview",
                                         button_style="primary",
                                         layout=widgets.Layout(width="120px"))
@@ -193,7 +174,7 @@ class SplitSession:
         w_log    = widgets.HTML("")
         w_out    = widgets.Output()
 
-        # --- Helpers ---
+        # helpers (showing history)
         def _update_log():
             if not self._history:
                 w_log.value = "<i style='color:grey'>No splits confirmed yet.</i>"
@@ -215,7 +196,7 @@ class SplitSession:
             for k in self._pending:
                 self._pending[k] = None
 
-        # --- Callbacks ---
+        # callbacks
         def on_type_change(change):
             if change["name"] != "value":
                 return
@@ -245,7 +226,7 @@ class SplitSession:
                 )
                 return
 
-            # Build the record (stores display ID for stable history replay)
+            # build the record (stores display ID for stable history replay)
             if split_type_raw == "vertical (x)":
                 record = make_vertical_record(sample_id_display, w_single_value.value)
             elif split_type_raw == "horizontal (y)":
@@ -257,7 +238,7 @@ class SplitSession:
                     w_x2.value, w_y2.value,
                 )
 
-            # Resolve display ID → raw ID for the preview only
+            # resolve display ID 
             centroids  = (df_current[df_current["sample_id"] != -1]
                           .groupby("sample_id")["x"].mean())
             sorted_ids = centroids.sort_values().index.tolist()
@@ -288,11 +269,11 @@ class SplitSession:
                 return
 
             confirmed_rec = self._pending["record"]
-            print("Appending record:", confirmed_rec)        # ← add
+            print("Appending record:", confirmed_rec)       
             self._history.append(confirmed_rec)
 
             self._df, self._ids = replay_all_splits(self._base_df, self._history)
-            print("IDs after replay:", self._ids)            # ← add
+            print("IDs after replay:", self._ids)           
             print("Unique sample_ids in df:", self._df["sample_id"].unique())
 
             w_status.value = (
@@ -331,7 +312,6 @@ class SplitSession:
             _update_log()
             _render(w_out, self._df, self._ids, record=None)
 
-        # --- Wire up ---
         w_type.observe(on_type_change)
         w_btn_preview.on_click(on_preview)
         w_btn_confirm.on_click(on_confirm)
@@ -356,12 +336,12 @@ class SplitSession:
             w_out,
         ]))
 
-        # Initial render — must come after display() so output goes into w_out
+        # Initial render
         _render(w_out, self._df, self._ids, record=None)
 
 
 # ---------------------------------------------------------------------------
-# Label session — assign experimental conditions to samples
+# Label session: let user assign labels to the samples interactively
 # ---------------------------------------------------------------------------
 
 class LabelSession:
@@ -398,10 +378,6 @@ class LabelSession:
         self._output_dir = output_dir
         self._conditions = {cid: f"Sample_{cid}" for cid in self._ids}
 
-    # ------------------------------------------------------------------
-    # Public API
-    # ------------------------------------------------------------------
-
     def result(self) -> dict:
         """
         Return the current label assignments.
@@ -417,10 +393,7 @@ class LabelSession:
         """Build and display the interactive labelling widget."""
         self._build_ui()
 
-    # ------------------------------------------------------------------
     # Widget construction
-    # ------------------------------------------------------------------
-
     def _build_ui(self) -> None:
         import pandas as pd
         import os
@@ -453,7 +426,7 @@ class LabelSession:
         w_plot_out = widgets.Output()
         w_table_out = widgets.Output()
 
-        # --- Helpers ---
+        # helper functions
         def _refresh_plot():
             w_plot_out.clear_output(wait=True)
             with w_plot_out:
@@ -480,7 +453,7 @@ class LabelSession:
                 tbl = pd.DataFrame(rows, columns=["Sample", "Label", "N cells"])
                 display(tbl.style.set_properties(**{"text-align": "left"}))
 
-        # --- Callbacks ---
+        # callbacks
         def on_dropdown_change(change):
             if change["name"] == "value":
                 w_condition.value = self._conditions.get(change["new"], "")
@@ -519,7 +492,7 @@ class LabelSession:
             cond_path = os.path.join(self._output_dir, "sample_conditions.csv")
             cond_df.to_csv(cond_path, index=False)
 
-            # AnnData update (optional)
+            # adata update
             adata_msg = ""
             if self._adata is not None:
                 meta_df = df_out[["cell_id", "sample_id", "condition"]]
@@ -538,7 +511,6 @@ class LabelSession:
                 clear_output(wait=True)
                 display(cond_df)
 
-        # --- Wire up ---
         w_dropdown.observe(on_dropdown_change)
         w_btn_assign.on_click(on_assign)
         w_btn_export.on_click(on_export)

@@ -1,6 +1,7 @@
 import scanpy as sc
 from anndata import AnnData
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 def cluster(
@@ -83,42 +84,3 @@ def cluster(
         )
     return adata
     
-
-# TODO add more parameters here
-def cells_by_clustering(adata):
-    if 'leiden' not in adata:
-        print("Leiden algorithm is not applied to adata. Please do this first before calling this function.")
-        return
-    adata.obs["cluster"] = "Cluster " + (adata.obs["leiden"].astype(int) + 1).astype(str)
-    adata.obsm["X_spatial"] = adata.obs[["x_centroid", "y_centroid"]].values
-    fig, axes = plt.subplots(1, 2, figsize=(15, 7))
-
-    sc.pl.umap(
-        adata,
-        color="cluster",
-        title="UMAP Projection of Cells by Clustering",
-        frameon=True,
-        legend_loc="right margin",
-        ax=axes[0],
-        show=False
-    )
-
-    sc.pl.embedding(
-        adata,
-        basis="spatial",
-        color="cluster",
-        title="Cell Coordinates by Cluster",
-        frameon=True,
-        legend_loc="right margin",
-        ax=axes[1],
-        show=False
-    )       
-
-    # Flip Y axis so tissue orientation matches Xenium viewer (origin top-left)
-    axes[1].invert_yaxis()
-    axes[1].set_xlabel("X coordinate (µm)")
-    axes[1].set_ylabel("Y coordinate (µm)")
-
-    plt.tight_layout()
-    plt.savefig("xenium_umap_and_spatial.png", dpi=150, bbox_inches="tight")
-    plt.show()

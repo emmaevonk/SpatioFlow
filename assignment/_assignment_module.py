@@ -19,8 +19,8 @@ from skimage.segmentation import watershed
 from skimage.morphology import erosion, disk as morph_disk
 import scipy.ndimage as ndi
 
-import ipywidgets as widgets
-from IPython.display import display, clear_output
+# import ipywidgets as widgets
+# from IPython.display import display, clear_output
 
 
 def _load_xenium(

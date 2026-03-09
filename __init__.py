@@ -57,9 +57,6 @@ from ._cellcom import (
 from ._neighbors import (
     nhood_enrichment
 )
-from ._assigning_treatments import (
-    assign_condition
-)
 
 from ._pseudobulk import (
     pseudobulk
