@@ -4,8 +4,7 @@ from ._analysis import (
 )
 
 from ._cluster import (
-    cluster,
-    cells_by_clustering
+    cluster
 )
 
 from ._plot import (

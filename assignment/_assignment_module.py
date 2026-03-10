@@ -19,9 +19,6 @@ from skimage.segmentation import watershed
 from skimage.morphology import erosion, disk as morph_disk
 import scipy.ndimage as ndi
 
-# import ipywidgets as widgets
-# from IPython.display import display, clear_output
-
 
 def _load_xenium(
         path: str,
@@ -162,6 +159,7 @@ def plot_samples(
         plt.tight_layout()
         plt.show(fig)
 
+
 def detect_samples_watershed(
         df: pd.DataFrame, 
         pixel_size_um: int = 20, 
@@ -293,10 +291,7 @@ SplitRecord = dict  # {"type", "sample_id", "single_value"?  "x_points"? "y_poin
 SplitHistory = list[SplitRecord]
 
 
-# ---------------------------------------------------------------------------
-# Core split helpers
-# ---------------------------------------------------------------------------
-
+#  split helpers
 def do_one_split(
     df: pd.DataFrame,
     sample_id: int,
@@ -360,9 +355,9 @@ def do_one_split(
     return df
 
 
-def renumber(df: pd.DataFrame) -> tuple[pd.DataFrame, list[int]]:
+def renumber(df: pd.DataFrame, row_tolerance: float = None) -> tuple[pd.DataFrame, list[int]]:
     """
-    Renumber sample IDs sequentially, ordered by y-centroid (bottom → top).
+    Renumber sample IDs sequentially, ordered row by row (top → bottom, left → right).
 
     Cells labelled ``-1`` (noise/unassigned) are left unchanged.
 
@@ -370,6 +365,9 @@ def renumber(df: pd.DataFrame) -> tuple[pd.DataFrame, list[int]]:
     ----------
     df : pd.DataFrame
         Must contain columns ``x``, ``y``, ``sample_id``.
+    row_tolerance : float, optional
+        Max y-centroid difference to consider two samples in the same row.
+        Defaults to 1/3 of the median sample height if not provided.
 
     Returns
     -------
@@ -382,9 +380,39 @@ def renumber(df: pd.DataFrame) -> tuple[pd.DataFrame, list[int]]:
     if not valid_ids:
         return df.copy(), []
 
-    centroids  = df[df["sample_id"] != -1].groupby("sample_id")["y"].mean()
-    sorted_ids = centroids.sort_values().index.tolist()
-    remap      = {old: new for new, old in enumerate(sorted_ids)}
+    valid_df = df[df["sample_id"] != -1]
+
+    # Compute x and y centroids per sample
+    centroids = valid_df.groupby("sample_id")[["x", "y"]].mean()
+
+    # Auto-compute row_tolerance from median sample height if not given
+    if row_tolerance is None:
+        heights = valid_df.groupby("sample_id")["y"].apply(lambda s: s.max() - s.min())
+        row_tolerance = heights.median() / 3
+
+    # Sort by y first, then assign row groups using tolerance
+    centroids = centroids.sort_values("y")
+    rows = []
+    current_row = [centroids.index[0]]
+    current_y = centroids.loc[centroids.index[0], "y"]
+
+    for sid in centroids.index[1:]:
+        y = centroids.loc[sid, "y"]
+        if abs(y - current_y) <= row_tolerance:
+            current_row.append(sid)
+        else:
+            rows.append(current_row)
+            current_row = [sid]
+            current_y = y
+    rows.append(current_row)
+
+    # Within each row, sort left to right by x centroid
+    sorted_ids = []
+    for row in rows:
+        row_sorted = sorted(row, key=lambda sid: centroids.loc[sid, "x"])
+        sorted_ids.extend(row_sorted)
+
+    remap = {old: new for new, old in enumerate(sorted_ids)}
 
     df = df.copy()
     df["sample_id"] = df["sample_id"].apply(lambda x: remap.get(x, -1))
@@ -392,10 +420,7 @@ def renumber(df: pd.DataFrame) -> tuple[pd.DataFrame, list[int]]:
     return df, new_ids
 
 
-# ---------------------------------------------------------------------------
-# History replay
-# ---------------------------------------------------------------------------
-
+# show previous splits
 def replay_all_splits(
     base_df: pd.DataFrame,
     history: SplitHistory,
@@ -438,17 +463,14 @@ def replay_all_splits(
     return renumber(df)
 
 
-# ---------------------------------------------------------------------------
 # Split-record constructors (keep record creation consistent)
-# ---------------------------------------------------------------------------
-
 def make_vertical_record(sample_id: int, x: float) -> SplitRecord:
-    """Return a split record for a vertical cut at ``x``."""
+    """Return a split record for a vertical cut at x."""
     return {"type": "vertical", "sample_id": sample_id, "single_value": x}
 
 
 def make_horizontal_record(sample_id: int, y: float) -> SplitRecord:
-    """Return a split record for a horizontal cut at ``y``."""
+    """Return a split record for a horizontal cut at y."""
     return {"type": "horizontal", "sample_id": sample_id, "single_value": y}
 
 
@@ -466,16 +488,32 @@ def make_diagonal_record(
     }
 
 
-# TODO: Check what you want the user to do (which parameters, default values, etc.)
-def run_watershed(path_xenium, output_dir):
-    # This performs the first step of the assignment of samples (watershed segmentation)
-    df_raw = _load_xenium(path_xenium, output_dir)
+def run_watershed(
+        path_xenium, 
+        output_dir
+        ):
+    """
+    Run the watershed segmentation.
 
+    Parameters
+    ----------
+    path_xenium : str
+        Path to the Xenium output.
+    output_dir : str
+        Path to the desired output directory.
+
+    Returns
+    -------
+    df_test : pandas.DataFrame
+        Dataframe containing new cell labels after watershed.
+    """
+    df_raw = _load_xenium(path_xenium, output_dir)
     test_labels, test_img, *_ = detect_samples_watershed(df_raw)
 
     df_test = df_raw.copy()
     df_test["sample_id"] = test_labels
-    test_ids = sorted([c for c in np.unique(test_labels) if c != -1])
+
+    df_test, test_ids = renumber(df_test) 
 
     fig, axes = plt.subplots(1, 2, figsize=(18, 7))
     fig.patch.set_facecolor("#1e1e2e")
@@ -497,7 +535,3 @@ def manual_split_samples(df_test):
         for var in ["df_test", "test_ids"]:
             if var in globals():
                 del globals()[var]
-
-
-# df = run_watershed()
-# manual_split_samples(df)

@@ -5,15 +5,6 @@ This module is intentionally kept separate from the core logic in
 the assignment module.  It handles all ipywidgets / matplotlib concerns and
 manages the mutable split-session state (history, pending preview) in a
 local object rather than in global variables.
-
-Typical usage (in a Jupyter notebook)
---------------------------------------
->>> from split_ui import SplitSession
->>> session = SplitSession(df_base)   # df_base has columns x, y, sample_id
->>> session.show()                    # renders the interactive widget
->>>
->>> # After you are done splitting:
->>> df_result, ids = session.result()
 """
 
 from __future__ import annotations
@@ -34,7 +25,7 @@ from ._assignment_module import (
 )
 
 def _draw_cut(ax: plt.Axes, record: dict) -> None:
-    """Overlay a split line on *ax* based on a split record."""
+    """Draw the cut made by the user"""
     stype = record["type"]
     if stype == "vertical":
         ax.axvline(record["single_value"], color="white", lw=2, ls="--", alpha=0.85)
@@ -53,7 +44,7 @@ def _render(
     ids: list[int],
     record: dict | None = None,
 ) -> None:
-    """Clear *w_out* and draw the current segmentation (with optional cut preview)."""
+    """Clear w_out and draw the current segmentation (with optional cut preview)."""
     w_out.clear_output(wait=True)
     with w_out:
         fig, ax = plt.subplots(figsize=(12, 8))
@@ -65,10 +56,8 @@ def _render(
         plt.show()
         plt.close(fig)
 
-# ---------------------------------------------------------------------------
-# Session class: splits samples interactively.
-# ---------------------------------------------------------------------------
 
+# Session class: splits samples interactively.
 class SplitSession:
     """
     Manages a single interactive splitting session.
@@ -84,7 +73,6 @@ class SplitSession:
     not in module-level globals. Create a new ``SplitSession`` for each
     dataset you want to work with.
     """
-
     def __init__(self, base_df):
         self._base_df      = base_df.copy()
         self._history: list[dict] = []
@@ -113,6 +101,7 @@ class SplitSession:
 
     def show(self) -> None:
         """Build and display the interactive widget in the current Jupyter cell."""
+        clear_output(wait=True)
         self._build_ui()
 
     def _build_ui(self) -> None:
@@ -340,10 +329,7 @@ class SplitSession:
         _render(w_out, self._df, self._ids, record=None)
 
 
-# ---------------------------------------------------------------------------
 # Label session: let user assign labels to the samples interactively
-# ---------------------------------------------------------------------------
-
 class LabelSession:
     """
     Interactive UI for assigning experimental labels to spatial samples.
@@ -361,14 +347,6 @@ class LabelSession:
         and ``condition`` columns on export.
     output_dir : str, optional
         Directory to write CSV exports to. Defaults to current directory.
-
-    Typical usage
-    -------------
-    >>> label_session = LabelSession(df, ids, adata=adata, output_dir=OUTPUT_DIR)
-    >>> label_session.show()
-    >>>
-    >>> # After labelling:
-    >>> conditions = label_session.result()
     """
 
     def __init__(self, df, ids, adata=None, output_dir="."):
@@ -391,6 +369,7 @@ class LabelSession:
 
     def show(self) -> None:
         """Build and display the interactive labelling widget."""
+        clear_output(wait=True)
         self._build_ui()
 
     # Widget construction

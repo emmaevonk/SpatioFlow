@@ -85,11 +85,11 @@ def _make_pseudobulk(
         pseudobulk_dict[ct] = pb
     return pseudobulk_dict
 
-# TODO: change the defaults
+
 def pseudobulk(
     adata: AnnData,
     celltype: str = "Macrophages",
-    cond: list = ["WT_PBS", "MDX52_ASO_GIVI"],
+    cond: list = ["WT", "TEST"],
     save: bool = True,
     output_path: str | None = None
 ):
