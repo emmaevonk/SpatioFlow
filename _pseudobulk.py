@@ -3,6 +3,7 @@ import pandas as pd
 import scanpy as sc
 import matplotlib.pyplot as plt
 from anndata import AnnData
+
 from pydeseq2.dds import DeseqDataSet
 from pydeseq2.ds import DeseqStats
 
@@ -12,9 +13,9 @@ This module performs pseudobulk DE analysis per condition
 
 def _make_pseudobulk(
     adata,
-    sample_col="assigned_sample",
+    sample_col="sample_id",
     celltype_col="cell_type",
-    treatment_col="assigned_treatment",
+    treatment_col="condition",
     layer="raw_counts" 
 ):
     """
@@ -73,16 +74,26 @@ def _make_pseudobulk(
         pb = sc.AnnData(pb_df)
 
         # Add metadata
-        pb.obs[sample_col] = pb_df.index
-
-        pb.obs["assigned_treatment"] = (
+        treatment_map = (
             ad_ct.obs[[sample_col, treatment_col]]
             .drop_duplicates()
             .set_index(sample_col)
-            .loc[pb_df.index, treatment_col]
         )
+        pb.obs = treatment_map.loc[pb_df.index, [treatment_col]]  # only treatment col, index = sample_id
 
         pseudobulk_dict[ct] = pb
+        # print(sample_col, treatment_col)
+        # print(pb_df)
+        # pb.obs[sample_col] = pb_df.index
+
+        # pb.obs[treatment_col] = (
+        #     ad_ct.obs[[sample_col, treatment_col]]
+        #     .drop_duplicates()
+        #     .set_index(sample_col)
+        #     .loc[pb_df.index, treatment_col]
+        # )
+
+        # pseudobulk_dict[ct] = pb
     return pseudobulk_dict
 
 
@@ -91,7 +102,9 @@ def pseudobulk(
     celltype: str = "Macrophages",
     cond: list = ["WT", "TEST"],
     save: bool = True,
-    output_path: str | None = None
+    output_path: str | None = None,
+    sample_col: str = "sample_id",
+    treatment_col="condition"
 ):
     """
     Perform pseudobulk diferential expression analysis for a specific cell type.
@@ -113,7 +126,7 @@ def pseudobulk(
     save : bool, default = True
         Whether to save the significant genes to a CSV file.
     output_path : str or None, default = None
-        Path to save the CSV file. If None, saves to the curent working directory
+        Path to save the CSV file.. If None, saves to the curent working directory
         with an automatically generated filename.
 
     Returns
@@ -130,8 +143,11 @@ def pseudobulk(
     - PyDESeq2 is used as a Python implementation of DESeq2
     - If save = True, results are written to disk
     """
-    pb_dict = _make_pseudobulk(adata)
-    pb = pb_dict[celltype].copy()
+    pb_dict = _make_pseudobulk(adata, sample_col=sample_col, treatment_col=treatment_col)
+    try:
+        pb = pb_dict[celltype].copy()
+    except KeyError:
+        print(f"`{celltype}` is not present in the data. Are you sure you used the correct name?")
 
     # prepare data
     counts = pd.DataFrame(
@@ -139,8 +155,7 @@ def pseudobulk(
         index=pb.obs_names,
         columns=pb.var_names
     )
-
-    metadata = pb.obs[["assigned_treatment"]]
+    metadata = pb.obs[[treatment_col]]
 
     # Ensure counts are integers
     counts = counts.astype(int) 
@@ -149,13 +164,13 @@ def pseudobulk(
     dds = DeseqDataSet(
         counts=counts,
         metadata=metadata,
-        design_factors="assigned_treatment",
+        design_factors=treatment_col,
         refit_cooks=True
     )
 
     dds.deseq2()
 
-    contrast_list = ["assigned_treatment", cond[0], cond[1]]
+    contrast_list = [treatment_col, cond[0], cond[1]]
     stat_res = DeseqStats(dds, contrast=contrast_list)
     stat_res.summary()
 

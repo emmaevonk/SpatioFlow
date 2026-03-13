@@ -39,7 +39,7 @@ def dotplot(
 
 def celltype_composition(
         adata: AnnData,
-        condition: str = "assigned_treatment",
+        condition: str = "condition",
         celltype: str = 'cell_type',
         output_path: str | None = None,
         show: bool = True,
