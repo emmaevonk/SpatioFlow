@@ -420,49 +420,6 @@ def renumber(df: pd.DataFrame, row_tolerance: float = None) -> tuple[pd.DataFram
     return df, new_ids
 
 
-# show previous splits
-# def replay_all_splits(
-#     base_df: pd.DataFrame,
-#     history: SplitHistory,
-# ) -> tuple[pd.DataFrame, list[int]]:
-#     """
-#     Reconstruct the current segmentation by replaying a split history.
-
-#     Each entry in ``history`` stores a *display ID* (stable across
-#     renumbering). At every step the display ID is resolved to the current
-#     raw ``sample_id`` by sorting samples by their x-centroid.
-
-#     Parameters
-#     ----------
-#     base_df : pd.DataFrame
-#         The original dataframe before any splits.
-#     history : list[dict]
-#         Ordered list of split records as produced by the UI.
-
-#     Returns
-#     -------
-#     df : pd.DataFrame
-#         DataFrame with every recorded split applied and IDs renumbered.
-#     ids : list[int]
-#         Sorted list of current sample IDs.
-#     """
-#     df = base_df.copy()
-#     for entry in history:
-#         centroids  = df[df["sample_id"] != -1].groupby("sample_id")["y"].mean()  # ← x to y
-#         sorted_ids = centroids.sort_values().index.tolist()
-#         raw_id     = sorted_ids[entry["sample_id"]]
-
-#         df = do_one_split(
-#             df,
-#             sample_id    = raw_id,
-#             split_type   = entry["type"],
-#             single_value = entry.get("single_value"),
-#             x_points     = entry.get("x_points"),
-#             y_points     = entry.get("y_points"),
-#         )
-#     return renumber(df)
-
-
 def replay_all_splits(base_df, history):
     df = base_df.copy()
     for entry in history:
@@ -540,12 +497,12 @@ def run_watershed(
     return df_test
 
 
-def manual_split_samples(df_test):
+def manual_split_samples(df):
     RESET = True
 
     if RESET:
         split_history = []
-        df_split_base = df_test.copy()
-        for var in ["df_test", "test_ids"]:
+        df_split_base = df.copy()
+        for var in ["df", "test_ids"]:
             if var in globals():
                 del globals()[var]

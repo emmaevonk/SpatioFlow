@@ -1,0 +1,11 @@
+site_name: SpatialAPI
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Quickstart: quickstart.md
+  - Tutorials:
+    - Tutorial: tutorials/tutorial.ipynb
