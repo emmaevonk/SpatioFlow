@@ -1,4 +1,5 @@
 import spatialdata as sd
+import os
 import scanpy as sc
 import numpy as np
 from pathlib import Path
@@ -18,8 +19,8 @@ Currently supports Xenium outputs and SpatialData Zarr stores.
 
 def read_data(
     xenium_path: str,
-    output_path: str | Path | None = None
-) -> SpatialData:
+    output_path: str | None = None
+):
     """
     Read Xenium data into a SpatialData object.
 
@@ -55,15 +56,27 @@ def read_data(
     >>> sdata = read_data("data.zarr")
     >>> read_data("xenium_run/", output_path="processed.zarr")
     """
-    if str(xenium_path).endswith(".zarr"):
-        sdata = read_zarr(xenium_path)
-    else:
-        sdata = xenium(xenium_path)
-        
-    # Write to zarr file in the output directory (path + .zarr) if output path is given
-    if output_path is not None:
-        sdata.write(output_path)
-    return sdata
+    try:
+        if str(xenium_path).endswith(".zarr"):
+            sdata = read_zarr(xenium_path)
+        else:
+            sdata = xenium(xenium_path)
+            
+        # Write to zarr file in the output directory (path + .zarr) if output path is given
+        if output_path is not None:
+            if not output_path.endswith(".zarr"):
+                output_path = output_path + "sdata.zarr"
+            if not os.path.exists(output_path):
+                os.makedirs(output_path)
+                sdata.write(output_path)
+            elif os.path.exists(output_path):
+                print(f"The path to the output ({output_path}) already exists. Not overwriting an existing file. The sdata file is returned through this function.")
+            else:
+                sdata.write(output_path)
+        return sdata
+    except FileNotFoundError as e: 
+        print(e)
+
 
 def convert_sdata_adata(
     sdata: SpatialData | Path,

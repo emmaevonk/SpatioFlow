@@ -3,6 +3,7 @@ import numpy as np
 from skimage.filters import threshold_otsu
 from scipy.ndimage import gaussian_filter
 from spatialdata import SpatialData
+import sys
 
 def frac_transcripts(
     sdata: SpatialData,
@@ -42,6 +43,8 @@ def frac_transcripts(
     92.34
 
     """
+    if _errorhandler(sdata):
+        return None, None
     # Get the percentage of transcripts allocated
     if tran in sdata.points:
         transcripts = sdata.points[tran]
@@ -61,7 +64,7 @@ def frac_transcripts(
 
 def staining_positive(
         sdata: SpatialData,
-        channel: str = "ATP1A1/CD45/E-Cadherin",
+        channel: str = "DAPI",
         allocation: str = "cell"
  ) -> float:
     """
@@ -112,6 +115,8 @@ def staining_positive(
     >>> staining_positive(sdata, channel="CD45)
     87.12
     """
+    if _errorhandler(sdata):
+        return None, None
     img = sdata.images["morphology_focus"]
     cell_labels = sdata.labels["cell_labels"]
 
@@ -146,6 +151,12 @@ def staining_positive(
 
     return "%.2f" % percentage_allocated
 
+
+def _errorhandler(sdata):
+    if type(sdata) != sd._core.spatialdata.SpatialData:
+        print("ERROR: The input provided is not in SpatialData format, so not applicable for this function.")
+        return True
+
 def metrics(
         sdata: SpatialData
 ) -> float:
@@ -176,6 +187,8 @@ def metrics(
     >>> metrics(sdata)
     (92.3, 85.7)
     """
+    if _errorhandler(sdata):
+        return None, None
     perc_assigned_transcripts = frac_transcripts(sdata)
     staining_positives = staining_positive(sdata)
     return perc_assigned_transcripts, staining_positives

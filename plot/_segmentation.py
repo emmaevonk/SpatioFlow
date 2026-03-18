@@ -1,7 +1,7 @@
 from spatialdata import SpatialData
 import spatialdata as sd
 
-def crop0(
+def _crop0(
         x: SpatialData,
         min_coord: list | None = None,
         max_coord: list | None = None
@@ -121,6 +121,6 @@ def multimodal_segmentation_slice(
     
 
     for i in channelnames: 
-        crop0(sdata, min_coord, max_coord).pl.render_images("morphology_focus", channel=i).pl.show(
+        _crop0(sdata, min_coord, max_coord).pl.render_images("morphology_focus", channel=i).pl.show(
             title=i, figsize=(10, 3)
         )

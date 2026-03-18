@@ -13,7 +13,7 @@ Typical usage (in a Jupyter notebook)
 >>> session.show()                    # renders the interactive widget
 >>>
 >>> # After you are done splitting:
->>> df_result, ids = session.result()
+>>> df_result, ids = session.result()s
 """
 
 from __future__ import annotations
@@ -25,11 +25,11 @@ from IPython.display import display
 # Import pure logic from the functional API
 from ._assignment_module import (
     replay_all_splits,
-    do_one_split,
-    renumber,
-    make_vertical_record,
-make_horizontal_record,
-    make_diagonal_record,
+    _do_one_split,
+    _renumber,
+    _make_vertical_record,
+    _make_horizontal_record,
+    _make_diagonal_record,
     plot_samples
 )
 
@@ -62,10 +62,6 @@ def _render(w_out: widgets.Output, df, ids: list[int], record: dict | None = Non
         plt.close(fig)
 
 
-# ---------------------------------------------------------------------------
-# SplitSession
-# ---------------------------------------------------------------------------
-
 class SplitSession:
     """
     Manages a single interactive splitting session.
@@ -81,23 +77,9 @@ class SplitSession:
         self._history: list[dict] = []
         self._pending = {"record": None, "df": None, "ids": None}
         self._df, self._ids = replay_all_splits(self._base_df, self._history)
-
-        # --- THE FIX ---
-        # Both of these Output widgets live on self for the entire session lifetime.
-        #
-        # self._w_out      : holds the matplotlib plot. Button callbacks call
-        #                    _render(self._w_out, ...) and always update the
-        #                    same object, regardless of how many times show() runs.
-        #
-        # self._container  : wraps the entire UI (controls + plot). show() clears
-        #                    and rebuilds it, then calls display() exactly once.
-        #                    Because it's the same Python object every time,
-        #                    Jupyter moves it to the new cell instead of copying it,
-        #                    so only one instance is ever visible.
         self._w_out     = widgets.Output()
         self._container = widgets.Output()
 
-    # ------------------------------------------------------------------
     def result(self):
         return self._df.copy(), list(self._ids)
 
@@ -105,28 +87,41 @@ class SplitSession:
     def history(self) -> list[dict]:
         return list(self._history)
 
-    # ------------------------------------------------------------------
     def show(self) -> None:
         """
         Display the widget. Safe to call multiple times or from different
         cells — always shows exactly one copy.
         """
-        # Rebuild the controls inside the container (clears old controls).
-        # self._w_out is reused as-is so all button callbacks still point
-        # to the live plot Output widget.
         self._container.clear_output(wait=True)
         with self._container:
-            display(self._build_controls())   # no display() inside _build_controls
-        # Hand the container to Jupyter. Re-displaying the same object
-        # moves it rather than duplicating it.
+            display(self._build_controls()) 
         display(self._container)
 
-    # ------------------------------------------------------------------
+
     def _build_controls(self) -> widgets.VBox:
         """
         Build and RETURN the control widget tree.
         Never calls display() — that is show()'s sole responsibility.
         """
+        display(widgets.HTML("""
+            <style>
+                input[type=number]::-webkit-outer-spin-button,
+                input[type=number]::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+                input[type=number] {
+                    -moz-appearance: textfield;
+                }
+            </style>
+            <script>
+                document.addEventListener('wheel', function(e) {
+                    if (document.activeElement.type === 'number') {
+                        document.activeElement.blur();
+                    }
+                }, true);
+            </script>
+        """))
         w_type = widgets.RadioButtons(
             options=["vertical (x)", "horizontal (y)", "diagonal"],
             value="vertical (x)",
@@ -158,7 +153,7 @@ class SplitSession:
         w_status = widgets.HTML("")
         w_log    = widgets.HTML("")
 
-        # ---- helpers ----
+        # helpers 
         def _update_log():
             if not self._history:
                 w_log.value = "<i style='color:grey'>No splits confirmed yet.</i>"
@@ -180,7 +175,7 @@ class SplitSession:
             for k in self._pending:
                 self._pending[k] = None
 
-        # ---- callbacks ----
+        # callbacks 
         def on_type_change(change):
             if change["name"] != "value":
                 return
@@ -205,21 +200,17 @@ class SplitSession:
                 return
 
             if split_type_raw == "vertical (x)":
-                record = make_vertical_record(sample_id_display, w_single_value.value)
+                record = _make_vertical_record(sample_id_display, w_single_value.value)
             elif split_type_raw == "horizontal (y)":
-                record = make_horizontal_record(sample_id_display, w_single_value.value)
+                record = _make_horizontal_record(sample_id_display, w_single_value.value)
             else:
-                record = make_diagonal_record(sample_id_display, w_x1.value, w_y1.value, w_x2.value, w_y2.value)
+                record = _make_diagonal_record(sample_id_display, w_x1.value, w_y1.value, w_x2.value, w_y2.value)
 
-            # After renumber() the sample_id values in the df ARE already
-            # 0, 1, 2 … in spatial order, so sample_id_display is the raw_id.
-            # No centroid-sort indirection needed (that was the source of the
-            # wrong-sample bug).
-            df_after = do_one_split(df_current, sample_id_display, record["type"],
+            df_after = _do_one_split(df_current, sample_id_display, record["type"],
                                     single_value=record.get("single_value"),
                                     x_points=record.get("x_points"),
                                     y_points=record.get("y_points"))
-            df_after, new_ids = renumber(df_after)
+            df_after, new_ids = _renumber(df_after)
 
             self._pending["record"] = record
             self._pending["df"]     = df_after
@@ -287,10 +278,6 @@ class SplitSession:
         ])
 
 
-# ---------------------------------------------------------------------------
-# LabelSession
-# ---------------------------------------------------------------------------
-
 class LabelSession:
     """
     Interactive UI for assigning experimental labels to spatial samples.
@@ -322,7 +309,7 @@ class LabelSession:
         """Display the widget. Safe to call multiple times or from different cells."""
         self._container.clear_output(wait=True)
         with self._container:
-            display(self._build_controls())   # no display() inside _build_controls
+            display(self._build_controls()) 
         display(self._container)
 
     def _build_controls(self) -> widgets.VBox:
@@ -347,9 +334,9 @@ class LabelSession:
         w_btn_export = widgets.Button(description="Save & Export", button_style="success", layout=widgets.Layout(width="160px"))
         w_status     = widgets.HTML(value="")
 
-        # ---- helpers ----
+        # helpers
         def _refresh_plot():
-            self._w_plot.clear_output(wait=True)  # always updates self._w_plot
+            self._w_plot.clear_output(wait=True)
             with self._w_plot:
                 fig, ax = plt.subplots(figsize=(10, 7))
                 fig.patch.set_facecolor("#1e1e2e")
@@ -360,14 +347,14 @@ class LabelSession:
                 plt.close(fig)
 
         def _refresh_table():
-            self._w_table.clear_output(wait=True)  # always updates self._w_table
+            self._w_table.clear_output(wait=True) 
             with self._w_table:
                 rows = [(f"S{cid}", self._conditions[cid],
                          f"{(self._df['sample_id'] == cid).sum():,}") for cid in self._ids]
                 tbl = pd.DataFrame(rows, columns=["Sample", "Label", "N cells"])
                 display(tbl.style.set_properties(**{"text-align": "left"}))
 
-        # ---- callbacks ----
+        # callbacks
         def on_dropdown_change(change):
             if change["name"] == "value":
                 w_condition.value = self._conditions.get(change["new"], "")
@@ -387,29 +374,114 @@ class LabelSession:
             _refresh_plot()
             _refresh_table()
 
+        # def on_export(_):
+        #     w_status.value = "<span style='color:#f39c12'>⏳ Saving...</span>"
+        #     w_btn_export.disabled = True
+
+        #     # Avoid full copy — build condition series without copying the whole df
+        #     condition_col = self._df["sample_id"].map(self._conditions).fillna("unassigned")
+
+        #     cells_path = os.path.join(self._output_dir, "cells_annotated.csv")
+        #     self._df.assign(condition=condition_col).to_csv(cells_path, index=False)
+
+        #     # Conditions summary (small, unchanged)
+        #     cond_df = pd.DataFrame([
+        #         {"sample_id": k, "condition": v,
+        #         "n_cells": int((self._df["sample_id"] == k).sum())}
+        #         for k, v in self._conditions.items()
+        #     ])                                                      
+        #     cond_path = os.path.join(self._output_dir, "sample_conditions.csv")
+        #     cond_df.to_csv(cond_path, index=False)
+
+        #     adata_msg = ""
+        #     if self._adata is not None:
+        #         print(self._adata)
+        #         print(self._df)
+        #         # Direct map instead of merge — avoids full join on large obs table
+        #         self._adata.obs["sample_id"] = self._adata.obs["cell_ID"].map(
+        #             self._df.set_index("cell_ID")["sample_id"]
+        #         )
+        #         self._adata.obs["condition"] = self._adata.obs["sample_id"].map(self._conditions)
+        #         adata_msg = "<br>- adata.obs updated"
+
+        #     w_btn_export.disabled = False
+        #     w_status.value = (f"<span style='color:#2ecc71'>✅ Saved!<br>- {cells_path}<br>"
+        #                     f"- {cond_path}{adata_msg}</span>")
+
+        #     self._w_table.clear_output(wait=True)
+        #     with self._w_table:
+        #         display(cond_df)
+
+        # def on_export(_):
+        #     w_status.value = "<span style='color:#f39c12'>⏳ Saving...</span>"
+        #     w_btn_export.disabled = True
+
+        #     # Build condition column directly from adata.obs
+        #     print(self._adata.obs)
+        #     condition_col = self._adata.obs["sample_id"].map(self._conditions).fillna("unassigned")
+        #     self._adata.obs["condition"] = condition_col
+
+        #     # Save annotated cells from adata.obs instead of self._df
+        #     cells_path = os.path.join(self._output_dir, "cells_annotated.csv")
+        #     self._adata.obs.assign(condition=condition_col).to_csv(cells_path, index=False)
+
+        #     # Conditions summary
+        #     cond_df = pd.DataFrame([
+        #         {"sample_id": k, "condition": v,
+        #         "n_cells": int((self._adata.obs["sample_id"] == k).sum())}
+        #         for k, v in self._conditions.items()
+        #     ])
+        #     cond_path = os.path.join(self._output_dir, "sample_conditions.csv")
+        #     cond_df.to_csv(cond_path, index=False)
+
+        #     w_btn_export.disabled = False
+        #     w_status.value = (f"<span style='color:#2ecc71'>✅ Saved!<br>- {cells_path}<br>"
+        #                     f"- {cond_path}<br>- adata.obs updated</span>")
+
+        #     self._w_table.clear_output(wait=True)
+        #     with self._w_table:
+        #         display(cond_df)
+
         def on_export(_):
-            df_out = self._df.copy()
-            df_out["condition"] = df_out["sample_id"].map(self._conditions).fillna("unassigned")
+            w_status.value = "<span style='color:#f39c12'>⏳ Saving...</span>"
+            w_btn_export.disabled = True
 
+            if "sample_id" not in self._adata.obs.columns:
+                # find the cell ID column case-insensitively
+                cell_id_col = next(
+                    (col for col in self._adata.obs.columns if col.lower() == "cell_id"),
+                    None
+                )
+                if cell_id_col is None:
+                    w_status.value = "<span style='color:#e74c3c'>❌ Could not find a 'cell_id' column in adata.obs.</span>"
+                    w_btn_export.disabled = False
+                    return
+                self._adata.obs["sample_id"] = (
+                    self._adata.obs[cell_id_col]
+                    .map(self._df.set_index(cell_id_col)["sample_id"])
+                )
+
+            print(self._adata.obs)
+            condition_col = self._adata.obs["sample_id"].map(self._conditions).fillna("unassigned")
+            self._adata.obs["condition"] = condition_col
+
+            # Save annotated cells from adata.obs
             cells_path = os.path.join(self._output_dir, "cells_annotated.csv")
-            df_out.to_csv(cells_path, index=False)
+            self._adata.obs.assign(condition=condition_col).to_csv(cells_path, index=False)
 
+            # Conditions summary
             cond_df = pd.DataFrame([
                 {"sample_id": k, "condition": v,
-                 "n_cells": int((df_out["sample_id"] == k).sum())}
+                "n_cells": int((self._adata.obs["sample_id"] == k).sum())}
                 for k, v in self._conditions.items()
             ])
             cond_path = os.path.join(self._output_dir, "sample_conditions.csv")
             cond_df.to_csv(cond_path, index=False)
 
-            adata_msg = ""
-            if self._adata is not None:
-                meta_df = df_out[["cell_id", "sample_id", "condition"]]
-                self._adata.obs = self._adata.obs.merge(meta_df, on="cell_id", how="left")
-                adata_msg = "<br>- adata.obs updated"
+            w_btn_export.disabled = False
+            w_status.value = (f"<span style='color:#2ecc71'>✅ Saved!<br>- {cells_path}<br>"
+                            f"- {cond_path}<br>- adata.obs updated</span>")
 
-            w_status.value = (f"<span style='color:#2ecc71'>Saved!<br>- {cells_path}<br>"
-                              f"- {cond_path}{adata_msg}</span>")
             self._w_table.clear_output(wait=True)
             with self._w_table:
                 display(cond_df)

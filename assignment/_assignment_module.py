@@ -18,11 +18,12 @@ from skimage.measure import label
 from skimage.segmentation import watershed
 from skimage.morphology import erosion, disk as morph_disk
 import scipy.ndimage as ndi
+from anndata import AnnData
 
 
 def _load_xenium(
-        path: str,
-        output_dir: str 
+        adata: AnnData,
+        output_dir: str
 ) -> pd.DataFrame:
     """
     Read data from input.
@@ -32,8 +33,10 @@ def _load_xenium(
 
     Parameters
     ----------
-    path : str
-        Path to the Xenium output directory.
+    adata : str
+        Annotated data matrix containing x and y values.
+    output_dir: str
+        Path to the desired output directory.
     
     Returns
     -------
@@ -46,15 +49,12 @@ def _load_xenium(
     obtain their coordinates for further processing.
     """
     os.makedirs(output_dir, exist_ok=True)
-    
-    ext = path.lower()
-    sep = "\t" if ".tsv" in ext else ","
-    df  = pd.read_csv(path+"cells.csv.gz", sep=sep, compression="gzip", low_memory=False)
+    df = adata.obs.copy()
 
     print(f"Loaded {len(df):,} rows.")
 
-    x_candidates = ["x_centroid", "x_location", "X", "x", "X_centroid"]
-    y_candidates = ["y_centroid", "y_location", "Y", "y", "Y_centroid"]
+    x_candidates = ["x_centroid", "x_location", "X", "x", "X_centroid", "centroid_x"]
+    y_candidates = ["y_centroid", "y_location", "Y", "y", "Y_centroid", "centroid_y"]
     x_col = next((c for c in x_candidates if c in df.columns), None)
     y_col = next((c for c in y_candidates if c in df.columns), None)
 
@@ -119,6 +119,14 @@ def plot_samples(
         fig, ax = plt.subplots(figsize=(12, 8))
         fig.patch.set_facecolor("#1e1e2e")
     ax.set_facecolor("#13131f")
+    ax.set_axisbelow(True)
+    ax.grid(True, which="major", color="#6e6f88", linewidth=0.5, linestyle="--", alpha=0.8)
+
+
+    # Minor gridlines (in between)
+    ax.minorticks_on()
+    ax.grid(True, which="minor", color="#6e6f88", linewidth=0.5, linestyle=":", alpha=0.8)
+    
     noise = df[df["sample_id"] == -1]
     if len(noise):
         ax.scatter(noise["x"], noise["y"], s=0.3, c="#444455",
@@ -292,7 +300,7 @@ SplitHistory = list[SplitRecord]
 
 
 #  split helpers
-def do_one_split(
+def _do_one_split(
     df: pd.DataFrame,
     sample_id: int,
     split_type: str,
@@ -355,7 +363,7 @@ def do_one_split(
     return df
 
 
-def renumber(df: pd.DataFrame, row_tolerance: float = None) -> tuple[pd.DataFrame, list[int]]:
+def _renumber(df: pd.DataFrame, row_tolerance: float = None) -> tuple[pd.DataFrame, list[int]]:
     """
     Renumber sample IDs sequentially, ordered row by row (top → bottom, left → right).
 
@@ -423,7 +431,7 @@ def renumber(df: pd.DataFrame, row_tolerance: float = None) -> tuple[pd.DataFram
 def replay_all_splits(base_df, history):
     df = base_df.copy()
     for entry in history:
-        df = do_one_split(
+        df = _do_one_split(
             df,
             sample_id    = entry["sample_id"],
             split_type   = entry["type"],
@@ -431,21 +439,21 @@ def replay_all_splits(base_df, history):
             x_points     = entry.get("x_points"),
             y_points     = entry.get("y_points"),
         )
-        df, _ = renumber(df)  # keep IDs as 0,1,2... after every split
-    return renumber(df)
+        df, _ = _renumber(df)  # keep IDs as 0,1,2... after every split
+    return _renumber(df)
 
 # Split-record constructors (keep record creation consistent)
-def make_vertical_record(sample_id: int, x: float) -> SplitRecord:
+def _make_vertical_record(sample_id: int, x: float) -> SplitRecord:
     """Return a split record for a vertical cut at x."""
     return {"type": "vertical", "sample_id": sample_id, "single_value": x}
 
 
-def make_horizontal_record(sample_id: int, y: float) -> SplitRecord:
+def _make_horizontal_record(sample_id: int, y: float) -> SplitRecord:
     """Return a split record for a horizontal cut at y."""
     return {"type": "horizontal", "sample_id": sample_id, "single_value": y}
 
 
-def make_diagonal_record(
+def _make_diagonal_record(
     sample_id: int,
     x1: float, y1: float,
     x2: float, y2: float,
@@ -459,17 +467,17 @@ def make_diagonal_record(
     }
 
 
-def run_watershed(
-        path_xenium, 
-        output_dir
+def run_watershed( 
+        adata: AnnData,
+        output_dir: str
         ):
     """
     Run the watershed segmentation.
 
     Parameters
     ----------
-    path_xenium : str
-        Path to the Xenium output.
+    adata : str
+        Annotated data matrix containing x and y coordinates.
     output_dir : str
         Path to the desired output directory.
 
@@ -477,14 +485,25 @@ def run_watershed(
     -------
     df_test : pandas.DataFrame
         Dataframe containing new cell labels after watershed.
+
+    Notes
+    -----
+    X and Y coordinates of the centroids should be present in adata.obs.
+    This can be obtained by running:
+    - `adata.obs['centroid_x'] = adata.obsm['spatial'][:, 0]`
+    - `adata.obs['centroid_y'] = adata.obsm['spatial'][:, 1]`
+
+    The algorithm will recognize these variations of the coordinate names in 
+    adata.obs: centroid_x, x, X, x_centroid, x_location
     """
-    df_raw = _load_xenium(path_xenium, output_dir)
+    df_raw = _load_xenium(adata=adata, output_dir=output_dir)
+
     test_labels, test_img, *_ = detect_samples_watershed(df_raw)
 
     df_test = df_raw.copy()
     df_test["sample_id"] = test_labels
 
-    df_test, test_ids = renumber(df_test) 
+    df_test, test_ids = _renumber(df_test) 
 
     fig, axes = plt.subplots(1, 2, figsize=(18, 7))
     fig.patch.set_facecolor("#1e1e2e")

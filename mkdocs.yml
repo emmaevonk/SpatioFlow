@@ -1,11 +1,35 @@
 site_name: SpatialAPI
 
+# themes: https://pawamoy.github.io/mkdocs-gallery/
+# original: material
 theme:
-  name: material
+  name: readthedocs
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["/exports/archive/hg-groep-spitali/Emma/xenium-resegmentation/SpatialAPI/"] # change this later.
+          options:
+            filters:
+              - "!^_"
+            show_source: true
+            docstring_style: numpy
 
 nav:
   - Home: index.md
   - Installation: installation.md
   - Quickstart: quickstart.md
   - Tutorials:
-    - Tutorial: tutorials/tutorial.ipynb
+      - Tutorial: tutorials/tutorial.ipynb
+  - Documentation: 
+      - Read Data: documentation/read_spatialobject.md
+      - Compute Metrics: documentation/metrics.md
+      - Adjusted Rand Index: documentation/ari.md
+      - QC: documentation/qc.md
+      - Plotting: documentation/plot.md
+      - Neighbor Analysis: documentation/neighbor_analysis.md
+      - Assigning Labels: documentation/assigning_labels.md
+      - Cell Communication: documentation/cell_communication.md
+      - Pseudobulk DE: documentation/pseudobulk.md

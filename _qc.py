@@ -216,12 +216,16 @@ def perform_quality_control(
             )
         
     # filtering based on thresholds
-    mask = (
-        (adata.obs["n_genes_by_counts"] >= thr["min_genes"]) &
-        (adata.obs["n_genes_by_counts"] <= thr["max_genes"]) &
-        (adata.obs["total_counts"] >= thr["min_counts"]) &
-        (adata.obs["total_counts"] <= thr["max_counts"])
-    )
+    vals_thr = ("min_genes", "max_genes", "min_counts", "max_counts")
+    if all(name in thr for name in vals_thr):
+        mask = (
+            (adata.obs["n_genes_by_counts"] >= thr["min_genes"]) &
+            (adata.obs["n_genes_by_counts"] <= thr["max_genes"]) &
+            (adata.obs["total_counts"] >= thr["min_counts"]) &
+            (adata.obs["total_counts"] <= thr["max_counts"])
+        )
+    else:
+        print("A threshold value is missing. Expected threshold values: min_genes, max_genes, min_counts and max_counts.")
 
     print(f"Cells before filtering: {adata.n_obs}")
     print(f"Cells after filtering: {mask.sum()}")

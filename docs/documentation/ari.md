@@ -1,0 +1,2 @@
+# Resolution
+::: SpatialAPI._resolution
