@@ -14,7 +14,6 @@ import matplotlib.patches as mpatches
 from scipy.ndimage import gaussian_filter, binary_fill_holes
 from skimage.morphology import closing, disk
 from skimage.measure import label
-
 from skimage.segmentation import watershed
 from skimage.morphology import erosion, disk as morph_disk
 import scipy.ndimage as ndi
@@ -48,13 +47,18 @@ def _load_xenium(
     This function does not use an AnnData object, it looks at the cells from the Xenium output to
     obtain their coordinates for further processing.
     """
+    print(f"Loaded {len(adata.obs):,} rows.")
+    x_candidates = ["x_centroid", "x_location", "X", "x", "X_centroid", "centroid_x"]
+    y_candidates = ["y_centroid", "y_location", "Y", "y", "Y_centroid", "centroid_y"]
+
+    if not any(col in adata.obs.columns for col in x_candidates):
+        adata.obs['x_centroid'] = adata.obsm['spatial'][:, 0]
+        adata.obs['y_centroid'] = adata.obsm['spatial'][:, 1]
+
+
     os.makedirs(output_dir, exist_ok=True)
     df = adata.obs.copy()
 
-    print(f"Loaded {len(df):,} rows.")
-
-    x_candidates = ["x_centroid", "x_location", "X", "x", "X_centroid", "centroid_x"]
-    y_candidates = ["y_centroid", "y_location", "Y", "y", "Y_centroid", "centroid_y"]
     x_col = next((c for c in x_candidates if c in df.columns), None)
     y_col = next((c for c in y_candidates if c in df.columns), None)
 
@@ -168,7 +172,7 @@ def plot_samples(
         plt.show(fig)
 
 
-def detect_samples_watershed(
+def detect_samples_watershed( # TODO: add these options to the functional API for testing purposes
         df: pd.DataFrame, 
         pixel_size_um: int = 20, 
         blur_sigma: int = 3,
@@ -469,7 +473,12 @@ def _make_diagonal_record(
 
 def run_watershed( 
         adata: AnnData,
-        output_dir: str
+        output_dir: str,
+        pixel_size_um: int = 20,
+        blur_sigma: int = 3,
+        closing_radius: int = 5, 
+        erosion_radius: int = 30, 
+        min_cells: int = 500
         ):
     """
     Run the watershed segmentation.
@@ -498,7 +507,7 @@ def run_watershed(
     """
     df_raw = _load_xenium(adata=adata, output_dir=output_dir)
 
-    test_labels, test_img, *_ = detect_samples_watershed(df_raw)
+    test_labels, test_img, *_ = detect_samples_watershed(df_raw, pixel_size_um, blur_sigma, closing_radius, erosion_radius, min_cells)
 
     df_test = df_raw.copy()
     df_test["sample_id"] = test_labels

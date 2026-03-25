@@ -463,7 +463,7 @@ class LabelSession:
 
             print(self._adata.obs)
             condition_col = self._adata.obs["sample_id"].map(self._conditions).fillna("unassigned")
-            self._adata.obs["condition"] = condition_col
+            self._adata.obs["label"] = condition_col
 
             # Save annotated cells from adata.obs
             cells_path = os.path.join(self._output_dir, "cells_annotated.csv")
@@ -471,11 +471,11 @@ class LabelSession:
 
             # Conditions summary
             cond_df = pd.DataFrame([
-                {"sample_id": k, "condition": v,
+                {"sample_id": k, "label": v,
                 "n_cells": int((self._adata.obs["sample_id"] == k).sum())}
                 for k, v in self._conditions.items()
             ])
-            cond_path = os.path.join(self._output_dir, "sample_conditions.csv")
+            cond_path = os.path.join(self._output_dir, "sample_labels.csv")
             cond_df.to_csv(cond_path, index=False)
 
             w_btn_export.disabled = False

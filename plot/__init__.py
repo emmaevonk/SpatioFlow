@@ -9,7 +9,8 @@ from ._cluster import (
 
 from ._plot import (
     plot_image,
-    rank_genes_group
+    rank_genes_group,
+    plot_labels
 )
 
 from ._segmentation import (

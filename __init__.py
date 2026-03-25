@@ -5,7 +5,8 @@ from .plot import (
     plot_image,
     rank_genes_group,
     multimodal_segmentation,
-    multimodal_segmentation_slice
+    multimodal_segmentation_slice,
+    plot_labels
 )
 
 from .assignment import (

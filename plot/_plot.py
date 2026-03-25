@@ -5,6 +5,7 @@ import spatialdata as sd
 import spatialdata_plot
 from spatialdata import SpatialData
 from anndata import AnnData
+from matplotlib.lines import Line2D
 
 """
 Visualization and exploratory analysis utilities for spatial transcriptomics.
@@ -89,3 +90,79 @@ def rank_genes_group(
     # Plot ranking of genes. Plot top 10 genes per cluster
     sc.pl.rank_genes_groups(adata, n_genes=10)
     return adata
+
+
+def plot_labels(
+    adata: AnnData,
+    label: str = "label"
+):
+    """
+    This function plots the assigned labels to the samples on the same Xenium slide.
+
+    It also shows the unassigned cells, visualizating the quality of the assignment of
+    the samples.
+
+    Parameters
+    ----------
+    adata : AnnData
+        Annotated data matrix. Must contain ``adata.obsm["spatial"]``
+    label : str, default = "label"
+        Column name where the label is assigned. ``label`` is default.
+
+    Notes
+    -----
+    This is supposed to be used after performing the watershed segmentation and assigning
+    labels to samples with the classes of SpatialAPI.
+    """
+    # Extract coordinates and condition 
+    coords = adata.obsm["spatial"]           
+
+    adata.obs[label] = adata.obs[label].astype("category")
+    conditions = adata.obs[label]
+    categories = conditions.cat.categories
+
+    # Define colors
+    palette = plt.cm.tab10.colors      
+    color_map = {cat: palette[i] for i, cat in enumerate(categories)}
+    colors = [color_map[c] for c in conditions]
+
+    #  Compute figure size to match the data's aspect ratio
+    x_range = coords[:, 0].max() - coords[:, 0].min()
+    y_range = coords[:, 1].max() - coords[:, 1].min()
+    aspect_ratio = y_range / x_range
+
+    # Scale the image
+    fig_width = 5
+    fig, ax = plt.subplots(figsize=(fig_width, fig_width * aspect_ratio))
+
+    # Scatter plot
+    ax.scatter(
+        coords[:, 0], coords[:, 1],
+        c=colors,
+        s=1.0,                              
+        linewidths=0,
+        rasterized=True,
+    )
+
+    # Flip axis to keep original coordinate system of Xenium
+    ax.invert_yaxis()
+    ax.set_ylim(22000, 0)
+
+    # Equal aspect ratio so coordinates are not distorted
+    ax.set_aspect("equal", adjustable="box")
+
+    # Legend
+    legend_handles = [
+        Line2D([0], [0], marker="o", color="w",
+            markerfacecolor=color_map[cat], markersize=8, label=cat)
+        for cat in categories
+    ]
+    ax.legend(handles=legend_handles, title="Label",
+            bbox_to_anchor=(1.01, 1), loc="upper left", frameon=False)
+
+    ax.set_title("Labels on Xenium grid")
+    ax.set_xlabel("X (px)")
+    ax.set_ylabel("Y (px)")
+
+    plt.tight_layout()
+    plt.show()
