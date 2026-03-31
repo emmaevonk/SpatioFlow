@@ -16,3 +16,4 @@ squidpy
 wheel
 ipywidgets
 leidenalg
+pybanksy

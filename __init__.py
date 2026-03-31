@@ -6,7 +6,12 @@ from .plot import (
     rank_genes_group,
     multimodal_segmentation,
     multimodal_segmentation_slice,
-    plot_labels
+    plot_labels,
+    banksy
+)
+
+from .plot.spatial_clustering import (
+    banksy
 )
 
 from .assignment import (
@@ -42,15 +47,7 @@ from ._qc import (
     is_outlier,
     detect_outlier
 )
-# from ._cluster import cluster
-# from ._plot import (
-#     plot_image,
-#     rank_genes_group,
-#     multimodal_segmentation,
-#     multimodal_segmentation_slice,
-#     dotplot,
-#     celltype_composition
-# )
+
 from ._cellcom import (
     morans_score
 )

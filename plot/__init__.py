@@ -17,3 +17,7 @@ from ._segmentation import (
     multimodal_segmentation,
     multimodal_segmentation_slice
 )
+
+from ._banksy import (
+    banksy
+)

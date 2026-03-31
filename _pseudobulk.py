@@ -13,8 +13,8 @@ This module performs pseudobulk DE analysis per condition
 
 def _make_pseudobulk(
     adata,
+    celltype_col,
     sample_col="sample_id",
-    celltype_col="cell_type",
     treatment_col="condition",
     layer="raw_counts" 
 ):
@@ -104,7 +104,9 @@ def pseudobulk(
     save: bool = True,
     output_path: str | None = None,
     sample_col: str = "sample_id",
-    treatment_col="condition"
+    treatment_col="condition",
+    pb_dict: dict | None = None,
+    celltype_col: str = "cell_type"
 ):
     """
     Perform pseudobulk diferential expression analysis for a specific cell type.
@@ -128,6 +130,12 @@ def pseudobulk(
     output_path : str or None, default = None
         Path to save the CSV file.. If None, saves to the curent working directory
         with an automatically generated filename.
+    sample_col : str, default = "sample_id"
+        Column in annotated data matrix referring to the sample IDs in the data
+    treatment_col : str, default = "condition"
+        Column in annotated data matrix referring to assigned labels of the samples.
+    pb_dict : dict, optional
+        Pre-built pseudobulk dict from outside.
 
     Returns
     -------
@@ -143,11 +151,19 @@ def pseudobulk(
     - PyDESeq2 is used as a Python implementation of DESeq2
     - If save = True, results are written to disk
     """
-    pb_dict = _make_pseudobulk(adata, sample_col=sample_col, treatment_col=treatment_col)
+    if pb_dict is None:
+        pb_dict = _make_pseudobulk(
+            adata,
+            sample_col=sample_col,
+            treatment_col=treatment_col,
+            celltype_col=celltype_col
+        )
+    # pb_dict = _make_pseudobulk(adata, sample_col=sample_col, treatment_col=treatment_col)
     try:
         pb = pb_dict[celltype].copy()
     except KeyError:
         print(f"`{celltype}` is not present in the data. Are you sure you used the correct name?")
+        return None
 
     # prepare data
     counts = pd.DataFrame(
