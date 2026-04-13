@@ -79,7 +79,9 @@ def _make_pseudobulk(
             .drop_duplicates()
             .set_index(sample_col)
         )
-        pb.obs = treatment_map.loc[pb_df.index, [treatment_col]]  # only treatment col, index = sample_id
+        # pb.obs = treatment_map.loc[pb_df.index, [treatment_col]]  # only treatment col, index = sample_id
+        pb.obs = treatment_map.loc[~treatment_map.index.duplicated(keep="first")].loc[pb_df.index, [treatment_col]]
+
 
         pseudobulk_dict[ct] = pb
         # print(sample_col, treatment_col)
@@ -197,7 +199,7 @@ def pseudobulk(
 
     if save:
         if output_path is None:
-            output_path = os.path.join(os.getcwd(), f"sig_genes_{contrast_list[1]}_{contrast_list[2]}.csv")
+            output_path = os.path.join(os.getcwd(), f"sig_genes_{celltype}_{contrast_list[1]}_{contrast_list[2]}.csv")
         sig.to_csv(output_path)
         print(f"The significant genes are written to a CSV file in the current running directory: {output_path}")
 

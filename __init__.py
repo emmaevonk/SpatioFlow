@@ -7,12 +7,12 @@ from .plot import (
     multimodal_segmentation,
     multimodal_segmentation_slice,
     plot_labels,
-    banksy
+    # banksy
 )
 
-from .plot.spatial_clustering import (
-    banksy
-)
+# from .plot.spatial_clustering import (
+#     banksy
+# )
 
 from .assignment import (
     SplitSession,
@@ -56,9 +56,14 @@ from ._neighbors import (
 )
 
 from ._pseudobulk import (
-    pseudobulk
+    pseudobulk,
+    _make_pseudobulk
 )
 
 from ._resolution import (
     compute_leiden_resolution
+)
+
+from ._preprocess import (
+    size_normalization
 )

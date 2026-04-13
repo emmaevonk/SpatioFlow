@@ -60,7 +60,27 @@ def nhood_enrichment(
     fig = plt.figure(figsize=(8, 8))
     sq.pl.nhood_enrichment(
         adata,
-        cluster_key="leiden",
+        cluster_key=cluster_key,
+        figsize=(8, 8),
+        title="Neighborhood enrichment adata",
+    )
+    fig.show()
+    return fig
+
+
+def compute_spatial_neighbors(
+        adata: AnnData,
+        cluster_key: str = "leiden"
+) -> AnnData:
+    # Compute enrichment
+    sq.gr.spatial_neighbors(adata)
+    sq.gr.nhood_enrichment(adata, cluster_key=cluster_key)
+
+    # Create figure
+    fig = plt.figure(figsize=(8, 8))
+    sq.pl.nhood_enrichment(
+        adata,
+        cluster_key=cluster_key,
         figsize=(8, 8),
         title="Neighborhood enrichment adata",
     )
