@@ -7,31 +7,22 @@ from .plot import (
     multimodal_segmentation,
     multimodal_segmentation_slice,
     plot_labels,
-    # banksy
 )
-
-# from .plot.spatial_clustering import (
-#     banksy
-# )
-
+#TODO add banksy code here - how to do this well?
 from .assignment import (
     SplitSession,
     LabelSession,
     plot_samples,
     detect_samples_watershed,
-    # do_one_split, # discard for now, it is not used I think
-    # _renumber,
     replay_all_splits,
-    # make_vertical_record,
-    # make_horizontal_record,
-    # make_diagonal_record,
     run_watershed,
     manual_split_samples
 )
 
 from ._spatialobject import (
     read_data,
-    convert_sdata_adata
+    convert_sdata_adata,
+    roi
     )
 from ._metrics import (
     frac_transcripts,
@@ -65,5 +56,8 @@ from ._resolution import (
 )
 
 from ._preprocess import (
-    size_normalization
+    size_normalization,
+    counts_normalized
 )
+
+from .plot import run_banksy

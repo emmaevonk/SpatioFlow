@@ -126,3 +126,60 @@ def convert_sdata_adata(
     # add leiden column to it for later visualizations
     sc.tl.leiden(adata, resolution=leiden_resolution)
     return adata
+
+def roi(
+        adata: AnnData,
+        x_min: float,
+        x_max: float,
+        y_min: float,
+        y_max: float,
+        spatial_key: str = "spatial",
+        copy: bool = True
+) -> AnnData:
+    """
+    Subset an AnnData object to a spatial Region of Interest (ROI)
+    defined by a bounding box.
+
+    Parameters
+    ----------
+    adata : AnnData
+        Input AnnData object with spatial coordinates in adata.obsm['spatial']
+    x_min, x_max : float
+        Horizontal bounds of the bounding box.
+    y_min, y_max : float
+        Vertical bounds of the bounding box.
+    spatial_key : str, default = "spatial"
+        Key in adata.obsm where spatial coordinates are stored.
+    copy : bool, default = True
+        If True, return a copy of the subset. If False, return a view.
+
+    Returns
+    -------
+    AnnData
+        AnnData object containing only cells within the bounding box.
+    """
+    # check if spatial exists in data
+    if spatial_key not in adata.obsm:
+        raise KeyError(
+            f"'{spatial_key}' not found in adata.obsm. "
+            f"Available keys: {list(adata.obsm.keys())}"
+        )
+    
+    coords = adata.obsm[spatial_key]
+    x = coords[:, 0]
+    y = coords[:, 1]
+
+    mask = (x >= x_min) & (x <= x_max) & (y >= y_min) & (y <= y_max)
+
+    n_selected = mask.sum()
+    if n_selected == 0:
+        raise ValueError(
+            f"No cells found within bounding box "
+            f"x=[{x_min}, {x_max}], y=[{y_min}, {y_max}].\n"
+            f"Coordinate range in your data: "
+            f"x: [{x.min():.1f}, {x.max():.1f}], "
+            f"y: [{y.min():.1f}, {y.max():.1f}]"
+        )
+    print(f"Selected {n_selected} / {adata.n_obs} cells in the ROI.")
+
+    return adata[mask].copy() if copy else adata[mask]

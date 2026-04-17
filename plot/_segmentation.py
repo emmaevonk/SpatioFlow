@@ -118,7 +118,6 @@ def multimodal_segmentation_slice(
     # Some redundant code, need to improve this.
     if channelnames is None:
         channelnames = sd.models.get_channel_names(sdata["morphology_focus"])
-    
 
     for i in channelnames: 
         _crop0(sdata, min_coord, max_coord).pl.render_images("morphology_focus", channel=i).pl.show(

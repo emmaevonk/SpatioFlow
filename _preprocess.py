@@ -83,5 +83,27 @@ def _size_norm(
     adata.layers["size_normalized"] = adata.X.copy()
     if log1p:
         sc.pp.log1p(adata)
+    return adata
 
+def counts_normalized(
+    adata: AnnData,
+    target_sum: int = 1e4
+):
+    """
+    This function normalizes the AnnData object by counts.
+
+    Parameters
+    ----------
+    adata: AnnData
+        Annotated data matrix which is not (yet) normalized
+    target_sum: int, default=1e4
+        The target sum for the normalization
+
+    Returns
+    -------
+        Annotated data matrix including normalized counts.
+    """
+    # normal normalization (on counts)
+    sc.pp.normalize_total(adata, target_sum=target_sum)
+    sc.pp.log1p(adata)
     return adata

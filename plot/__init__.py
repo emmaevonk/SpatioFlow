@@ -18,6 +18,6 @@ from ._segmentation import (
     multimodal_segmentation_slice
 )
 
-# from ._banksy import (
-#     banksy
-# )
+from .spatial_clustering import (
+    run_banksy
+)

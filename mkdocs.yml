@@ -32,5 +32,6 @@ nav:
       - Plotting: documentation/plot.md
       - Neighbor Analysis: documentation/neighbor_analysis.md
       - Assigning Labels: documentation/assigning_labels.md
+      - Spatial Clustering: documentation/spatial_clustering.md
       - Cell Communication: documentation/cell_communication.md
       - Pseudobulk DE: documentation/pseudobulk.md
