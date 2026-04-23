@@ -5,7 +5,6 @@ import scanpy as sc
 import numpy as np
 
 
-# TODO; make it possible to also use adata as input
 def size_normalization(
     sdata: SpatialData,
     table_layer: str = "table",

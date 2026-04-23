@@ -7,8 +7,9 @@ from .plot import (
     multimodal_segmentation,
     multimodal_segmentation_slice,
     plot_labels,
+    run_banksy
 )
-#TODO add banksy code here - how to do this well?
+
 from .assignment import (
     SplitSession,
     LabelSession,
@@ -48,7 +49,8 @@ from ._neighbors import (
 
 from ._pseudobulk import (
     pseudobulk,
-    _make_pseudobulk
+    _make_pseudobulk,
+    pseudobulk_per_condition
 )
 
 from ._resolution import (
@@ -59,5 +61,3 @@ from ._preprocess import (
     size_normalization,
     counts_normalized
 )
-
-from .plot import run_banksy

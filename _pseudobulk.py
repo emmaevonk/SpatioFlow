@@ -7,6 +7,8 @@ from anndata import AnnData
 from pydeseq2.dds import DeseqDataSet
 from pydeseq2.ds import DeseqStats
 
+from itertools import combinations
+
 """
 This module performs pseudobulk DE analysis per condition
 """
@@ -203,3 +205,102 @@ def pseudobulk(
         sig.to_csv(output_path)
         print(f"The significant genes are written to a CSV file in the current running directory: {output_path}")
 
+def pseudobulk_per_condition(
+    adata: AnnData,
+    all_conditions: list,
+    label_col: str = "label",
+    sample_id: str = "sample_id",
+    celltype_col: str = "leiden",
+):
+    """
+    Perform pseudobulk differential expression analysis across all condition
+    pairs.
+
+    Iterates over very pairwise combination of the provided conditions,
+    subsets the data to the relevant samples, and runs pseudobulk DE analysis
+    (via ``pseudobulk``) fpr every celltype present in each subset. Results are
+    collected and optionally saved to disk.
+
+    Parameters
+    ----------
+    adata : AnnData
+        Annotated data matrix containing raw counts and metadata.
+    all_conditions : list of str
+        List of condition labels to compare. All combinations are tested.
+    label_col : str, default = "label"
+        Column in ``adata.obs`` contiaining the condition/group labels
+        It must match values provided in ``all_conditions``
+    sample_id : str, deafult = "sample_id" 
+        Column in ``adata.obs`` identifying biological samples.
+    celltype_col : str, default = "leiden"
+        Column in ``adata.obs`` speficying cell type annotations.
+
+    Returns
+    -------
+    dict
+        Nested dictionary with keys of the form ``(cell_type, "condA_vs_condB")``
+        and values being DataFrames of significant DE genes (``padj`` < 0.05,
+        ``|log2FoldChange|`` > 0.25) for that cell type and comparison.
+        Comparisons or cell types that fail or are skipped are excluded.
+
+    Notes
+    -----
+    - Comparisons are skipped if either condition has fewer than 2 samples, 
+    as DESeq2 required biological replication.
+    - Results CSVs are saved to ``pseudobulk_results/{celltype}_{condA}_vs_{condB}.csv``
+    - Any cell type that raises an exception during DE analysis is skipped with a warning,
+    allowing the remaining comparisons to proceed.
+
+    Raises
+    ------
+    None
+        All per-cell-type exceptions are caugt internally and logged.
+
+    """
+    condition_pairs = list(combinations(all_conditions, 2))
+    results = {}
+
+    # check if conditions are present
+    if label_col not in adata.obs:
+        print(f"The provided label column ({label_col}) is not present in the data.\n Available columns: {adata.obs.columns}")
+        return  
+
+    for cond_a, cond_b in condition_pairs:
+        key = f"{cond_a}_vs_{cond_b}"
+        mask = adata.obs[label_col].isin([cond_a, cond_b])
+        # subset the data to get condition pairs
+        adata_sub = adata[mask].copy()
+
+        # check if there are enough samples of the conditions in the data
+        samples_per_cond = adata.obs.groupby(label_col)[sample_id].nunique()
+        if samples_per_cond.min() < 2:
+            print(f"Skipped {key}: not enough samples.")
+            continue
+    
+        # compute pseudobulk once per comparison
+        pb_dict = _make_pseudobulk(
+            adata_sub,
+            celltype_col=celltype_col,
+            sample_col=sample_id,
+            treatment_col=label_col
+        )
+
+        for ct_focus in pb_dict.keys():
+            print(f"Processing {ct_focus}...")
+            try:
+                sig_genes = pseudobulk(
+                    adata_sub,
+                    celltype=ct_focus,
+                    celltype_col=celltype_col,
+                    sample_col=sample_id,
+                    cond=[cond_a, cond_b],
+                    treatment_col=label_col,
+                    pb_dict=pb_dict,
+                    save=True,
+                    output_path=f"pseudobulk_results/{ct_focus}_{key}.csv"
+                )
+
+                results[(ct_focus, key)] = sig_genes
+            except Exception as e:
+                print(f"Skipped {ct_focus}: {e}")
+    return results
