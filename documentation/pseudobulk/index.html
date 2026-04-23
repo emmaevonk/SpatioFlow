@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Pseudobulk DE - SpatialAPI</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Pseudobulk DE";
+        var mkdocs_page_input_path = "documentation/pseudobulk.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> SpatialAPI
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../quickstart/">Quickstart</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorial.ipynb">Tutorial</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentation</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../read_spatialobject/">Read Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../size_normalization/">Size Normalization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../metrics/">Compute Metrics</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ari/">Adjusted Rand Index</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../qc/">QC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../plot/">Plotting</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../neighbor_analysis/">Neighbor Analysis</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../assigning_labels/">Assigning Labels</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../spatial_clustering/">Spatial Clustering</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cell_communication/">Cell Communication</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Pseudobulk DE</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._pseudobulk">_pseudobulk</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._pseudobulk.pseudobulk">pseudobulk</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._pseudobulk.pseudobulk_per_condition">pseudobulk_per_condition</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">SpatialAPI</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Documentation</li>
+      <li class="breadcrumb-item active">Pseudobulk DE</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="pseudobulk">Pseudobulk</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="SpatialAPI._pseudobulk"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="SpatialAPI._pseudobulk.pseudobulk" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pseudobulk</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">celltype</span><span class="o">=</span><span class="s1">&#39;Macrophages&#39;</span><span class="p">,</span> <span class="n">cond</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;WT&#39;</span><span class="p">,</span> <span class="s1">&#39;TEST&#39;</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_col</span><span class="o">=</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="n">treatment_col</span><span class="o">=</span><span class="s1">&#39;condition&#39;</span><span class="p">,</span> <span class="n">pb_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">celltype_col</span><span class="o">=</span><span class="s1">&#39;cell_type&#39;</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Perform pseudobulk diferential expression analysis for a specific cell type.</p>
+<p>This function:
+1. Generates pseudobulk counts per sample
+2. Selects a specified cell type
+3. Run DESeq2 using treatments as the design factor
+4. Identifies significantly differentially expressed genes</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>adata</code></b>
+                  (<code><span title="anndata.AnnData">AnnData</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Annotated data matrix containing raw counts and metadata.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>celltype</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>= &#34;Macrophages&#34;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Cell type to analyze.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>cond</code></b>
+                  (<code><span title="list">list</span>[<span title="str">str</span>]</code>, default:
+                      <code>= [&#34;WT_PBS&#34;, &#34;MDX52_ASO_GIVI&#34;].</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Two treatment groups to compare. [reference_condition, comparison_condition]</p>
+              </div>
+            </li>
+            <li>
+              <b><code>save</code></b>
+                  (<code><span title="bool">bool</span></code>, default:
+                      <code>= True</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Whether to save the significant genes to a CSV file.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>output_path</code></b>
+                  (<code><span title="str">str</span> or None</code>, default:
+                      <code>= None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Path to save the CSV file.. If None, saves to the curent working directory
+with an automatically generated filename.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>sample_col</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>= &#34;sample_id&#34;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Column in annotated data matrix referring to the sample IDs in the data</p>
+              </div>
+            </li>
+            <li>
+              <b><code>treatment_col</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>= &#34;condition&#34;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Column in annotated data matrix referring to assigned labels of the samples.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>pb_dict</code></b>
+                  (<code><span title="dict">dict</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Pre-built pseudobulk dict from outside.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="pandas.DataFrame">DataFrame</span></code>
+              –
+              <div class="doc-md-description">
+                <p>Dataframe containing significant genes with:
+- padj &lt; 0.05
+- |log2FoldChange| &gt; 0.25</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="note" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Counts are converted to integers (required for DESeq2)</li>
+<li>The design formula is: ~ assigned_treatment</li>
+<li>PyDESeq2 is used as a Python implementation of DESeq2</li>
+<li>If save = True, results are written to disk</li>
+</ul>
+</details>
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>_pseudobulk.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pseudobulk</span><span class="p">(</span>
+    <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
+    <span class="n">celltype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Macrophages&quot;</span><span class="p">,</span>
+    <span class="n">cond</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;WT&quot;</span><span class="p">,</span> <span class="s2">&quot;TEST&quot;</span><span class="p">],</span>
+    <span class="n">save</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">sample_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;sample_id&quot;</span><span class="p">,</span>
+    <span class="n">treatment_col</span><span class="o">=</span><span class="s2">&quot;condition&quot;</span><span class="p">,</span>
+    <span class="n">pb_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">celltype_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cell_type&quot;</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform pseudobulk diferential expression analysis for a specific cell type.</span>
+
+<span class="sd">    This function:</span>
+<span class="sd">    1. Generates pseudobulk counts per sample</span>
+<span class="sd">    2. Selects a specified cell type</span>
+<span class="sd">    3. Run DESeq2 using treatments as the design factor</span>
+<span class="sd">    4. Identifies significantly differentially expressed genes</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    adata : AnnData</span>
+<span class="sd">        Annotated data matrix containing raw counts and metadata.</span>
+<span class="sd">    celltype : str, default = &quot;Macrophages&quot;</span>
+<span class="sd">        Cell type to analyze.</span>
+<span class="sd">    cond : list[str], default = [&quot;WT_PBS&quot;, &quot;MDX52_ASO_GIVI&quot;].</span>
+<span class="sd">        Two treatment groups to compare. [reference_condition, comparison_condition]</span>
+<span class="sd">    save : bool, default = True</span>
+<span class="sd">        Whether to save the significant genes to a CSV file.</span>
+<span class="sd">    output_path : str or None, default = None</span>
+<span class="sd">        Path to save the CSV file.. If None, saves to the curent working directory</span>
+<span class="sd">        with an automatically generated filename.</span>
+<span class="sd">    sample_col : str, default = &quot;sample_id&quot;</span>
+<span class="sd">        Column in annotated data matrix referring to the sample IDs in the data</span>
+<span class="sd">    treatment_col : str, default = &quot;condition&quot;</span>
+<span class="sd">        Column in annotated data matrix referring to assigned labels of the samples.</span>
+<span class="sd">    pb_dict : dict, optional</span>
+<span class="sd">        Pre-built pseudobulk dict from outside.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        Dataframe containing significant genes with:</span>
+<span class="sd">        - padj &lt; 0.05</span>
+<span class="sd">        - |log2FoldChange| &gt; 0.25</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - Counts are converted to integers (required for DESeq2)</span>
+<span class="sd">    - The design formula is: ~ assigned_treatment</span>
+<span class="sd">    - PyDESeq2 is used as a Python implementation of DESeq2</span>
+<span class="sd">    - If save = True, results are written to disk</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pb_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pb_dict</span> <span class="o">=</span> <span class="n">_make_pseudobulk</span><span class="p">(</span>
+            <span class="n">adata</span><span class="p">,</span>
+            <span class="n">sample_col</span><span class="o">=</span><span class="n">sample_col</span><span class="p">,</span>
+            <span class="n">treatment_col</span><span class="o">=</span><span class="n">treatment_col</span><span class="p">,</span>
+            <span class="n">celltype_col</span><span class="o">=</span><span class="n">celltype_col</span>
+        <span class="p">)</span>
+    <span class="c1"># pb_dict = _make_pseudobulk(adata, sample_col=sample_col, treatment_col=treatment_col)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">pb</span> <span class="o">=</span> <span class="n">pb_dict</span><span class="p">[</span><span class="n">celltype</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">celltype</span><span class="si">}</span><span class="s2">` is not present in the data. Are you sure you used the correct name?&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># prepare data</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">pb</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span>
+        <span class="n">index</span><span class="o">=</span><span class="n">pb</span><span class="o">.</span><span class="n">obs_names</span><span class="p">,</span>
+        <span class="n">columns</span><span class="o">=</span><span class="n">pb</span><span class="o">.</span><span class="n">var_names</span>
+    <span class="p">)</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">obs</span><span class="p">[[</span><span class="n">treatment_col</span><span class="p">]]</span>
+
+    <span class="c1"># Ensure counts are integers</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> 
+
+    <span class="c1"># Run DESeq2</span>
+    <span class="n">dds</span> <span class="o">=</span> <span class="n">DeseqDataSet</span><span class="p">(</span>
+        <span class="n">counts</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+        <span class="n">design_factors</span><span class="o">=</span><span class="n">treatment_col</span><span class="p">,</span>
+        <span class="n">refit_cooks</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">dds</span><span class="o">.</span><span class="n">deseq2</span><span class="p">()</span>
+
+    <span class="n">contrast_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">treatment_col</span><span class="p">,</span> <span class="n">cond</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cond</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">stat_res</span> <span class="o">=</span> <span class="n">DeseqStats</span><span class="p">(</span><span class="n">dds</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="n">contrast_list</span><span class="p">)</span>
+    <span class="n">stat_res</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+    <span class="n">de_df</span> <span class="o">=</span> <span class="n">stat_res</span><span class="o">.</span><span class="n">results_df</span>
+
+    <span class="c1"># Get significant genes</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">de_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;padj &lt; 0.05 &amp; abs(log2FoldChange) &gt; 0.25&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;sig_genes_</span><span class="si">{</span><span class="n">celltype</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">contrast_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">contrast_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">)</span>
+        <span class="n">sig</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The significant genes are written to a CSV file in the current running directory: </span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="SpatialAPI._pseudobulk.pseudobulk_per_condition" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pseudobulk_per_condition</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">all_conditions</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">sample_id</span><span class="o">=</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="n">celltype_col</span><span class="o">=</span><span class="s1">&#39;leiden&#39;</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Perform pseudobulk differential expression analysis across all condition
+pairs.</p>
+<p>Iterates over very pairwise combination of the provided conditions,
+subsets the data to the relevant samples, and runs pseudobulk DE analysis
+(via <code>pseudobulk</code>) fpr every celltype present in each subset. Results are
+collected and optionally saved to disk.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>adata</code></b>
+                  (<code><span title="anndata.AnnData">AnnData</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Annotated data matrix containing raw counts and metadata.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>all_conditions</code></b>
+                  (<code>list of str</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of condition labels to compare. All combinations are tested.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>label_col</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>= &#34;label&#34;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Column in <code>adata.obs</code> contiaining the condition/group labels
+It must match values provided in <code>all_conditions</code></p>
+              </div>
+            </li>
+            <li>
+              <b><code>sample_id</code></b>
+                  (<code>str, deafult = &#34;sample_id&#34; </code>, default:
+                      <code>&#39;sample_id&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Column in <code>adata.obs</code> identifying biological samples.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>celltype_col</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>= &#34;leiden&#34;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Column in <code>adata.obs</code> speficying cell type annotations.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="dict">dict</span></code>
+              –
+              <div class="doc-md-description">
+                <p>Nested dictionary with keys of the form <code>(cell_type, "condA_vs_condB")</code>
+and values being DataFrames of significant DE genes (<code>padj</code> &lt; 0.05,
+<code>|log2FoldChange|</code> &gt; 0.25) for that cell type and comparison.
+Comparisons or cell types that fail or are skipped are excluded.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="note" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Comparisons are skipped if either condition has fewer than 2 samples, 
+as DESeq2 required biological replication.</li>
+<li>Results CSVs are saved to <code>pseudobulk_results/{celltype}_{condA}_vs_{condB}.csv</code></li>
+<li>Any cell type that raises an exception during DE analysis is skipped with a warning,
+allowing the remaining comparisons to proceed.</li>
+</ul>
+</details>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code>None</code>
+              –
+              <div class="doc-md-description">
+                <p>All per-cell-type exceptions are caugt internally and logged.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>_pseudobulk.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pseudobulk_per_condition</span><span class="p">(</span>
+    <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
+    <span class="n">all_conditions</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span>
+    <span class="n">sample_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;sample_id&quot;</span><span class="p">,</span>
+    <span class="n">celltype_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;leiden&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform pseudobulk differential expression analysis across all condition</span>
+<span class="sd">    pairs.</span>
+
+<span class="sd">    Iterates over very pairwise combination of the provided conditions,</span>
+<span class="sd">    subsets the data to the relevant samples, and runs pseudobulk DE analysis</span>
+<span class="sd">    (via ``pseudobulk``) fpr every celltype present in each subset. Results are</span>
+<span class="sd">    collected and optionally saved to disk.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    adata : AnnData</span>
+<span class="sd">        Annotated data matrix containing raw counts and metadata.</span>
+<span class="sd">    all_conditions : list of str</span>
+<span class="sd">        List of condition labels to compare. All combinations are tested.</span>
+<span class="sd">    label_col : str, default = &quot;label&quot;</span>
+<span class="sd">        Column in ``adata.obs`` contiaining the condition/group labels</span>
+<span class="sd">        It must match values provided in ``all_conditions``</span>
+<span class="sd">    sample_id : str, deafult = &quot;sample_id&quot; </span>
+<span class="sd">        Column in ``adata.obs`` identifying biological samples.</span>
+<span class="sd">    celltype_col : str, default = &quot;leiden&quot;</span>
+<span class="sd">        Column in ``adata.obs`` speficying cell type annotations.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Nested dictionary with keys of the form ``(cell_type, &quot;condA_vs_condB&quot;)``</span>
+<span class="sd">        and values being DataFrames of significant DE genes (``padj`` &lt; 0.05,</span>
+<span class="sd">        ``|log2FoldChange|`` &gt; 0.25) for that cell type and comparison.</span>
+<span class="sd">        Comparisons or cell types that fail or are skipped are excluded.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - Comparisons are skipped if either condition has fewer than 2 samples, </span>
+<span class="sd">    as DESeq2 required biological replication.</span>
+<span class="sd">    - Results CSVs are saved to ``pseudobulk_results/{celltype}_{condA}_vs_{condB}.csv``</span>
+<span class="sd">    - Any cell type that raises an exception during DE analysis is skipped with a warning,</span>
+<span class="sd">    allowing the remaining comparisons to proceed.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    None</span>
+<span class="sd">        All per-cell-type exceptions are caugt internally and logged.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">condition_pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="n">all_conditions</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># check if conditions are present</span>
+    <span class="k">if</span> <span class="n">label_col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The provided label column (</span><span class="si">{</span><span class="n">label_col</span><span class="si">}</span><span class="s2">) is not present in the data.</span><span class="se">\n</span><span class="s2"> Available columns: </span><span class="si">{</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span>  
+
+    <span class="k">for</span> <span class="n">cond_a</span><span class="p">,</span> <span class="n">cond_b</span> <span class="ow">in</span> <span class="n">condition_pairs</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cond_a</span><span class="si">}</span><span class="s2">_vs_</span><span class="si">{</span><span class="n">cond_b</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">cond_a</span><span class="p">,</span> <span class="n">cond_b</span><span class="p">])</span>
+        <span class="c1"># subset the data to get condition pairs</span>
+        <span class="n">adata_sub</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># check if there are enough samples of the conditions in the data</span>
+        <span class="n">samples_per_cond</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">label_col</span><span class="p">)[</span><span class="n">sample_id</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">samples_per_cond</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipped </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: not enough samples.&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># compute pseudobulk once per comparison</span>
+        <span class="n">pb_dict</span> <span class="o">=</span> <span class="n">_make_pseudobulk</span><span class="p">(</span>
+            <span class="n">adata_sub</span><span class="p">,</span>
+            <span class="n">celltype_col</span><span class="o">=</span><span class="n">celltype_col</span><span class="p">,</span>
+            <span class="n">sample_col</span><span class="o">=</span><span class="n">sample_id</span><span class="p">,</span>
+            <span class="n">treatment_col</span><span class="o">=</span><span class="n">label_col</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">ct_focus</span> <span class="ow">in</span> <span class="n">pb_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">ct_focus</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sig_genes</span> <span class="o">=</span> <span class="n">pseudobulk</span><span class="p">(</span>
+                    <span class="n">adata_sub</span><span class="p">,</span>
+                    <span class="n">celltype</span><span class="o">=</span><span class="n">ct_focus</span><span class="p">,</span>
+                    <span class="n">celltype_col</span><span class="o">=</span><span class="n">celltype_col</span><span class="p">,</span>
+                    <span class="n">sample_col</span><span class="o">=</span><span class="n">sample_id</span><span class="p">,</span>
+                    <span class="n">cond</span><span class="o">=</span><span class="p">[</span><span class="n">cond_a</span><span class="p">,</span> <span class="n">cond_b</span><span class="p">],</span>
+                    <span class="n">treatment_col</span><span class="o">=</span><span class="n">label_col</span><span class="p">,</span>
+                    <span class="n">pb_dict</span><span class="o">=</span><span class="n">pb_dict</span><span class="p">,</span>
+                    <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">output_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;pseudobulk_results/</span><span class="si">{</span><span class="n">ct_focus</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.csv&quot;</span>
+                <span class="p">)</span>
+
+                <span class="n">results</span><span class="p">[(</span><span class="n">ct_focus</span><span class="p">,</span> <span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">sig_genes</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipped </span><span class="si">{</span><span class="n">ct_focus</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../cell_communication/" class="btn btn-neutral float-left" title="Cell Communication"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../cell_communication/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

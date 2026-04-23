@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Adjusted Rand Index - SpatialAPI</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Adjusted Rand Index";
+        var mkdocs_page_input_path = "documentation/ari.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> SpatialAPI
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../quickstart/">Quickstart</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorial.ipynb">Tutorial</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentation</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../read_spatialobject/">Read Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../size_normalization/">Size Normalization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../metrics/">Compute Metrics</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Adjusted Rand Index</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._resolution">_resolution</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._resolution.compute_leiden_resolution">compute_leiden_resolution</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../qc/">QC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../plot/">Plotting</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../neighbor_analysis/">Neighbor Analysis</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../assigning_labels/">Assigning Labels</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../spatial_clustering/">Spatial Clustering</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cell_communication/">Cell Communication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pseudobulk/">Pseudobulk DE</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">SpatialAPI</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Documentation</li>
+      <li class="breadcrumb-item active">Adjusted Rand Index</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="resolution">Resolution</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="SpatialAPI._resolution"></a>
+    <div class="doc doc-contents first">
+
+        <p>Generating metrics to see which Leiden resolution is best to use according to the Adjusted Rand Index (ARI).</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="SpatialAPI._resolution.compute_leiden_resolution" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_leiden_resolution</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">fast_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">n_pcs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Cluster cells with the Leiden algorithm, optionally auto-selecting the
+resolution parameter.</p>
+<p>This is the primary public interface for the module.  It orchestrates
+graph construction, optional resolution search, and final clustering,
+then writes cluster labels into <code>adata.obs["leiden"]</code>.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>adata</code></b>
+                  (<code><span title="anndata.AnnData">AnnData</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Annotated data matrix containing cells × genes (or cells × features).
+A PCA embedding (<code>obsm["X_pca"]</code>) is computed automatically if
+absent.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>resolution</code></b>
+                  (<code><span title="float">float</span> or <span title="auto">auto</span></code>, default:
+                      <code>&#39;auto&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <ul>
+<li><code>"auto"</code> (default): Run the grid search described in
+  :func:<code>_leiden_auto_resolution</code> to select the best resolution
+  automatically.</li>
+<li>A positive float: Use this resolution directly, skipping the search.</li>
+</ul>
+              </div>
+            </li>
+            <li>
+              <b><code>fast_mode</code></b>
+                  (<code><span title="bool">bool</span></code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Passed to :func:<code>_leiden_auto_resolution</code> when <code>resolution="auto"</code>.
+Reduces computation time at the cost of skipping stability estimation.
+Has no effect when a fixed resolution is supplied.
+Default is <code>False</code>.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>n_neighbors</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>15</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Number of nearest neighbours for kNN graph construction.
+Default is <code>15</code>.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>n_pcs</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>30</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Number of principal components used during neighbour search.
+Default is <code>30</code>.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>n_runs</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>3</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Number of Leiden runs per resolution candidate when estimating
+stability (used only when <code>resolution="auto"</code> and
+<code>fast_mode=False</code>).
+Default is <code>3</code>.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>adata</code></b>(                  <code><span title="anndata.AnnData">AnnData</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>Input object with an additional column <code>adata.obs["leiden"]</code>
+containing integer cluster labels from the final Leiden partition.</p>
+              </div>
+            </li>
+            <li>
+<b><code>best_resolution</code></b>(                  <code><span title="float">float</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>The resolution that was used for the final clustering (equals the
+input <em>resolution</em> when a fixed value is provided).</p>
+              </div>
+            </li>
+            <li>
+<b><code>table</code></b>(                  <code><span title="pandas.DataFrame">DataFrame</span> or None</code>
+)              –
+              <div class="doc-md-description">
+                <p>When <code>resolution="auto"</code>, a DataFrame summarising all evaluated
+resolutions (columns: <code>resolution</code>, <code>n_clusters</code>, <code>stability</code>,
+<code>modularity</code>, <code>score</code>).  <code>None</code> when a fixed resolution is used.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>_resolution.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_leiden_resolution</span><span class="p">(</span>
+    <span class="n">adata</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+    <span class="n">fast_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">n_pcs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cluster cells with the Leiden algorithm, optionally auto-selecting the</span>
+<span class="sd">    resolution parameter.</span>
+
+<span class="sd">    This is the primary public interface for the module.  It orchestrates</span>
+<span class="sd">    graph construction, optional resolution search, and final clustering,</span>
+<span class="sd">    then writes cluster labels into ``adata.obs[&quot;leiden&quot;]``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    adata : anndata.AnnData</span>
+<span class="sd">        Annotated data matrix containing cells × genes (or cells × features).</span>
+<span class="sd">        A PCA embedding (``obsm[&quot;X_pca&quot;]``) is computed automatically if</span>
+<span class="sd">        absent.</span>
+<span class="sd">    resolution : float or &quot;auto&quot;, optional</span>
+<span class="sd">        * ``&quot;auto&quot;`` (default): Run the grid search described in</span>
+<span class="sd">          :func:`_leiden_auto_resolution` to select the best resolution</span>
+<span class="sd">          automatically.</span>
+<span class="sd">        * A positive float: Use this resolution directly, skipping the search.</span>
+<span class="sd">    fast_mode : bool, optional</span>
+<span class="sd">        Passed to :func:`_leiden_auto_resolution` when ``resolution=&quot;auto&quot;``.</span>
+<span class="sd">        Reduces computation time at the cost of skipping stability estimation.</span>
+<span class="sd">        Has no effect when a fixed resolution is supplied.</span>
+<span class="sd">        Default is ``False``.</span>
+<span class="sd">    n_neighbors : int, optional</span>
+<span class="sd">        Number of nearest neighbours for kNN graph construction.</span>
+<span class="sd">        Default is ``15``.</span>
+<span class="sd">    n_pcs : int, optional</span>
+<span class="sd">        Number of principal components used during neighbour search.</span>
+<span class="sd">        Default is ``30``.</span>
+<span class="sd">    n_runs : int, optional</span>
+<span class="sd">        Number of Leiden runs per resolution candidate when estimating</span>
+<span class="sd">        stability (used only when ``resolution=&quot;auto&quot;`` and</span>
+<span class="sd">        ``fast_mode=False``).</span>
+<span class="sd">        Default is ``3``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    adata : anndata.AnnData</span>
+<span class="sd">        Input object with an additional column ``adata.obs[&quot;leiden&quot;]``</span>
+<span class="sd">        containing integer cluster labels from the final Leiden partition.</span>
+<span class="sd">    best_resolution : float</span>
+<span class="sd">        The resolution that was used for the final clustering (equals the</span>
+<span class="sd">        input *resolution* when a fixed value is provided).</span>
+<span class="sd">    table : pandas.DataFrame or None</span>
+<span class="sd">        When ``resolution=&quot;auto&quot;``, a DataFrame summarising all evaluated</span>
+<span class="sd">        resolutions (columns: ``resolution``, ``n_clusters``, ``stability``,</span>
+<span class="sd">        ``modularity``, ``score``).  ``None`` when a fixed resolution is used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">graph</span><span class="p">,</span> <span class="n">adata</span> <span class="o">=</span> <span class="n">_build_graph_from_h5ad</span><span class="p">(</span>
+        <span class="n">adata</span><span class="p">,</span>
+        <span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_neighbors</span><span class="p">,</span>
+        <span class="n">n_pcs</span><span class="o">=</span><span class="n">n_pcs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">resolution</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+        <span class="n">best_res</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="n">_leiden_auto_resolution</span><span class="p">(</span>
+            <span class="n">graph</span><span class="p">,</span>
+            <span class="n">n_cells</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">n_obs</span><span class="p">,</span>
+            <span class="n">n_runs</span><span class="o">=</span><span class="n">n_runs</span><span class="p">,</span>
+            <span class="n">fast_mode</span><span class="o">=</span><span class="n">fast_mode</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">partition</span> <span class="o">=</span> <span class="n">leidenalg</span><span class="o">.</span><span class="n">find_partition</span><span class="p">(</span>
+            <span class="n">graph</span><span class="p">,</span>
+            <span class="n">leidenalg</span><span class="o">.</span><span class="n">RBConfigurationVertexPartition</span><span class="p">,</span>
+            <span class="n">resolution_parameter</span><span class="o">=</span><span class="n">best_res</span><span class="p">,</span>
+            <span class="n">weights</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;leiden&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">partition</span><span class="o">.</span><span class="n">membership</span>
+        <span class="k">return</span> <span class="n">adata</span><span class="p">,</span> <span class="n">best_res</span><span class="p">,</span> <span class="n">table</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">partition</span> <span class="o">=</span> <span class="n">leidenalg</span><span class="o">.</span><span class="n">find_partition</span><span class="p">(</span>
+            <span class="n">graph</span><span class="p">,</span>
+            <span class="n">leidenalg</span><span class="o">.</span><span class="n">RBConfigurationVertexPartition</span><span class="p">,</span>
+            <span class="n">resolution_parameter</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+            <span class="n">weights</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;leiden&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">partition</span><span class="o">.</span><span class="n">membership</span>
+        <span class="k">return</span> <span class="n">adata</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="kc">None</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../metrics/" class="btn btn-neutral float-left" title="Compute Metrics"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../qc/" class="btn btn-neutral float-right" title="QC">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../metrics/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../qc/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

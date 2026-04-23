@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Spatial Clustering - SpatialAPI</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Spatial Clustering";
+        var mkdocs_page_input_path = "documentation/spatial_clustering.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> SpatialAPI
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../quickstart/">Quickstart</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorial.ipynb">Tutorial</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentation</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../read_spatialobject/">Read Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../size_normalization/">Size Normalization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../metrics/">Compute Metrics</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ari/">Adjusted Rand Index</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../qc/">QC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../plot/">Plotting</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../neighbor_analysis/">Neighbor Analysis</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../assigning_labels/">Assigning Labels</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Spatial Clustering</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#banksy">BANKSY</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.spatial_clustering._banksy">_banksy</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.spatial_clustering._banksy.run_banksy">run_banksy</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cell_communication/">Cell Communication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pseudobulk/">Pseudobulk DE</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">SpatialAPI</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Documentation</li>
+      <li class="breadcrumb-item active">Spatial Clustering</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="spatial-clustering">Spatial Clustering</h1>
+<h2 id="banksy">BANKSY</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="SpatialAPI.plot.spatial_clustering._banksy"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="SpatialAPI.plot.spatial_clustering._banksy.run_banksy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">run_banksy</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">coord_keys</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x_centroid&#39;</span><span class="p">,</span> <span class="s1">&#39;y_centroid&#39;</span><span class="p">,</span> <span class="s1">&#39;spatial&#39;</span><span class="p">),</span> <span class="n">resolutions</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">pca_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">lambda_list</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="n">max_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nonspatial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;banksy_output&#39;</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Main pipeline.</p>
+<p>Assumptions:
+    - data is already log normalized (either by size or counts)
+    - data is already filtered</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>adata</code></b>
+                  (<code><span title="anndata.AnnData">AnnData</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Annotated data matrix</p>
+              </div>
+            </li>
+            <li>
+              <b><code>coord_keys</code></b>
+                  (<code><span title="typing.Tuple">Tuple</span>[<span title="str">str</span>]</code>, default:
+                      <code>= (&#34;x_centroid&#34;, &#34;y_centroid&#34;, &#34;spatial&#34;)</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Coordinate keys present in adata.obsm</p>
+              </div>
+            </li>
+            <li>
+              <b><code>resolutions</code></b>
+                  (<code><span title="typing.List">List</span>[<span title="float">float</span>]</code>, default:
+                      <code>= [0.5, 1.0]</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Leiden resolutions</p>
+              </div>
+            </li>
+            <li>
+              <b><code>pca_dims</code></b>
+                  (<code><span title="typing.List">List</span>[<span title="int">int</span>]</code>, default:
+                      <code>= [20]</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Amount of dimensions used for the PCA.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>lambda_list</code></b>
+                  (<code><span title="typing.List">List</span>[<span title="float">float</span>]</code>, default:
+                      <code>= [0.2, 0.8]</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Lambda values used to generate BANKSY matrix</p>
+              </div>
+            </li>
+            <li>
+              <b><code>max_m</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>= 1</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Int value used to initialize BANKSY</p>
+              </div>
+            </li>
+            <li>
+              <b><code>output_path</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>= &#34;banksy_output&#34;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>File path to the BANKSY output.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code>(<span title="results_df">results_df</span>, <span title="banksy_matrix">banksy_matrix</span>)</code>
+              –
+              <div class="doc-md-description">
+                <p>Results of BANKSY</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>plot/spatial_clustering/_banksy.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_banksy</span><span class="p">(</span>
+        <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
+        <span class="n">coord_keys</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;x_centroid&quot;</span><span class="p">,</span> <span class="s2">&quot;y_centroid&quot;</span><span class="p">,</span> <span class="s2">&quot;spatial&quot;</span><span class="p">),</span>
+        <span class="n">resolutions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+        <span class="n">pca_dims</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">],</span>
+        <span class="n">lambda_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
+        <span class="n">max_m</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">nonspatial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;banksy_output&quot;</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main pipeline.</span>
+
+<span class="sd">    Assumptions:</span>
+<span class="sd">        - data is already log normalized (either by size or counts)</span>
+<span class="sd">        - data is already filtered</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    adata : AnnData</span>
+<span class="sd">        Annotated data matrix </span>
+<span class="sd">    coord_keys : Tuple[str], default = (&quot;x_centroid&quot;, &quot;y_centroid&quot;, &quot;spatial&quot;)</span>
+<span class="sd">        Coordinate keys present in adata.obsm</span>
+<span class="sd">    resolutions : List[float], default = [0.5, 1.0]</span>
+<span class="sd">        Leiden resolutions</span>
+<span class="sd">    pca_dims : List[int], default = [20]</span>
+<span class="sd">        Amount of dimensions used for the PCA.</span>
+<span class="sd">    lambda_list : List[float], default = [0.2, 0.8]</span>
+<span class="sd">        Lambda values used to generate BANKSY matrix</span>
+<span class="sd">    max_m : int, default = 1</span>
+<span class="sd">        Int value used to initialize BANKSY</span>
+<span class="sd">    output_path : str, default = &quot;banksy_output&quot;</span>
+<span class="sd">        File path to the BANKSY output.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    results_df, banksy_matrix</span>
+<span class="sd">        Results of BANKSY</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Please take into account that running the BANKSY algorithm can take &quot;</span> \
+          <span class="s2">&quot;a while before finishing. Have patience... &quot;</span><span class="p">)</span>
+    <span class="n">adata</span> <span class="o">=</span> <span class="n">_preprocess</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+
+    <span class="c1"># initialize banksy</span>
+    <span class="n">banksy_dict</span> <span class="o">=</span> <span class="n">initialize_banksy</span><span class="p">(</span>
+        <span class="n">adata</span><span class="p">,</span> 
+        <span class="n">coord_keys</span><span class="o">=</span><span class="n">coord_keys</span><span class="p">,</span>
+        <span class="n">num_neighbours</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+        <span class="n">nbr_weight_decay</span><span class="o">=</span><span class="s2">&quot;scaled_gaussian&quot;</span><span class="p">,</span>
+        <span class="n">max_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">plt_edge_hist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">plt_nbr_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">plt_agf_angles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">plt_theta</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">banksy_dict</span><span class="p">,</span> <span class="n">banksy_matrix</span> <span class="o">=</span> <span class="n">generate_banksy_matrix</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">banksy_dict</span><span class="p">,</span> <span class="n">lambda_list</span><span class="p">,</span> <span class="n">max_m</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">nonspatial</span><span class="p">:</span>
+        <span class="n">banksy_dict</span><span class="p">[</span><span class="s2">&quot;nonspatial&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mf">0.0</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;adata&quot;</span><span class="p">:</span> <span class="n">concatenate_all</span><span class="p">([</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">adata</span><span class="p">),</span> <span class="p">}</span>
+        <span class="p">}</span>
+
+    <span class="n">pca_umap</span><span class="p">(</span><span class="n">banksy_dict</span><span class="p">,</span>
+            <span class="n">pca_dims</span> <span class="o">=</span> <span class="n">pca_dims</span><span class="p">,</span>
+            <span class="n">add_umap</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">plt_remaining_var</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">results_df</span><span class="p">,</span> <span class="n">max_num_labels</span> <span class="o">=</span> <span class="n">run_Leiden_partition</span><span class="p">(</span>
+        <span class="n">banksy_dict</span><span class="p">,</span>
+        <span class="n">resolutions</span><span class="p">,</span>
+        <span class="n">num_nn</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="n">num_iterations</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">partition_seed</span> <span class="o">=</span> <span class="mi">1234</span><span class="p">,</span>
+        <span class="n">match_labels</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">c_map</span> <span class="o">=</span>  <span class="s1">&#39;tab20&#39;</span> <span class="c1"># specify color map</span>
+    <span class="n">weights_graph</span> <span class="o">=</span>  <span class="n">banksy_dict</span><span class="p">[</span><span class="s1">&#39;scaled_gaussian&#39;</span><span class="p">][</span><span class="s1">&#39;weights&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">plot_results</span><span class="p">(</span>
+        <span class="n">results_df</span><span class="p">,</span>
+        <span class="n">weights_graph</span><span class="p">,</span>
+        <span class="n">c_map</span><span class="p">,</span>
+        <span class="n">match_labels</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">coord_keys</span> <span class="o">=</span> <span class="n">coord_keys</span><span class="p">,</span>
+        <span class="n">max_num_labels</span>  <span class="o">=</span>  <span class="n">max_num_labels</span><span class="p">,</span> 
+        <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s1">&#39;tmp_png&#39;</span><span class="p">),</span>
+        <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># save the spatial map of all clusters</span>
+        <span class="n">save_seperate_fig</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># save the figure of all clusters plotted seperately</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">results_df</span><span class="p">,</span> <span class="n">banksy_matrix</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../assigning_labels/" class="btn btn-neutral float-left" title="Assigning Labels"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../cell_communication/" class="btn btn-neutral float-right" title="Cell Communication">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../assigning_labels/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../cell_communication/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
