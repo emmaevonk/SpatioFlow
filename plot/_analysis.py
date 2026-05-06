@@ -33,6 +33,12 @@ def dotplot(
     sc.tl.rank_genes needs to be run first before calling this function.
     """
     if markers is None:
+        sc.settings.set_figure_params(dpi=500)
+        # sc.pl.rank_genes_groups_dotplot(
+        #     adata,
+        #     n_genes=5,
+        #     save="/exports/archive/hg-funcgenom-research/evonk/assigning_labels/_dotplotv2.png"
+        # )
         sc.pl.rank_genes_groups_dotplot(adata, n_genes=5)
     else:
         sc.pl.dotplot(adata, var_names=markers, groupby=cluster, show=True, use_raw=False)

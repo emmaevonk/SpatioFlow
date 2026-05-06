@@ -52,6 +52,8 @@ def plot_image(
         shape=None,
         size=2,
         img=False,
+        # dpi=500,
+        # save="/exports/archive/hg-funcgenom-research/evonk/spatial_plot.png"
     )
 
 def rank_genes_group(
@@ -166,3 +168,50 @@ def plot_labels(
 
     plt.tight_layout()
     plt.show()
+
+def plot_count_distr(
+    adata : AnnData,
+    samples : list[str],
+    vline: int | None = None,
+    zoom: int | None = None,
+    sample_dataset : str = "sample_dataset",
+):
+    """
+    This function plots the distribution of counts between two datasets.
+    It shows one dataset in orange and the other in blue, with on the 
+    x-axis the total amount of counts.
+
+    Parameters 
+    ----------
+    adata : AnnData
+        Annotated data matrix containing two combined datasets.
+    samples : list[str]
+        List of samples names present in the AnnData object.
+    vline : int, optional
+        The vertical value line shown in the plot
+    zoom: int, optional
+        The value on which to zoom in. 
+    sample_dataset : str, default = "sample_dataset"
+        Column in `adata.obs` showing the samples of the datasets. It can be a combination of the sample ID and the dataset ID.
+    """
+    plt.figure(figsize=(8, 5))
+    if sample_dataset not in adata.obs:
+        print(f"{sample_dataset} is not present in the AnnData object. Try again.")
+        return
+    for s in samples:
+        subset = adata.obs.loc[
+            adata.obs[sample_dataset] == s, "total_counts"
+        ]
+        if zoom is not None:
+            subset = subset[subset <= 10000]
+        plt.hist(subset, bins=50, alpha=0.5, label=s)
+        if vline is not None:
+            plt.axvline(vline, color="red", linestyle="--", linewidth=2, label=f"{vline} counts")
+        
+        plt.xlabel("Total counts per cell")
+        plt.ylabel("Frequency")
+        if zoom is None:
+            plt.title(f"Counts distribution")
+        else:
+            plt.title(f"Counts distribution (zoom ≤ {zoom} counts)")
+

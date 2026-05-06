@@ -7,7 +7,13 @@ from .plot import (
     multimodal_segmentation,
     multimodal_segmentation_slice,
     plot_labels,
-    run_banksy
+    run_banksy,
+    run_cellcharter,
+    plot_count_distr
+)
+
+from .table import (
+    add_nuclei
 )
 
 from .assignment import (

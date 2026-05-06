@@ -10,7 +10,8 @@ from ._cluster import (
 from ._plot import (
     plot_image,
     rank_genes_group,
-    plot_labels
+    plot_labels,
+    plot_count_distr
 )
 
 from ._segmentation import (
@@ -19,5 +20,6 @@ from ._segmentation import (
 )
 
 from .spatial_clustering import (
-    run_banksy
+    run_banksy,
+    run_cellcharter
 )

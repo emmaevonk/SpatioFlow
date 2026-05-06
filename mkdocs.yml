@@ -25,6 +25,7 @@ nav:
       - Tutorial: tutorials/tutorial.ipynb
   - Documentation: 
       - Read Data: documentation/read_spatialobject.md
+      - Add Nuclei: documentation/add_nuclei.md
       - Size Normalization: documentation/size_normalization.md
       - Compute Metrics: documentation/metrics.md
       - Adjusted Rand Index: documentation/ari.md

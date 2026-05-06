@@ -521,6 +521,12 @@ def run_watershed(
     axes[0].tick_params(colors="grey")
     plot_samples(df_test, test_ids, ax=axes[1])
     plt.tight_layout()
+    # fig.savefig(
+    #     f"assigning_labels/watershed_segmentationv2.png",
+    #     dpi=500,                # increase to 600 for very high resolution
+    #     bbox_inches="tight",    # trims whitespace
+    #     facecolor=fig.get_facecolor()  # preserves dark background
+    # )
     plt.show(fig)
     return df_test
 

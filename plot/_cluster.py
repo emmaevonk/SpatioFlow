@@ -59,10 +59,11 @@ def cluster(
 
     # Neighbor graph
     if "neighbors" not in adata.uns:
+        sc.settings.dpi_save = 500 
         sc.pp.neighbors(
             adata,
             n_neighbors=n_neighbors,
-            n_pcs=n_pcs
+            n_pcs=n_pcs,
         )
 
     # UMAP
@@ -73,6 +74,7 @@ def cluster(
             color=colors,
             color_map=color_map,
             ncols=3,
+            # save="_leidenclusterplotv2.png"
         )
     else:
         sc.pl.umap(
