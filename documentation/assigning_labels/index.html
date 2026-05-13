@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Assigning Labels - SpatialAPI</title>
+    <title>Assigning Labels - SpatioFlow</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -31,7 +31,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="../.." class="icon icon-home"> SpatialAPI
+          <a href="../.." class="icon icon-home"> SpatioFlow
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -77,11 +77,11 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Assigning Labels</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.assignment.detect_samples_watershed">detect_samples_watershed</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.assignment.detect_samples_watershed">detect_samples_watershed</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.assignment.plot_samples">plot_samples</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.assignment.plot_samples">plot_samples</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.assignment.run_watershed">run_watershed</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.assignment.run_watershed">run_watershed</a>
     </li>
     </ul>
                   </li>
@@ -99,7 +99,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../..">SpatialAPI</a>
+          <a href="../..">SpatioFlow</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -149,7 +149,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.assignment.detect_samples_watershed" class="doc doc-heading">
+<h2 id="SpatioFlow.assignment.detect_samples_watershed" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">detect_samples_watershed</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pixel_size_um</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blur_sigma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">closing_radius</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">erosion_radius</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">min_cells</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span></code>
 
 </h2>
@@ -583,7 +583,7 @@ between grid indices and real-world coordinates.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.assignment.plot_samples" class="doc doc-heading">
+<h2 id="SpatioFlow.assignment.plot_samples" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_samples</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cluster_ids</span><span class="p">,</span> <span class="n">highlight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">conditions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
@@ -887,7 +887,7 @@ shown in both the annotation and legend.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.assignment.run_watershed" class="doc doc-heading">
+<h2 id="SpatioFlow.assignment.run_watershed" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">run_watershed</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">pixel_size_um</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blur_sigma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">closing_radius</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">erosion_radius</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">min_cells</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span></code>
 
 </h2>

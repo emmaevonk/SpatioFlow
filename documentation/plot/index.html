@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Plotting - SpatialAPI</title>
+    <title>Plotting - SpatioFlow</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -31,7 +31,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="../.." class="icon icon-home"> SpatialAPI
+          <a href="../.." class="icon icon-home"> SpatioFlow
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -73,27 +73,27 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Plotting</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.dotplot">dotplot</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.dotplot">dotplot</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.celltype_composition">celltype_composition</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.celltype_composition">celltype_composition</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.cluster">cluster</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.cluster">cluster</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.plot_image">plot_image</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.plot_image">plot_image</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.rank_genes_group">rank_genes_group</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.rank_genes_group">rank_genes_group</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.plot_labels">plot_labels</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.plot_labels">plot_labels</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.plot_count_distr">plot_count_distr</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.plot_count_distr">plot_count_distr</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.multimodal_segmentation">multimodal_segmentation</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.multimodal_segmentation">multimodal_segmentation</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.multimodal_segmentation_slice">multimodal_segmentation_slice</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.multimodal_segmentation_slice">multimodal_segmentation_slice</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.run_banksy">run_banksy</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.run_banksy">run_banksy</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.run_cellcharter">run_cellcharter</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.run_cellcharter">run_cellcharter</a>
     </li>
     </ul>
                   </li>
@@ -115,7 +115,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../..">SpatialAPI</a>
+          <a href="../..">SpatioFlow</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -165,7 +165,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.dotplot" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.dotplot" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">dotplot</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">markers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;leiden&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -302,7 +302,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.celltype_composition" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.celltype_composition" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">celltype_composition</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="s1">&#39;condition&#39;</span><span class="p">,</span> <span class="n">celltype</span><span class="o">=</span><span class="s1">&#39;cell_type&#39;</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h2>
@@ -375,7 +375,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.cluster" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.cluster" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">cluster</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transcript_counts&#39;</span><span class="p">,</span> <span class="s1">&#39;nucleus_count&#39;</span><span class="p">,</span> <span class="s1">&#39;cell_area&#39;</span><span class="p">,</span> <span class="s1">&#39;segmentation_method&#39;</span><span class="p">],</span> <span class="n">n_comps</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">n_pcs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color_map</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
@@ -680,7 +680,7 @@ neighbors.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.plot_image" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.plot_image" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_image</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;leiden&#39;</span><span class="p">])</span></code>
 
 </h2>
@@ -835,7 +835,7 @@ Examples: gene names, "leiden"</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.rank_genes_group" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.rank_genes_group" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">rank_genes_group</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
 
 </h2>
@@ -991,7 +991,7 @@ Uses Wilcoxon rank-sum test.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.plot_labels" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.plot_labels" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_labels</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -1202,7 +1202,7 @@ labels to samples with the classes of SpatialAPI.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.plot_count_distr" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.plot_count_distr" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_count_distr</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">vline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_dataset</span><span class="o">=</span><span class="s1">&#39;sample_dataset&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -1329,7 +1329,7 @@ sample_dataset : str, default = "sample_dataset"
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.multimodal_segmentation" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.multimodal_segmentation" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">multimodal_segmentation</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">channelnames</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
@@ -1443,7 +1443,7 @@ sample_dataset : str, default = "sample_dataset"
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.multimodal_segmentation_slice" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.multimodal_segmentation_slice" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">multimodal_segmentation_slice</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">channelnames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_coord</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_coord</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
@@ -1585,7 +1585,7 @@ sample_dataset : str, default = "sample_dataset"
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.run_banksy" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.run_banksy" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">run_banksy</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">coord_keys</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x_centroid&#39;</span><span class="p">,</span> <span class="s1">&#39;y_centroid&#39;</span><span class="p">,</span> <span class="s1">&#39;spatial&#39;</span><span class="p">),</span> <span class="n">resolutions</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">pca_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">lambda_list</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="n">max_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nonspatial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;banksy_output&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -1902,7 +1902,7 @@ sample_dataset : str, default = "sample_dataset"
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.run_cellcharter" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.run_cellcharter" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">run_cellcharter</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span></code>
 
 </h2>

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>QC - SpatialAPI</title>
+    <title>QC - SpatioFlow</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -31,7 +31,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="../.." class="icon icon-home"> SpatialAPI
+          <a href="../.." class="icon icon-home"> SpatioFlow
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -71,19 +71,19 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">QC</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.control_probes_codew">control_probes_codew</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.control_probes_codew">control_probes_codew</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.detect_outlier">detect_outlier</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.detect_outlier">detect_outlier</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.is_outlier">is_outlier</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.is_outlier">is_outlier</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.perform_quality_control">perform_quality_control</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.perform_quality_control">perform_quality_control</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot_outliers">plot_outliers</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot_outliers">plot_outliers</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot_qc_metrics">plot_qc_metrics</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot_qc_metrics">plot_qc_metrics</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.recommend_threshold">recommend_threshold</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.recommend_threshold">recommend_threshold</a>
     </li>
     </ul>
                   </li>
@@ -107,7 +107,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../..">SpatialAPI</a>
+          <a href="../..">SpatioFlow</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -157,7 +157,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.control_probes_codew" class="doc doc-heading">
+<h2 id="SpatioFlow.control_probes_codew" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">control_probes_codew</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span></code>
 
 </h2>
@@ -295,7 +295,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.detect_outlier" class="doc doc-heading">
+<h2 id="SpatioFlow.detect_outlier" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">detect_outlier</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span></code>
 
 </h2>
@@ -517,7 +517,7 @@ robust z-score (median/MAD) within each neighborhood.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.is_outlier" class="doc doc-heading">
+<h2 id="SpatioFlow.is_outlier" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">is_outlier</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">nmads</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -770,7 +770,7 @@ upper = median + nmads * MAD</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.perform_quality_control" class="doc doc-heading">
+<h2 id="SpatioFlow.perform_quality_control" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">perform_quality_control</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">thr</span><span class="p">)</span></code>
 
 </h2>
@@ -1000,7 +1000,7 @@ upper = median + nmads * MAD</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot_outliers" class="doc doc-heading">
+<h2 id="SpatioFlow.plot_outliers" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_outliers</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">sample_id</span><span class="o">=</span><span class="s1">&#39;cell_id&#39;</span><span class="p">,</span> <span class="n">sample</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;detected&#39;</span><span class="p">,</span> <span class="n">outliers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">),</span> <span class="n">stroke</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">coord_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ring_overlay</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 </h2>
@@ -1464,7 +1464,7 @@ to check performance of filtering with this function.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot_qc_metrics" class="doc doc-heading">
+<h2 id="SpatioFlow.plot_qc_metrics" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_qc_metrics</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
@@ -1768,7 +1768,7 @@ to check performance of filtering with this function.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.recommend_threshold" class="doc doc-heading">
+<h2 id="SpatioFlow.recommend_threshold" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">recommend_threshold</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span></code>
 
 </h2>

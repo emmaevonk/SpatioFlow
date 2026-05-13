@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Quickstart - SpatialAPI</title>
+    <title>Quickstart - SpatioFlow</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -31,7 +31,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href=".." class="icon icon-home"> SpatialAPI
+          <a href=".." class="icon icon-home"> SpatioFlow
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -93,7 +93,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="..">SpatialAPI</a>
+          <a href="..">SpatioFlow</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -110,25 +110,25 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="quick-start">🚀 Quick Start</h2>
-<p>A small example of steps that can be taken with SpatialAPI. </p>
+<p>A small example of steps that can be taken with SpatioFlow. </p>
 <ol>
 <li>Load Xenium data</li>
 </ol>
-<pre><code class="language-py">import spatialapi
-sdata = spatialapi.read_data(path_xenium)
-adata = sdata.tables[&quot;table&quot;].copy()
+<pre><code class="language-py">import SpatioFlow
+sdata = SpatioFlow.read_data(path_xenium)
+adata = SpatioFlow.tables[&quot;table&quot;].copy()
 </code></pre>
 <ol>
 <li>Obtain metrics (percentage transcripts and staining positive pixels allocated)</li>
 </ol>
-<pre><code class="language-py">perc_transcripts, s_pos = spatialapi.metrics(sdata)
+<pre><code class="language-py">perc_transcripts, s_pos = SpatioFlow.metrics(sdata)
 </code></pre>
 <ol>
 <li>QC</li>
 </ol>
-<pre><code class="language-py">spatialapi.plot_qc_metrics(adata, save=True)
-thr = spatialapi.recommend_threshold(adata)
-adata_filtered = spatialapi.perform_quality_control(adata, thr)
+<pre><code class="language-py">SpatioFlow.plot_qc_metrics(adata, save=True)
+thr = SpatioFlow.recommend_threshold(adata)
+adata_filtered = SpatioFlow.perform_quality_control(adata, thr)
 </code></pre>
 <ol>
 <li>Log normalize adata</li>
@@ -139,19 +139,19 @@ sc.pp.log1p(adata_filtered)
 <ol>
 <li>Assigning conditions</li>
 </ol>
-<pre><code class="language-py">adata = spatialapi.run_watershed(adata, sdata)
+<pre><code class="language-py">adata = SpatioFlow.run_watershed(adata, sdata)
 df_split_base = df.copy()
-session = SpatialAPI.SplitSession(df_split_base)
+session = SpatioFlow.SplitSession(df_split_base)
 session.show()
 </code></pre>
 <ol>
 <li>Perform annotation</li>
 <li>Analysis</li>
 </ol>
-<pre><code class="language-py">spatialapi.dotplot(adata)
-spatialapi.nhood_enrichment(adata) 
-spatialapi.celltype_composition(adata)
-spatialapi.pseudobulk(adata, celltype=&quot;Endothelial cells&quot;)
+<pre><code class="language-py">SpatioFlow.dotplot(adata)
+SpatioFlow.nhood_enrichment(adata) 
+SpatioFlow.celltype_composition(adata)
+SpatioFlow.pseudobulk(adata, celltype=&quot;Endothelial cells&quot;)
 </code></pre>
               
             </div>

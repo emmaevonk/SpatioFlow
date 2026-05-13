@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Spatial Clustering - SpatialAPI</title>
+    <title>Spatial Clustering - SpatioFlow</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -31,7 +31,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="../.." class="icon icon-home"> SpatialAPI
+          <a href="../.." class="icon icon-home"> SpatioFlow
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -81,13 +81,13 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#banksy">BANKSY</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.spatial_clustering.run_banksy">run_banksy</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.spatial_clustering.run_banksy">run_banksy</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#cellcharter">CellCharter</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.spatial_clustering.run_cellcharter">run_cellcharter</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.spatial_clustering.run_cellcharter">run_cellcharter</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot.spatial_clustering.stability_cellcharter">stability_cellcharter</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot.spatial_clustering.stability_cellcharter">stability_cellcharter</a>
     </li>
     </ul>
                   </li>
@@ -103,7 +103,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../..">SpatialAPI</a>
+          <a href="../..">SpatioFlow</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -154,7 +154,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.spatial_clustering.run_banksy" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.spatial_clustering.run_banksy" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">run_banksy</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">coord_keys</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x_centroid&#39;</span><span class="p">,</span> <span class="s1">&#39;y_centroid&#39;</span><span class="p">,</span> <span class="s1">&#39;spatial&#39;</span><span class="p">),</span> <span class="n">resolutions</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">pca_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">lambda_list</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="n">max_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nonspatial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;banksy_output&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -507,7 +507,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.spatial_clustering.run_cellcharter" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.spatial_clustering.run_cellcharter" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">run_cellcharter</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -794,7 +794,7 @@ reproducibility across runs.</li>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.plot.spatial_clustering.stability_cellcharter" class="doc doc-heading">
+<h2 id="SpatioFlow.plot.spatial_clustering.stability_cellcharter" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">stability_cellcharter</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">max_runs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">convergence_tol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
 
 </h2>
