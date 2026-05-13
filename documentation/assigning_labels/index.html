@@ -61,6 +61,8 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../read_spatialobject/">Read Data</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../add_nuclei/">Add Nuclei</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../size_normalization/">Size Normalization</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../metrics/">Compute Metrics</a>
@@ -75,13 +77,11 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Assigning Labels</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.assignment._assignment_module">_assignment_module</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.assignment.detect_samples_watershed">detect_samples_watershed</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.assignment._assignment_module.detect_samples_watershed">detect_samples_watershed</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.assignment.plot_samples">plot_samples</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.assignment._assignment_module.plot_samples">plot_samples</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.assignment._assignment_module.run_watershed">run_watershed</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.assignment.run_watershed">run_watershed</a>
     </li>
     </ul>
                   </li>
@@ -123,7 +123,7 @@
 
 
 
-<a id="SpatialAPI.assignment._assignment_module"></a>
+
     <div class="doc doc-contents first">
 
 
@@ -149,7 +149,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.assignment._assignment_module.detect_samples_watershed" class="doc doc-heading">
+<h2 id="SpatialAPI.assignment.detect_samples_watershed" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">detect_samples_watershed</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pixel_size_um</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blur_sigma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">closing_radius</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">erosion_radius</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">min_cells</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span></code>
 
 </h2>
@@ -583,7 +583,7 @@ between grid indices and real-world coordinates.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.assignment._assignment_module.plot_samples" class="doc doc-heading">
+<h2 id="SpatialAPI.assignment.plot_samples" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_samples</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cluster_ids</span><span class="p">,</span> <span class="n">highlight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">conditions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
@@ -887,7 +887,7 @@ shown in both the annotation and legend.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI.assignment._assignment_module.run_watershed" class="doc doc-heading">
+<h2 id="SpatialAPI.assignment.run_watershed" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">run_watershed</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">pixel_size_um</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blur_sigma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">closing_radius</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">erosion_radius</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">min_cells</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span></code>
 
 </h2>
@@ -1016,7 +1016,13 @@ adata.obs: centroid_x, x, X, x_centroid, x_location</p>
 <span class="normal">522</span>
 <span class="normal">523</span>
 <span class="normal">524</span>
-<span class="normal">525</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_watershed</span><span class="p">(</span> 
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_watershed</span><span class="p">(</span> 
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
         <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">pixel_size_um</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
@@ -1066,6 +1072,12 @@ adata.obs: centroid_x, x, X, x_centroid, x_location</p>
     <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">colors</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
     <span class="n">plot_samples</span><span class="p">(</span><span class="n">df_test</span><span class="p">,</span> <span class="n">test_ids</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="c1"># fig.savefig(</span>
+    <span class="c1">#     f&quot;assigning_labels/watershed_segmentationv2.png&quot;,</span>
+    <span class="c1">#     dpi=500,                # increase to 600 for very high resolution</span>
+    <span class="c1">#     bbox_inches=&quot;tight&quot;,    # trims whitespace</span>
+    <span class="c1">#     facecolor=fig.get_facecolor()  # preserves dark background</span>
+    <span class="c1"># )</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df_test</span>
 </code></pre></div></td></tr></table></div>

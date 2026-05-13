@@ -61,6 +61,8 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../read_spatialobject/">Read Data</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../add_nuclei/">Add Nuclei</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../size_normalization/">Size Normalization</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../metrics/">Compute Metrics</a>
@@ -69,21 +71,19 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">QC</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._qc">_qc</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.control_probes_codew">control_probes_codew</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._qc.control_probes_codew">control_probes_codew</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.detect_outlier">detect_outlier</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._qc.detect_outlier">detect_outlier</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.is_outlier">is_outlier</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._qc.is_outlier">is_outlier</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.perform_quality_control">perform_quality_control</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._qc.perform_quality_control">perform_quality_control</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot_outliers">plot_outliers</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._qc.plot_outliers">plot_outliers</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.plot_qc_metrics">plot_qc_metrics</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._qc.plot_qc_metrics">plot_qc_metrics</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._qc.recommend_threshold">recommend_threshold</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.recommend_threshold">recommend_threshold</a>
     </li>
     </ul>
                   </li>
@@ -131,7 +131,7 @@
 
 
 
-<a id="SpatialAPI._qc"></a>
+
     <div class="doc doc-contents first">
 
 
@@ -157,7 +157,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._qc.control_probes_codew" class="doc doc-heading">
+<h2 id="SpatialAPI.control_probes_codew" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">control_probes_codew</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span></code>
 
 </h2>
@@ -225,16 +225,7 @@
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">248</span>
 <span class="normal">249</span>
 <span class="normal">250</span>
 <span class="normal">251</span>
@@ -255,7 +246,16 @@
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
-<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">control_probes_codew</span><span class="p">(</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">control_probes_codew</span><span class="p">(</span>
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
@@ -295,7 +295,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._qc.detect_outlier" class="doc doc-heading">
+<h2 id="SpatialAPI.detect_outlier" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">detect_outlier</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span></code>
 
 </h2>
@@ -367,16 +367,7 @@ robust z-score (median/MAD) within each neighborhood.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">502</span>
 <span class="normal">503</span>
 <span class="normal">504</span>
 <span class="normal">505</span>
@@ -437,7 +428,16 @@ robust z-score (median/MAD) within each neighborhood.</p>
 <span class="normal">560</span>
 <span class="normal">561</span>
 <span class="normal">562</span>
-<span class="normal">563</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">detect_outlier</span><span class="p">(</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">detect_outlier</span><span class="p">(</span>
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnnData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -517,7 +517,7 @@ robust z-score (median/MAD) within each neighborhood.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._qc.is_outlier" class="doc doc-heading">
+<h2 id="SpatialAPI.is_outlier" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">is_outlier</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">nmads</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -634,16 +634,7 @@ upper = median + nmads * MAD</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">436</span>
 <span class="normal">437</span>
 <span class="normal">438</span>
 <span class="normal">439</span>
@@ -697,7 +688,16 @@ upper = median + nmads * MAD</p>
 <span class="normal">487</span>
 <span class="normal">488</span>
 <span class="normal">489</span>
-<span class="normal">490</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_outlier</span><span class="p">(</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_outlier</span><span class="p">(</span>
         <span class="n">vec</span><span class="p">,</span> 
         <span class="n">nmads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> 
         <span class="n">log</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
@@ -770,7 +770,7 @@ upper = median + nmads * MAD</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._qc.perform_quality_control" class="doc doc-heading">
+<h2 id="SpatialAPI.perform_quality_control" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">perform_quality_control</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">thr</span><span class="p">)</span></code>
 
 </h2>
@@ -852,16 +852,7 @@ upper = median + nmads * MAD</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">176</span>
 <span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
@@ -921,7 +912,16 @@ upper = median + nmads * MAD</p>
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
-<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">perform_quality_control</span><span class="p">(</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">perform_quality_control</span><span class="p">(</span>
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
         <span class="n">thr</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnnData</span><span class="p">:</span>
@@ -1000,7 +1000,7 @@ upper = median + nmads * MAD</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._qc.plot_outliers" class="doc doc-heading">
+<h2 id="SpatialAPI.plot_outliers" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_outliers</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">sample_id</span><span class="o">=</span><span class="s1">&#39;cell_id&#39;</span><span class="p">,</span> <span class="n">sample</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;detected&#39;</span><span class="p">,</span> <span class="n">outliers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">),</span> <span class="n">stroke</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">coord_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ring_overlay</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 </h2>
@@ -1037,7 +1037,8 @@ the specified metric in adata.obs[metric]</p>
 )
               –
               <div class="doc-md-description">
-                <p>Column in adata.obs used to identify samples.</p>
+                <p>Column in adata.obs used to identify samples. If <code>sample_id</code> is
+set to 'all', all samples on the slide are shown.</p>
               </div>
             </li>
             <li>
@@ -1167,8 +1168,7 @@ to check performance of filtering with this function.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
-<span class="normal"> 30</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
 <span class="normal"> 31</span>
 <span class="normal"> 32</span>
 <span class="normal"> 33</span>
@@ -1302,7 +1302,16 @@ to check performance of filtering with this function.</p>
 <span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_outliers</span><span class="p">(</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_outliers</span><span class="p">(</span>
     <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
     <span class="n">sample_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cell_id&quot;</span><span class="p">,</span>
     <span class="n">sample</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1326,7 +1335,8 @@ to check performance of filtering with this function.</p>
 <span class="sd">        Must contain spatial coordinates in adata.obsm[coord_key] and </span>
 <span class="sd">        the specified metric in adata.obs[metric]</span>
 <span class="sd">    sample_id : str, default = &quot;cell_id&quot;</span>
-<span class="sd">        Column in adata.obs used to identify samples.</span>
+<span class="sd">        Column in adata.obs used to identify samples. If `sample_id` is</span>
+<span class="sd">        set to &#39;all&#39;, all samples on the slide are shown.</span>
 <span class="sd">    sample : str or None</span>
 <span class="sd">        Sample to plot. If None, the first sample is used.</span>
 <span class="sd">    metric : str</span>
@@ -1357,10 +1367,16 @@ to check performance of filtering with this function.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># This code is from Spotsweeper_py (Github: https://github.com/danielchen05/spotsweeper_py/blob/master/src/spotsweeper/plot_QC.py)</span>
     <span class="c1"># subset adata to the specified sample</span>
-    <span class="k">if</span> <span class="n">sample</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># if no sample ID provided, default to the first unique ID</span>
+    <span class="k">if</span> <span class="n">sample_id</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span> <span class="ow">or</span> <span class="n">sample</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span> 
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span>
+        <span class="n">adata_sub</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1">#TODO check if &#39;adata&#39; or &#39;adata.obs&#39; is needed</span>
+    <span class="k">elif</span> <span class="n">sample</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">sample</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sample_id</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sample_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">sample</span><span class="p">)</span>
-    <span class="n">adata_sub</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># copy to avoid issues</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sample_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">sample</span><span class="p">)</span>
+        <span class="n">adata_sub</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># copy to avoid issues</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sample_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">sample</span><span class="p">)</span>
+        <span class="n">adata_sub</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="c1"># extract relevant data to build the plot</span>
     <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">adata_sub</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="n">coord_key</span><span class="p">])</span>
@@ -1437,6 +1453,7 @@ to check performance of filtering with this function.</p>
         <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_elements</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;assigning_labels/QCplotv2.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -1447,7 +1464,7 @@ to check performance of filtering with this function.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._qc.plot_qc_metrics" class="doc doc-heading">
+<h2 id="SpatialAPI.plot_qc_metrics" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_qc_metrics</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
@@ -1533,16 +1550,7 @@ to check performance of filtering with this function.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">281</span>
 <span class="normal">282</span>
 <span class="normal">283</span>
 <span class="normal">284</span>
@@ -1637,7 +1645,16 @@ to check performance of filtering with this function.</p>
 <span class="normal">373</span>
 <span class="normal">374</span>
 <span class="normal">375</span>
-<span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_qc_metrics</span><span class="p">(</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_qc_metrics</span><span class="p">(</span>
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
         <span class="n">save</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">output_path</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1751,7 +1768,7 @@ to check performance of filtering with this function.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._qc.recommend_threshold" class="doc doc-heading">
+<h2 id="SpatialAPI.recommend_threshold" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">recommend_threshold</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span></code>
 
 </h2>
@@ -1824,16 +1841,7 @@ to check performance of filtering with this function.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">388</span>
 <span class="normal">389</span>
 <span class="normal">390</span>
 <span class="normal">391</span>
@@ -1869,7 +1877,16 @@ to check performance of filtering with this function.</p>
 <span class="normal">421</span>
 <span class="normal">422</span>
 <span class="normal">423</span>
-<span class="normal">424</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recommend_threshold</span><span class="p">(</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recommend_threshold</span><span class="p">(</span>
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

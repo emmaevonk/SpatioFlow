@@ -61,6 +61,8 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../read_spatialobject/">Read Data</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../add_nuclei/">Add Nuclei</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../size_normalization/">Size Normalization</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../metrics/">Compute Metrics</a>
@@ -81,11 +83,9 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Pseudobulk DE</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._pseudobulk">_pseudobulk</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.pseudobulk">pseudobulk</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._pseudobulk.pseudobulk">pseudobulk</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._pseudobulk.pseudobulk_per_condition">pseudobulk_per_condition</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.pseudobulk_per_condition">pseudobulk_per_condition</a>
     </li>
     </ul>
                   </li>
@@ -121,7 +121,7 @@
 
 
 
-<a id="SpatialAPI._pseudobulk"></a>
+
     <div class="doc doc-contents first">
 
 
@@ -147,7 +147,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._pseudobulk.pseudobulk" class="doc doc-heading">
+<h2 id="SpatialAPI.pseudobulk" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">pseudobulk</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">celltype</span><span class="o">=</span><span class="s1">&#39;Macrophages&#39;</span><span class="p">,</span> <span class="n">cond</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;WT&#39;</span><span class="p">,</span> <span class="s1">&#39;TEST&#39;</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_col</span><span class="o">=</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="n">treatment_col</span><span class="o">=</span><span class="s1">&#39;condition&#39;</span><span class="p">,</span> <span class="n">pb_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">celltype_col</span><span class="o">=</span><span class="s1">&#39;cell_type&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -509,7 +509,7 @@ with an automatically generated filename.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._pseudobulk.pseudobulk_per_condition" class="doc doc-heading">
+<h2 id="SpatialAPI.pseudobulk_per_condition" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">pseudobulk_per_condition</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">all_conditions</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">sample_id</span><span class="o">=</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="n">celltype_col</span><span class="o">=</span><span class="s1">&#39;leiden&#39;</span><span class="p">)</span></code>
 
 </h2>

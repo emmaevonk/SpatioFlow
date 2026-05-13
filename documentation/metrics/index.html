@@ -61,17 +61,17 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../read_spatialobject/">Read Data</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../add_nuclei/">Add Nuclei</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../size_normalization/">Size Normalization</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Compute Metrics</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._metrics">_metrics</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.frac_transcripts">frac_transcripts</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._metrics.frac_transcripts">frac_transcripts</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.metrics">metrics</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._metrics.metrics">metrics</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._metrics.staining_positive">staining_positive</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.staining_positive">staining_positive</a>
     </li>
     </ul>
                   </li>
@@ -123,7 +123,7 @@
 
 
 
-<a id="SpatialAPI._metrics"></a>
+
     <div class="doc doc-contents first">
 
 
@@ -149,7 +149,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._metrics.frac_transcripts" class="doc doc-heading">
+<h2 id="SpatialAPI.frac_transcripts" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">frac_transcripts</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">label_unassigned</span><span class="o">=</span><span class="s1">&#39;UNASSIGNED&#39;</span><span class="p">,</span> <span class="n">tran</span><span class="o">=</span><span class="s1">&#39;transcripts&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -363,7 +363,7 @@ changing the original SpatialData object.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._metrics.metrics" class="doc doc-heading">
+<h2 id="SpatialAPI.metrics" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">metrics</span><span class="p">(</span><span class="n">sdata</span><span class="p">)</span></code>
 
 </h2>
@@ -516,7 +516,7 @@ staining_positive()</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._metrics.staining_positive" class="doc doc-heading">
+<h2 id="SpatialAPI.staining_positive" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">staining_positive</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s1">&#39;DAPI&#39;</span><span class="p">,</span> <span class="n">allocation</span><span class="o">=</span><span class="s1">&#39;cell&#39;</span><span class="p">)</span></code>
 
 </h2>

@@ -61,13 +61,13 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../read_spatialobject/">Read Data</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../add_nuclei/">Add Nuclei</a>
+                  </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Size Normalization</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._preprocess">_preprocess</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.counts_normalized">counts_normalized</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._preprocess.counts_normalized">counts_normalized</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI._preprocess.size_normalization">size_normalization</a>
+    <li class="toctree-l2"><a class="reference internal" href="#SpatialAPI.size_normalization">size_normalization</a>
     </li>
     </ul>
                   </li>
@@ -121,7 +121,7 @@
 
 
 
-<a id="SpatialAPI._preprocess"></a>
+
     <div class="doc doc-contents first">
 
 
@@ -147,7 +147,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._preprocess.counts_normalized" class="doc doc-heading">
+<h2 id="SpatialAPI.counts_normalized" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">counts_normalized</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">target_sum</span><span class="o">=</span><span class="mf">10000.0</span><span class="p">)</span></code>
 
 </h2>
@@ -269,7 +269,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatialAPI._preprocess.size_normalization" class="doc doc-heading">
+<h2 id="SpatialAPI.size_normalization" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">size_normalization</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">table_layer</span><span class="o">=</span><span class="s1">&#39;table&#39;</span><span class="p">,</span> <span class="n">shape_layer</span><span class="o">=</span><span class="s1">&#39;cell_boundaries&#39;</span><span class="p">,</span> <span class="n">cellsize_key</span><span class="o">=</span><span class="s1">&#39;shapeSize&#39;</span><span class="p">,</span> <span class="n">cell_id_col</span><span class="o">=</span><span class="s1">&#39;cell_ID&#39;</span><span class="p">,</span> <span class="n">target_sum</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">log1p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 </h2>
@@ -382,7 +382,7 @@ convention (GitHub: https://github.com/saeyslab/napari-sparrow/tree/main).</p>
                 <ul>
 <li>adata.layers['raw_counts']: counts before normalization</li>
 <li>adata.layers['size_normalized']: size-normalized counts (before log1p)</li>
-<li>adata.X: log1p-transformed size-noramlized counts (if log1p is True)</li>
+<li>adata.X: log1p-transformed size-normalized counts (if log1p is True)</li>
 </ul>
               </div>
             </li>
@@ -479,7 +479,7 @@ convention (GitHub: https://github.com/saeyslab/napari-sparrow/tree/main).</p>
 <span class="sd">    AnnData with:</span>
 <span class="sd">        - adata.layers[&#39;raw_counts&#39;]: counts before normalization</span>
 <span class="sd">        - adata.layers[&#39;size_normalized&#39;]: size-normalized counts (before log1p)</span>
-<span class="sd">        - adata.X: log1p-transformed size-noramlized counts (if log1p is True)</span>
+<span class="sd">        - adata.X: log1p-transformed size-normalized counts (if log1p is True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">adata</span> <span class="o">=</span> <span class="n">sdata</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="n">table_layer</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">gdf</span> <span class="o">=</span> <span class="n">sdata</span><span class="o">.</span><span class="n">shapes</span><span class="p">[</span><span class="n">shape_layer</span><span class="p">]</span>
@@ -512,7 +512,7 @@ convention (GitHub: https://github.com/saeyslab/napari-sparrow/tree/main).</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../read_spatialobject/" class="btn btn-neutral float-left" title="Read Data"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../add_nuclei/" class="btn btn-neutral float-left" title="Add Nuclei"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../metrics/" class="btn btn-neutral float-right" title="Compute Metrics">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -536,7 +536,7 @@ convention (GitHub: https://github.com/saeyslab/napari-sparrow/tree/main).</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../read_spatialobject/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../add_nuclei/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../metrics/" style="color: #fcfcfc">Next &raquo;</a></span>
