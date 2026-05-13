@@ -1,5 +1,5 @@
 # Metrics
-::: SpatialAPI
+::: SpatioFlow
     options:
       members:
         - frac_transcripts

@@ -1,5 +1,5 @@
 # Spatial Object
-::: SpatialAPI
+::: SpatioFlow
     options:
       members:
         - convert_sdata_adata

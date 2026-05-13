@@ -1,5 +1,5 @@
-# SpatialAPI
-> *SpatialAPI is a functional API for spatial transcriptomics with its aim to lower the computational barrier in spatial transcriptomics analysis. The software is currently focused on Xeniumd data from 10X Genomics.*
+# SpatioFlow
+> *SpatioFlow is a functional API for spatial transcriptomics with its aim to lower the computational barrier in spatial transcriptomics analysis. The software is currently focused on Xeniumd data from 10X Genomics.*
 
 ## Highlights
 
@@ -12,17 +12,17 @@
 
 ## Overview
 
-SpatialAPI is a functional API for analyzing spatial transcriptomics data. It provides a Command Line Interface (CLI) to perform quality control, spatial statistics, neighborhood analysis, and visualization for datasets generated with the Xenium platform from 10X Genomics.
+SpatioFlow is a functional API for analyzing spatial transcriptomics data. It provides a Command Line Interface (CLI) to perform quality control, spatial statistics, neighborhood analysis, and visualization for datasets generated with the Xenium platform from 10X Genomics.
 
 The API is designed around a clean, functional workflow:
 ```py
-spatialapi.method()
+spatioflow.method()
 ```
 
 This makes it easy to build reproducible spatial analysis pipelines with minimal boilerplate.
 
 ## Features
-SpatialAPI supports a wide range of spatial transcriptomics analyses.
+SpatioFlow supports a wide range of spatial transcriptomics analyses.
 
 ### Quality control
 - Automatic QC metric calculation

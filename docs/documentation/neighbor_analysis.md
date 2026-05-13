@@ -1,5 +1,5 @@
 # Neighbors
-::: SpatialAPI
+::: SpatioFlow
     options:
       members:
         - nhood_enrichment

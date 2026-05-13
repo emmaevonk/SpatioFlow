@@ -1,6 +1,6 @@
 # Spatial Clustering
 ## BANKSY
-::: SpatialAPI.plot.spatial_clustering
+::: SpatioFlow.plot.spatial_clustering
     options:
       members:
         - run_banksy
@@ -10,7 +10,7 @@
         - "!^_"
 
 ## CellCharter
-::: SpatialAPI.plot.spatial_clustering
+::: SpatioFlow.plot.spatial_clustering
     options:
       members:
         - run_cellcharter

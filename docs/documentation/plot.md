@@ -1,5 +1,5 @@
 # Plot
-::: SpatialAPI.plot
+::: SpatioFlow.plot
     options:
       members:
         - dotplot

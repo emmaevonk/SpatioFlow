@@ -1,5 +1,5 @@
 # QC
-::: SpatialAPI
+::: SpatioFlow
     options:
       members:
         - control_probes_codew

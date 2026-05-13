@@ -1,5 +1,5 @@
 # Size Normalization
-::: SpatialAPI
+::: SpatioFlow
     options:
       members:
         - counts_normalized

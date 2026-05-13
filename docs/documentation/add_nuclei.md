@@ -1,5 +1,5 @@
 # Add multiple nuclei inside cells to SpatialData Object
-::: SpatialAPI.table
+::: SpatioFlow.table
     options:
       members:
         - add_nuclei

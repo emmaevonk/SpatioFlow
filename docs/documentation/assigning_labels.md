@@ -1,5 +1,5 @@
 # Assignment
-::: SpatialAPI.assignment
+::: SpatioFlow.assignment
     options:
       members:
         - detect_samples_watershed

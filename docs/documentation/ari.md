@@ -1,5 +1,5 @@
 # Resolution
-::: SpatialAPI
+::: SpatioFlow
     options:
       members:
         - compute_leiden_resolution

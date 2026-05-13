@@ -1,5 +1,5 @@
 # Cell Communication
-::: SpatialAPI
+::: SpatioFlow
     options:
       members:
         - morans_score

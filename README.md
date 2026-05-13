@@ -1,6 +1,6 @@
-# 📦 SpatialAPI
+# 📦 SpatioFlow
 
-> *SpatialAPI is a functional API for spatial transcriptomics. Use it wisely.*
+> *SpatioFlow is a functional API for spatial transcriptomics. Use it wisely.*
 
 
 ## 🌟 Highlights
@@ -14,18 +14,18 @@
 
 ## ℹ️ Overview
 
-SpatialAPI is a functional pipeline for analyzing spatial transcriptomics data. It provides a Command Line Interface (CLI) to perform quality control, spatial statistics, neighborhood analysis, and visualization for datasets generated with the Xenium platform from 10X Genomics.
+SpatioFlow is a functional pipeline for analyzing spatial transcriptomics data. It provides a Command Line Interface (CLI) to perform quality control, spatial statistics, neighborhood analysis, and visualization for datasets generated with the Xenium platform from 10X Genomics.
 
 The API is designed around a clean, functional workflow:
 ```py
-spatialapi.method()
+SpatioFlow.method()
 ```
 
 This makes it easy to build reproducible spatial analysis pipelines with minimal boilerplate.
 
 
 ## ✨ Features
-SpatialAPI supports a wide range of spatial transcriptomics analyses.
+SpatioFlow supports a wide range of spatial transcriptomics analyses.
 
 ### Quality control
 - Automatic QC metric calculation
@@ -42,7 +42,7 @@ SpatialAPI supports a wide range of spatial transcriptomics analyses.
 - Overlay gene expression or cell annotations
 - Quick visualization with:
 ```py
-spatialapi.plot_image()
+SpatioFlow.plot_image()
 ```
 
 ### Metrics & Diagnostics
@@ -52,11 +52,11 @@ spatialapi.plot_image()
 
 ## ⬇️ Installation
 
-Currently, SpatialAPI is not yet available on Pypi. 
+Currently, SpatioFlow is not yet available on Pypi. 
 
 Installing from the source:
 ```bash
-git clone https://github.com/emmaevonk/SpatialAPI.git
+git clone https://github.com/emmaevonk/SpatioFlow.git
 cd spatialapi
 pip install -e .
 ```
@@ -64,23 +64,23 @@ pip install -e .
 Minimum requirements: look at requirements.txt file 
 
 ## 🚀 Quick Start 
-A small example of steps that can be taken with SpatialAPI. 
+A small example of steps that can be taken with SpatioFlow. 
 
 1. Load Xenium data
 ```py
-import spatialapi
-sdata = spatialapi.read_data(path_xenium)
+import SpatioFlow
+sdata = SpatioFlow.read_data(path_xenium)
 adata = sdata.tables["table"].copy()
 ``` 
 2. Obtain metrics (percentage transcripts and staining positive pixels allocated)
 ```py
-perc_transcripts, s_pos = spatialapi.metrics(sdata)
+perc_transcripts, s_pos = SpatioFlow.metrics(sdata)
 ``` 
 3. QC
 ```py
-spatialapi.plot_qc_metrics(adata, save=True)
-thr = spatialapi.recommend_threshold(adata)
-adata_filtered = spatialapi.perform_quality_control(adata, thr)
+SpatioFlow.plot_qc_metrics(adata, save=True)
+thr = SpatioFlow.recommend_threshold(adata)
+adata_filtered = SpatioFlow.perform_quality_control(adata, thr)
 ```
 4. Log normalize adata
 ```py
@@ -89,18 +89,18 @@ sc.pp.log1p(adata_filtered)
 ```
 5. Assigning conditions
 ```py
-adata = spatialapi.run_watershed(adata, sdata)
+adata = SpatioFlow.run_watershed(adata, sdata)
 df_split_base = df.copy()
-session = SpatialAPI.SplitSession(df_split_base)
+session = SpatioFlow.SplitSession(df_split_base)
 session.show()
 ```
 6. Perform annotation
 7. Analysis
 ```py
-spatialapi.dotplot(adata)
-spatialapi.nhood_enrichment(adata) 
-spatialapi.celltype_composition(adata)
-spatialapi.pseudobulk(adata, celltype="Endothelial cells")
+SpatioFlow.dotplot(adata)
+SpatioFlow.nhood_enrichment(adata) 
+SpatioFlow.celltype_composition(adata)
+SpatioFlow.pseudobulk(adata, celltype="Endothelial cells")
 ```
 
 ## 📄 License

@@ -1,5 +1,5 @@
 # Pseudobulk
-::: SpatialAPI
+::: SpatioFlow
     options:
       members:
         - pseudobulk

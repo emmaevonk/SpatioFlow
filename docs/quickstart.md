@@ -1,22 +1,22 @@
 
 ## 🚀 Quick Start 
-A small example of steps that can be taken with SpatialAPI. 
+A small example of steps that can be taken with SpatioFlow. 
 
 1. Load Xenium data
 ```py
-import spatialapi
-sdata = spatialapi.read_data(path_xenium)
-adata = sdata.tables["table"].copy()
+import SpatioFlow
+sdata = SpatioFlow.read_data(path_xenium)
+adata = SpatioFlow.tables["table"].copy()
 ``` 
 2. Obtain metrics (percentage transcripts and staining positive pixels allocated)
 ```py
-perc_transcripts, s_pos = spatialapi.metrics(sdata)
+perc_transcripts, s_pos = SpatioFlow.metrics(sdata)
 ``` 
 3. QC
 ```py
-spatialapi.plot_qc_metrics(adata, save=True)
-thr = spatialapi.recommend_threshold(adata)
-adata_filtered = spatialapi.perform_quality_control(adata, thr)
+SpatioFlow.plot_qc_metrics(adata, save=True)
+thr = SpatioFlow.recommend_threshold(adata)
+adata_filtered = SpatioFlow.perform_quality_control(adata, thr)
 ```
 4. Log normalize adata
 ```py
@@ -25,16 +25,16 @@ sc.pp.log1p(adata_filtered)
 ```
 5. Assigning conditions
 ```py
-adata = spatialapi.run_watershed(adata, sdata)
+adata = SpatioFlow.run_watershed(adata, sdata)
 df_split_base = df.copy()
-session = SpatialAPI.SplitSession(df_split_base)
+session = SpatioFlow.SplitSession(df_split_base)
 session.show()
 ```
 6. Perform annotation
 7. Analysis
 ```py
-spatialapi.dotplot(adata)
-spatialapi.nhood_enrichment(adata) 
-spatialapi.celltype_composition(adata)
-spatialapi.pseudobulk(adata, celltype="Endothelial cells")
+SpatioFlow.dotplot(adata)
+SpatioFlow.nhood_enrichment(adata) 
+SpatioFlow.celltype_composition(adata)
+SpatioFlow.pseudobulk(adata, celltype="Endothelial cells")
 ```
