@@ -1,5 +1,19 @@
 # Plot
-::: SpatialAPI.plot._plot
-::: SpatialAPI.plot._analysis
-::: SpatialAPI.plot._cluster
-::: SpatialAPI.plot._segmentation
+::: SpatialAPI.plot
+    options:
+      members:
+        - dotplot
+        - celltype_composition
+        - cluster
+        - plot_image
+        - rank_genes_group
+        - plot_labels
+        - plot_count_distr
+        - multimodal_segmentation
+        - multimodal_segmentation_slice
+        - run_banksy
+        - run_cellcharter
+      show_root_heading: false
+      show_root_toc_entry: false
+      filters:
+        - "!^_"

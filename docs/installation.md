@@ -1,7 +1,7 @@
 
 ## ⬇️ Installation
 
-Currently, SpatialAPI is not yet available on Pypi. 
+Currently, SpatialAPI is not yet available on Pypi. Once development of the package is done, SpatialAPI will be readily available on the Python Package Index.
 
 Installing from the source:
 ```bash

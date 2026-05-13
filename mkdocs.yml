@@ -12,6 +12,7 @@ plugins:
         python:
           paths: ["/exports/archive/hg-funcgenom-research/evonk/functionalAPI"] # change this later.
           options:
+            show_submodules: false
             filters:
               - "!^_"
             show_source: true
@@ -22,7 +23,7 @@ nav:
   - Installation: installation.md
   - Quickstart: quickstart.md
   - Tutorials:
-      - Tutorial: tutorials/tutorial.ipynb
+      - Tutorial: tutorials/tutorial.ipynb # i still need to update this. This notebook is outdated.
   - Documentation: 
       - Read Data: documentation/read_spatialobject.md
       - Add Nuclei: documentation/add_nuclei.md

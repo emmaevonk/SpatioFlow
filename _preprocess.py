@@ -40,7 +40,7 @@ def size_normalization(
     AnnData with:
         - adata.layers['raw_counts']: counts before normalization
         - adata.layers['size_normalized']: size-normalized counts (before log1p)
-        - adata.X: log1p-transformed size-noramlized counts (if log1p is True)
+        - adata.X: log1p-transformed size-normalized counts (if log1p is True)
     """
     adata = sdata.tables[table_layer].copy()
     gdf = sdata.shapes[shape_layer]

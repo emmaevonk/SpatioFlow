@@ -26,6 +26,7 @@ This module provides functions for:
 Designed for AnnData objects derived from SpatialData or similar pipelines.
 """
 
+# TODO; add option for whole slide analysis
 def plot_outliers(
     adata: AnnData,
     sample_id: str = "cell_id",
@@ -50,7 +51,8 @@ def plot_outliers(
         Must contain spatial coordinates in adata.obsm[coord_key] and 
         the specified metric in adata.obs[metric]
     sample_id : str, default = "cell_id"
-        Column in adata.obs used to identify samples.
+        Column in adata.obs used to identify samples. If `sample_id` is
+        set to 'all', all samples on the slide are shown.
     sample : str or None
         Sample to plot. If None, the first sample is used.
     metric : str
@@ -81,10 +83,16 @@ def plot_outliers(
     """
     # This code is from Spotsweeper_py (Github: https://github.com/danielchen05/spotsweeper_py/blob/master/src/spotsweeper/plot_QC.py)
     # subset adata to the specified sample
-    if sample is None:  # if no sample ID provided, default to the first unique ID
+    if sample_id == "all" or sample == "all": 
+        sample = adata.obs
+        adata_sub = adata.copy() #TODO check if 'adata' or 'adata.obs' is needed
+    elif sample is None:
         sample = adata.obs[sample_id].unique()[0]
-    mask = np.array(adata.obs[sample_id] == sample)
-    adata_sub = adata[mask].copy()  # copy to avoid issues
+        mask = np.array(adata.obs[sample_id] == sample)
+        adata_sub = adata[mask].copy()  # copy to avoid issues
+    else:
+        mask = np.array(adata.obs[sample_id] == sample)
+        adata_sub = adata[mask].copy()
 
     # extract relevant data to build the plot
     coords = np.array(adata_sub.obsm[coord_key])
@@ -562,3 +570,4 @@ def detect_outlier(
     adata.obs[f"{metric}_z"] = z_scores
     adata.obs[f"{metric}_outliers"] = outliers 
     return adata
+

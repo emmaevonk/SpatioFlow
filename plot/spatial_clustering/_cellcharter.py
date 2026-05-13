@@ -6,7 +6,7 @@ import squidpy as sq
 import scvi
 import cellcharter as cc
 from spatialdata import read_zarr
-from lightning.pytorch import seed_everything # TODO; maybe discard this
+from lightning.pytorch import seed_everything 
 from pathlib import Path
 from anndata import AnnData
 
@@ -205,11 +205,52 @@ def _cluster(
     return adata
 
 
+def stability_cellcharter(
+    adata: AnnData,
+    n_clusters: tuple[int] = (2, 10),
+    max_runs: int = 10,
+    convergence_tol: float = 0.01,
+    output_dir : Path = ""
+):
+    """
+    Computes the stability graph of CellCharter, showing the clustering stability.
+
+    Parameters
+    ----------
+    adata : AnnData
+        Annotated data matrix containing CellCharter results
+    n_clusters : tuple[int], default = (2, 10)
+        The amount of clusters checked (min, max).
+    max_runs : int, default = 10
+        Maximum number of repititions for each value of number of clusters.
+    convergence_tol : float, default = 0.01
+        Convergence tolerance for the clustering stability. If the Mean Absolute Percentage
+        Error between consecutive iterations is below `convergence_tol` the algorithm stops
+        at `max_runs`.
+
+    Returns
+    -------
+    None
+
+    Notes
+    -----
+    The clustering stability plot is saved as 'clustering_stability_cellcharter.png'.
+    """
+    autok = cc.tl.ClusterAutoK(
+        n_clusters=n_clusters, 
+        max_runs=max_runs,
+        convergence_tol=convergence_tol
+    )
+    autok.fit(adata, use_rep="X_cellcharter")
+    cc.pl.autok_stability(autok, save=output_dir / "clustering_stability_cellcharter.png")
+
+
 def run_cellcharter(
         adata: AnnData,
         output_dir: Path | None = None,
         plot: bool = True,
-        epoch: int = 20 
+        epoch: int = 20,
+        library_key: str = "sample" 
     ):
     """
     End-to-end CellCharter pipeline for spatial domain identification.
@@ -236,6 +277,9 @@ def run_cellcharter(
     epoch: int, default = 20
         Maximum number of training epochs. Early stopping may halt training before
         this limit is reached. Default is 20.
+    library_key : str, default = "sample"
+        Column in ``adata.obs`` used to distinguish tissue sections or 
+        samples.
 
     Returns
     -------
@@ -263,13 +307,13 @@ def run_cellcharter(
     sc.settings.figdir = str(output_dir)
 
     # perform dimensionality reduction
-    model = _dim_red(adata, epoch=epoch) # this is to test, TODO: remove `epoch=30`
+    model = _dim_red(adata, epoch=epoch) 
     if plot:
         _plot_epoch(model)
 
     adata.obsm["X_scVI"] = model.get_latent_representation(adata).astype(np.float32)
 
-    adata = _neigh_aggr(adata, library_key="sample_id") # TODO: change `libary_key` later (discard it here)
+    adata = _neigh_aggr(adata, library_key=library_key) 
     adata = _cluster(adata)
     if output_dir is None:
         adata.write_h5ad("adata_with_spatial_domains.h5ad", compression="gzip")

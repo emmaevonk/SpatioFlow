@@ -9,6 +9,7 @@ from .plot import (
     plot_labels,
     run_banksy,
     run_cellcharter,
+    stability_cellcharter,
     plot_count_distr
 )
 
