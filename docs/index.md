@@ -39,7 +39,7 @@ SpatioFlow supports a wide range of spatial transcriptomics analyses.
 - Overlay gene expression or cell annotations
 - Quick visualization with:
 ```py
-spatialapi.plot_image()
+SpatioFlow.plot_image()
 ```
 
 ### Metrics & Diagnostics

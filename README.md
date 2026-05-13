@@ -3,6 +3,8 @@
 > *SpatioFlow is a functional API for spatial transcriptomics. Use it wisely.*
 
 
+[Documentation](https://emmaevonk.github.io/SpatioFlow/) can be found [here](https://emmaevonk.github.io/SpatioFlow/).
+
 ## 🌟 Highlights
 
 - End-to-end analyses in one pipeline!
