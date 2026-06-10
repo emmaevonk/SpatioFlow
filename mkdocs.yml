@@ -1,4 +1,4 @@
-site_name: SpatioFlow
+site_name: STAIA
 
 # themes: https://pawamoy.github.io/mkdocs-gallery/
 # original: material
@@ -7,10 +7,11 @@ theme:
 
 plugins:
   - search
+  - mkdocs-jupyter 
   - mkdocstrings:
       handlers:
         python:
-          paths: ["/exports/archive/hg-funcgenom-research/evonk/functionalAPI"] # change this later.
+          paths: ["/exports/archive/hg-funcgenom-research/evonk/functionalAPI"] 
           options:
             show_submodules: false
             filters:
@@ -23,7 +24,7 @@ nav:
   - Installation: installation.md
   - Quickstart: quickstart.md
   - Tutorials:
-      - Tutorial: tutorials/tutorial.ipynb # i still need to update this. This notebook is outdated.
+      - Tutorial: tutorials/tutorial.ipynb
   - Documentation: 
       - Read Data: documentation/read_spatialobject.md
       - Add Nuclei: documentation/add_nuclei.md

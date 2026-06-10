@@ -1,5 +1,5 @@
 # Neighbors
-::: SpatioFlow
+::: STAIA
     options:
       members:
         - nhood_enrichment

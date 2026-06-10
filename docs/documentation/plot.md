@@ -1,5 +1,5 @@
 # Plot
-::: SpatioFlow.plot
+::: STAIA.plot
     options:
       members:
         - dotplot
@@ -11,8 +11,6 @@
         - plot_count_distr
         - multimodal_segmentation
         - multimodal_segmentation_slice
-        - run_banksy
-        - run_cellcharter
       show_root_heading: false
       show_root_toc_entry: false
       filters:

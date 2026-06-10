@@ -1,5 +1,5 @@
 # Size Normalization
-::: SpatioFlow
+::: STAIA
     options:
       members:
         - counts_normalized

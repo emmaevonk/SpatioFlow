@@ -66,5 +66,6 @@ from ._resolution import (
 
 from ._preprocess import (
     size_normalization,
-    counts_normalized
+    counts_normalized,
+    scaling
 )

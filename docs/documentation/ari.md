@@ -1,5 +1,5 @@
 # Resolution
-::: SpatioFlow
+::: STAIA
     options:
       members:
         - compute_leiden_resolution

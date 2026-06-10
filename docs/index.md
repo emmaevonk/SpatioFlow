@@ -24,6 +24,9 @@ This makes it easy to build reproducible spatial analysis pipelines with minimal
 ## Features
 SpatioFlow supports a wide range of spatial transcriptomics analyses.
 
+### Input/Output
+The input and output for every function is mentioned in the documentation. The input is most commonly a SpatialData or an AnnData object.  
+
 ### Quality control
 - Automatic QC metric calculation
 - Data-driven filtering recommendations

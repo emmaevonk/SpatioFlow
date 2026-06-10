@@ -1,5 +1,5 @@
 # Pseudobulk
-::: SpatioFlow
+::: STAIA
     options:
       members:
         - pseudobulk

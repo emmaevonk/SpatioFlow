@@ -2,7 +2,7 @@ import scanpy as sc
 from anndata import AnnData
 import matplotlib.pyplot as plt
 import pandas as pd
-
+import os
 
 def cluster(
     adata: AnnData,
@@ -11,7 +11,8 @@ def cluster(
     n_neighbors: int = 15,
     n_pcs: int = 30,
     color_map: str = "viridis",
-    palette: str | None = None
+    palette: str | None = None,
+    save: str | bool = False,
 ):
     """
     Compute UMAP clustering for specified columns. 
@@ -37,6 +38,10 @@ def cluster(
         Color map to use for continuous variables.
     palette : str
         Palette used for the UMAP.
+    save : bool, default=False
+        A boolean deciding whether or not the UMAP is being saved. 
+        If the data is saved (so not False), provide the path to the 
+        output directory.
 
     Returns
     -------
@@ -52,7 +57,8 @@ def cluster(
     --------
     >>> cluster(adata, colors=["n_counts"], n_neighbors=10)
 
-    """
+    """     
+
     # PCA
     if "pca" not in adata.uns:
         sc.tl.pca(adata, n_comps=n_comps)
@@ -66,15 +72,26 @@ def cluster(
             n_pcs=n_pcs,
         )
 
+    if len(colors) == 1 and colors[0] == "leiden" and "leiden" not in adata.obs:
+        sc.tl.leiden(adata, resolution=0.3)
+
     # UMAP
     sc.tl.umap(adata)
+
+    if save != False:
+        folder_path = os.path.dirname(save)
+        if folder_path:
+            os.makedirs(folder_path, exist_ok=True)
+        sc.settings.figdir = save
+    fig, ax = plt.subplots(figsize=(6, 5))
+
     if palette is None:
         sc.pl.umap(
             adata,
             color=colors,
             color_map=color_map,
             ncols=3,
-            # save="_leidenclusterplotv2.png"
+            ax=ax
         )
     else:
         sc.pl.umap(
@@ -83,6 +100,11 @@ def cluster(
             color_map=color_map,
             palette=palette,
             ncols=3,
+            ax=ax
         )
+
+    if save != False:
+        fig.savefig(save, bbox_inches='tight', dpi=300)
+        plt.close(fig)
     return adata
     

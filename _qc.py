@@ -385,52 +385,108 @@ def plot_qc_metrics(
     return fig
     
 
-def recommend_threshold(
-        adata: AnnData
-) -> dict:
+# def recommend_threshold(
+#         adata: AnnData
+# ) -> dict:
+#     """
+#     Suggest QC filtering thresholds based on percentile ranges.
+
+#     Parameters
+#     ----------
+#     adata : AnnData
+#         Must contain:
+#         - total_counts
+#         - n_genes_by_counts
+    
+#     Returns
+#     -------
+#     dict
+#         Recommended thresholds:
+#         {
+#             "min_genes"
+#             "max_genes"
+#             "min_counts"
+#             "max_counts"
+#         }
+
+#     Notes
+#     -----
+#     Thresholds are based on the 1st and 99th percentiles.
+#     """
+#     obs = adata.obs
+#     if "n_genes_by_count" not in adata.obs:
+#         sc.pp.calculate_qc_metrics(
+#             adata,
+#             inplace=True,
+#             percent_top=None,
+#             log1p=False
+#         )
+#     genes = obs["n_genes_by_counts"].values
+#     counts = obs["total_counts"].values
+
+#     thresholds = {
+#         "min_genes": int(np.percentile(genes, 1)),
+#         "max_genes": int(np.percentile(genes, 99)),
+#         "min_counts": int(np.percentile(counts, 1)),
+#         "max_counts": int(np.percentile(counts, 99))
+#     }
+#     return thresholds
+
+import numpy as np
+import scanpy as sc
+
+def recommend_threshold(adata, nmads=3, min_genes_floor=5, min_counts_floor=10):
     """
-    Suggest QC filtering thresholds based on percentile ranges.
+    Suggest QC filtering thresholds using MAD-based outlier detection on QC metrics.
+    
+    Computes thresholds per slide from the data itself, so it adapts
+    across samples without manual tuning. Call SpatioFlow.perform_quality_control() to 
+    perform the actual filtering.
 
     Parameters
     ----------
-    adata : AnnData
-        Must contain:
-        - total_counts
-        - n_genes_by_counts
-    
+    adata           : AnnData object (pre QC metrics calculation)
+    nmads           : Number of MADs away from median to set threshold.
+                      3 is the standard; lower = stricter filtering.
+    min_genes_floor : Hard minimum for n_genes lower bound (prevents
+                      negative threshold on very sparse data).
+    min_counts_floor: Hard minimum for total_counts lower bound.
+
     Returns
     -------
-    dict
-        Recommended thresholds:
-        {
-            "min_genes"
-            "max_genes"
-            "min_counts"
-            "max_counts"
-        }
-
-    Notes
-    -----
-    Thresholds are based on the 1st and 99th percentiles.
+    thr   : dict of the thresholds that need to be applied.
     """
-    obs = adata.obs
-    if "n_genes_by_count" not in adata.obs:
-        sc.pp.calculate_qc_metrics(
-            adata,
-            inplace=True,
-            percent_top=None,
-            log1p=False
-        )
-    genes = obs["n_genes_by_counts"].values
-    counts = obs["total_counts"].values
+    # Ensure QC metrics exist
+    sc.pp.calculate_qc_metrics(adata, inplace=True)
 
-    thresholds = {
-        "min_genes": int(np.percentile(genes, 1)),
-        "max_genes": int(np.percentile(genes, 99)),
-        "min_counts": int(np.percentile(counts, 1)),
-        "max_counts": int(np.percentile(counts, 99))
+    def _mad_bounds(series, direction="both", floor=None):
+        med = np.median(series)
+        mad = np.median(np.abs(series - med))
+        lower = med - nmads * mad
+        upper = med + nmads * mad
+        if floor is not None:
+            lower = max(floor, lower)
+        if direction == "upper":
+            return None, upper
+        if direction == "lower":
+            return lower, None
+        return lower, upper
+
+    # Compute per-metric bounds
+    min_genes, max_genes = _mad_bounds(
+        adata.obs["n_genes_by_counts"], floor=min_genes_floor
+    )
+    min_counts, max_counts = _mad_bounds(
+        adata.obs["total_counts"], floor=min_counts_floor
+    )
+
+    thr = {
+        "min_genes":   min_genes,
+        "max_genes":   max_genes,
+        "min_counts":  min_counts,
+        "max_counts":  max_counts
     }
-    return thresholds
+    return thr
 
 
 def is_outlier(

@@ -1,5 +1,5 @@
 # Spatial Object
-::: SpatioFlow
+::: STAIA
     options:
       members:
         - convert_sdata_adata

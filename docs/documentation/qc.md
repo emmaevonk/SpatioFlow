@@ -1,5 +1,5 @@
 # QC
-::: SpatioFlow
+::: STAIA
     options:
       members:
         - control_probes_codew

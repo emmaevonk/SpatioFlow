@@ -1,5 +1,5 @@
 # Cell Communication
-::: SpatioFlow
+::: STAIA
     options:
       members:
         - morans_score

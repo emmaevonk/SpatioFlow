@@ -211,6 +211,7 @@ class SplitSession:
                                     x_points=record.get("x_points"),
                                     y_points=record.get("y_points"))
             df_after, new_ids = _renumber(df_after)
+            # new_ids = df_after["sample_id"].unique().tolist()
 
             self._pending["record"] = record
             self._pending["df"]     = df_after
@@ -374,92 +375,58 @@ class LabelSession:
             _refresh_plot()
             _refresh_table()
 
-        # def on_export(_):
-        #     w_status.value = "<span style='color:#f39c12'>⏳ Saving...</span>"
-        #     w_btn_export.disabled = True
-
-        #     # Avoid full copy — build condition series without copying the whole df
-        #     condition_col = self._df["sample_id"].map(self._conditions).fillna("unassigned")
-
-        #     cells_path = os.path.join(self._output_dir, "cells_annotated.csv")
-        #     self._df.assign(condition=condition_col).to_csv(cells_path, index=False)
-
-        #     # Conditions summary (small, unchanged)
-        #     cond_df = pd.DataFrame([
-        #         {"sample_id": k, "condition": v,
-        #         "n_cells": int((self._df["sample_id"] == k).sum())}
-        #         for k, v in self._conditions.items()
-        #     ])                                                      
-        #     cond_path = os.path.join(self._output_dir, "sample_conditions.csv")
-        #     cond_df.to_csv(cond_path, index=False)
-
-        #     adata_msg = ""
-        #     if self._adata is not None:
-        #         print(self._adata)
-        #         print(self._df)
-        #         # Direct map instead of merge — avoids full join on large obs table
-        #         self._adata.obs["sample_id"] = self._adata.obs["cell_ID"].map(
-        #             self._df.set_index("cell_ID")["sample_id"]
-        #         )
-        #         self._adata.obs["condition"] = self._adata.obs["sample_id"].map(self._conditions)
-        #         adata_msg = "<br>- adata.obs updated"
-
-        #     w_btn_export.disabled = False
-        #     w_status.value = (f"<span style='color:#2ecc71'>✅ Saved!<br>- {cells_path}<br>"
-        #                     f"- {cond_path}{adata_msg}</span>")
-
-        #     self._w_table.clear_output(wait=True)
-        #     with self._w_table:
-        #         display(cond_df)
-
-        # def on_export(_):
-        #     w_status.value = "<span style='color:#f39c12'>⏳ Saving...</span>"
-        #     w_btn_export.disabled = True
-
-        #     # Build condition column directly from adata.obs
-        #     print(self._adata.obs)
-        #     condition_col = self._adata.obs["sample_id"].map(self._conditions).fillna("unassigned")
-        #     self._adata.obs["condition"] = condition_col
-
-        #     # Save annotated cells from adata.obs instead of self._df
-        #     cells_path = os.path.join(self._output_dir, "cells_annotated.csv")
-        #     self._adata.obs.assign(condition=condition_col).to_csv(cells_path, index=False)
-
-        #     # Conditions summary
-        #     cond_df = pd.DataFrame([
-        #         {"sample_id": k, "condition": v,
-        #         "n_cells": int((self._adata.obs["sample_id"] == k).sum())}
-        #         for k, v in self._conditions.items()
-        #     ])
-        #     cond_path = os.path.join(self._output_dir, "sample_conditions.csv")
-        #     cond_df.to_csv(cond_path, index=False)
-
-        #     w_btn_export.disabled = False
-        #     w_status.value = (f"<span style='color:#2ecc71'>✅ Saved!<br>- {cells_path}<br>"
-        #                     f"- {cond_path}<br>- adata.obs updated</span>")
-
-        #     self._w_table.clear_output(wait=True)
-        #     with self._w_table:
-        #         display(cond_df)
-
         def on_export(_):
             w_status.value = "<span style='color:#f39c12'>⏳ Saving...</span>"
             w_btn_export.disabled = True
 
             if "sample_id" not in self._adata.obs.columns:
-                # find the cell ID column case-insensitively
-                cell_id_col = next(
+                # Prefer a globally unique cell identifier over cell_ID,
+                # which is only unique within a FOV on Xenium slides
+                unique_col = next(
+                    (col for col in self._adata.obs.columns 
+                    if col.lower() in ("unique_cell_id", "unique_cell_index")),
+                    None
+                )
+                cell_id_col = unique_col or next(
                     (col for col in self._adata.obs.columns if col.lower() == "cell_id"),
                     None
                 )
+
                 if cell_id_col is None:
-                    w_status.value = "<span style='color:#e74c3c'>❌ Could not find a 'cell_id' column in adata.obs.</span>"
+                    w_status.value = "<span style='color:#e74c3c'>❌ Could not find a cell ID column in adata.obs.</span>"
                     w_btn_export.disabled = False
                     return
+
+                if cell_id_col not in self._df.columns:
+                    w_status.value = (f"<span style='color:#e74c3c'>❌ Column '{cell_id_col}' not found in "
+                                    f"df. Make sure to call reset_index() on the watershed output.</span>")
+                    w_btn_export.disabled = False
+                    return
+
+                if self._df[cell_id_col].duplicated().any():
+                    w_status.value = (f"<span style='color:#e74c3c'>❌ Column '{cell_id_col}' has duplicate "
+                                    f"values in df — use a globally unique cell ID column instead.</span>")
+                    w_btn_export.disabled = False
+                    return
+
                 self._adata.obs["sample_id"] = (
                     self._adata.obs[cell_id_col]
                     .map(self._df.set_index(cell_id_col)["sample_id"])
                 )
+            # if "sample_id" not in self._adata.obs.columns:
+            #     # find the cell ID column case-insensitively
+            #     cell_id_col = next(
+            #         (col for col in self._adata.obs.columns if col.lower() == "cell_id"),
+            #         None
+            #     )
+            #     if cell_id_col is None:
+            #         w_status.value = "<span style='color:#e74c3c'>❌ Could not find a 'cell_id' column in adata.obs.</span>"
+            #         w_btn_export.disabled = False
+            #         return
+            #     self._adata.obs["sample_id"] = (
+            #         self._adata.obs[cell_id_col]
+            #         .map(self._df.set_index(cell_id_col)["sample_id"])
+            #     )
 
             print(self._adata.obs)
             condition_col = self._adata.obs["sample_id"].map(self._conditions).fillna("unassigned")

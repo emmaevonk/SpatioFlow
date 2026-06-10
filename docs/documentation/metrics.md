@@ -1,5 +1,5 @@
 # Metrics
-::: SpatioFlow
+::: STAIA
     options:
       members:
         - frac_transcripts

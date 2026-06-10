@@ -1,9 +1,9 @@
-# 📦 SpatioFlow
+# 📦 Spatial Transcriptomics AI Agent (STAIA)
 
-> *SpatioFlow is a functional API for spatial transcriptomics. Use it wisely.*
+> *STAIA is a functional API for spatial transcriptomics. Use it wisely.*
 
 
-[Documentation](https://emmaevonk.github.io/SpatioFlow/) can be found [here](https://emmaevonk.github.io/SpatioFlow/).
+[Documentation](https://emmaevonk.github.io/STAIA/) can be found [here](https://emmaevonk.github.io/STAIA/).
 
 ## 🌟 Highlights
 
@@ -16,18 +16,21 @@
 
 ## ℹ️ Overview
 
-SpatioFlow is a functional pipeline for analyzing spatial transcriptomics data. It provides a Command Line Interface (CLI) to perform quality control, spatial statistics, neighborhood analysis, and visualization for datasets generated with the Xenium platform from 10X Genomics.
+STAIA is a functional pipeline for analyzing spatial transcriptomics data. It provides a Command Line Interface (CLI) to perform quality control, spatial statistics, neighborhood analysis, and visualization for datasets generated with the Xenium platform from 10X Genomics.
 
 The API is designed around a clean, functional workflow:
 ```py
-SpatioFlow.method()
+STAIA.method()
 ```
 
 This makes it easy to build reproducible spatial analysis pipelines with minimal boilerplate.
 
 
 ## ✨ Features
-SpatioFlow supports a wide range of spatial transcriptomics analyses.
+STAIA supports a wide range of spatial transcriptomics analyses.
+
+### Input/Output
+The input and output for every function is mentioned in the documentation. The input is most commonly a SpatialData or an AnnData object.  
 
 ### Quality control
 - Automatic QC metric calculation
@@ -44,7 +47,7 @@ SpatioFlow supports a wide range of spatial transcriptomics analyses.
 - Overlay gene expression or cell annotations
 - Quick visualization with:
 ```py
-SpatioFlow.plot_image()
+STAIA.plot_image()
 ```
 
 ### Metrics & Diagnostics
@@ -54,35 +57,35 @@ SpatioFlow.plot_image()
 
 ## ⬇️ Installation
 
-Currently, SpatioFlow is not yet available on Pypi. 
+Currently, SpaSTAIAtioFlow is not yet available on Pypi. 
 
 Installing from the source:
 ```bash
-git clone https://github.com/emmaevonk/SpatioFlow.git
-cd spatialapi
+git clone https://github.com/emmaevonk/STAIA.git
+cd STAIA
 pip install -e .
 ```
 
 Minimum requirements: look at requirements.txt file 
 
 ## 🚀 Quick Start 
-A small example of steps that can be taken with SpatioFlow. 
+A small example of steps that can be taken with STAIA. 
 
 1. Load Xenium data
 ```py
-import SpatioFlow
-sdata = SpatioFlow.read_data(path_xenium)
+import STAIA
+sdata = STAIA.read_data(path_xenium)
 adata = sdata.tables["table"].copy()
 ``` 
 2. Obtain metrics (percentage transcripts and staining positive pixels allocated)
 ```py
-perc_transcripts, s_pos = SpatioFlow.metrics(sdata)
+perc_transcripts, s_pos = STAIA.metrics(sdata)
 ``` 
 3. QC
 ```py
-SpatioFlow.plot_qc_metrics(adata, save=True)
-thr = SpatioFlow.recommend_threshold(adata)
-adata_filtered = SpatioFlow.perform_quality_control(adata, thr)
+STAIA.plot_qc_metrics(adata, save=True)
+thr = STAIA.recommend_threshold(adata)
+adata_filtered = STAIA.perform_quality_control(adata, thr)
 ```
 4. Log normalize adata
 ```py
@@ -91,18 +94,18 @@ sc.pp.log1p(adata_filtered)
 ```
 5. Assigning conditions
 ```py
-adata = SpatioFlow.run_watershed(adata, sdata)
+adata = STAIA.run_watershed(adata, sdata)
 df_split_base = df.copy()
-session = SpatioFlow.SplitSession(df_split_base)
+session = STAIA.SplitSession(df_split_base)
 session.show()
 ```
 6. Perform annotation
 7. Analysis
 ```py
-SpatioFlow.dotplot(adata)
-SpatioFlow.nhood_enrichment(adata) 
-SpatioFlow.celltype_composition(adata)
-SpatioFlow.pseudobulk(adata, celltype="Endothelial cells")
+STAIA.dotplot(adata)
+STAIA.nhood_enrichment(adata) 
+STAIA.celltype_composition(adata)
+STAIA.pseudobulk(adata, celltype="Endothelial cells")
 ```
 
 ## 📄 License
