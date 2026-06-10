@@ -110,25 +110,25 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="quick-start">🚀 Quick Start</h2>
-<p>A small example of steps that can be taken with SpatioFlow. </p>
+<p>A small example of steps that can be taken with STAIA. </p>
 <ol>
 <li>Load Xenium data</li>
 </ol>
-<pre><code class="language-py">import SpatioFlow
-sdata = SpatioFlow.read_data(path_xenium)
-adata = SpatioFlow.tables[&quot;table&quot;].copy()
+<pre><code class="language-py">import STAIA
+sdata = STAIA.read_data(path_xenium)
+adata = STAIA.tables[&quot;table&quot;].copy()
 </code></pre>
 <ol>
 <li>Obtain metrics (percentage transcripts and staining positive pixels allocated)</li>
 </ol>
-<pre><code class="language-py">perc_transcripts, s_pos = SpatioFlow.metrics(sdata)
+<pre><code class="language-py">perc_transcripts, s_pos = STAIA.metrics(sdata)
 </code></pre>
 <ol>
 <li>QC</li>
 </ol>
-<pre><code class="language-py">SpatioFlow.plot_qc_metrics(adata, save=True)
-thr = SpatioFlow.recommend_threshold(adata)
-adata_filtered = SpatioFlow.perform_quality_control(adata, thr)
+<pre><code class="language-py">STAIA.plot_qc_metrics(adata, save=True)
+thr = STAIA.recommend_threshold(adata)
+adata_filtered = STAIA.perform_quality_control(adata, thr)
 </code></pre>
 <ol>
 <li>Log normalize adata</li>
@@ -139,19 +139,19 @@ sc.pp.log1p(adata_filtered)
 <ol>
 <li>Assigning conditions</li>
 </ol>
-<pre><code class="language-py">adata = SpatioFlow.run_watershed(adata, sdata)
+<pre><code class="language-py">adata = STAIA.run_watershed(adata, sdata)
 df_split_base = df.copy()
-session = SpatioFlow.SplitSession(df_split_base)
+session = STAIA.SplitSession(df_split_base)
 session.show()
 </code></pre>
 <ol>
 <li>Perform annotation</li>
 <li>Analysis</li>
 </ol>
-<pre><code class="language-py">SpatioFlow.dotplot(adata)
-SpatioFlow.nhood_enrichment(adata) 
-SpatioFlow.celltype_composition(adata)
-SpatioFlow.pseudobulk(adata, celltype=&quot;Endothelial cells&quot;)
+<pre><code class="language-py">STAIA.dotplot(adata)
+STAIA.nhood_enrichment(adata) 
+STAIA.celltype_composition(adata)
+STAIA.pseudobulk(adata, celltype=&quot;Endothelial cells&quot;)
 </code></pre>
               
             </div>
