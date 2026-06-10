@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Analyzing Xenium (10X Genomics) Data - SpatioFlow</title>
+    <title>Analyzing Xenium (10X Genomics) Data - STAIA</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -31,7 +31,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="../.." class="icon icon-home"> SpatioFlow
+          <a href="../.." class="icon icon-home"> STAIA
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -93,7 +93,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../..">SpatioFlow</a>
+          <a href="../..">STAIA</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -861,13 +861,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">SpatioFlow</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">STAIA</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">scanpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">spatialdata</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sd</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-1">import importlib
-import SpatioFlow
+import STAIA
 import scanpy as sc
 import pandas as pd
 import spatialdata as sd</div>
@@ -921,12 +921,12 @@ import spatialdata as sd</div>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">sdata_path</span> <span class="o">=</span> <span class="s2">"/path/to/sdata"</span>
-<span class="n">sdata</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">sdata_path</span><span class="p">)</span>
+<span class="n">sdata</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">sdata_path</span><span class="p">)</span>
 
 <span class="n">adata</span> <span class="o">=</span> <span class="n">sdata</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s2">"table"</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">sdata_path = "/path/to/sdata"
-sdata = SpatialAPI.read_data(sdata_path)
+sdata = STAIA.read_data(sdata_path)
 
 adata = sdata.tables["table"].copy()</div>
 </div>
@@ -951,7 +951,7 @@ adata = sdata.tables["table"].copy()</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -965,13 +965,13 @@ adata = sdata.tables["table"].copy()</div>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Get metrics (does the same thing as the cell above, only it returns both the values instead of 1)</span>
-<span class="n">perc_transcripts</span><span class="p">,</span> <span class="n">s_pos</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">metrics</span><span class="p">(</span><span class="n">sdata</span><span class="p">)</span>
+<span class="n">perc_transcripts</span><span class="p">,</span> <span class="n">s_pos</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">metrics</span><span class="p">(</span><span class="n">sdata</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The percentage transcripts allocated: </span><span class="si">{</span><span class="n">perc_transcripts</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The percentage staining positive pixels: </span><span class="si">{</span><span class="n">s_pos</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3"># Get metrics (does the same thing as the cell above, only it returns both the values instead of 1)
-perc_transcripts, s_pos = SpatialAPI.metrics(sdata)
+perc_transcripts, s_pos = STAIA.metrics(sdata)
 
 print(f"The percentage transcripts allocated: {perc_transcripts}%")
 print(f"The percentage staining positive pixels: {s_pos}%")</div>
@@ -1011,7 +1011,7 @@ The percentage staining positive pixels: 81.75%
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -1025,10 +1025,10 @@ The percentage staining positive pixels: 81.75%
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># percentage of control probes and control codewords</span>
-<span class="p">(</span><span class="n">control_probe_percentage</span><span class="p">,</span> <span class="n">control_codeword_percentage</span><span class="p">)</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">control_probes_codew</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+<span class="p">(</span><span class="n">control_probe_percentage</span><span class="p">,</span> <span class="n">control_codeword_percentage</span><span class="p">)</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">control_probes_codew</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-4"># percentage of control probes and control codewords
-(control_probe_percentage, control_codeword_percentage) = SpatialAPI.control_probes_codew(adata)</div>
+(control_probe_percentage, control_codeword_percentage) = STAIA.control_probes_codew(adata)</div>
 </div>
 </div>
 </div>
@@ -1054,10 +1054,10 @@ The percentage staining positive pixels: 81.75%
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># standard QC diagnostic plots</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">plot_qc_metrics</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">plot_qc_metrics</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5"># standard QC diagnostic plots
-fig = SpatialAPI.plot_qc_metrics(adata, save=True)</div>
+fig = STAIA.plot_qc_metrics(adata, save=True)</div>
 </div>
 </div>
 </div>
@@ -1082,13 +1082,13 @@ fig = SpatialAPI.plot_qc_metrics(adata, save=True)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'low_counts_outlier'</span><span class="p">]</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">is_outlier</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'total_counts'</span><span class="p">],</span> <span class="n">direction</span><span class="o">=</span><span class="s1">'lower'</span><span class="p">)</span>
-<span class="n">adata</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">detect_outlier</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">plot_outliers</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span><span class="s2">"region"</span><span class="p">,</span> <span class="n">metric</span> <span class="o">=</span> <span class="s2">"log_total_counts"</span><span class="p">,</span> <span class="n">outliers</span><span class="o">=</span><span class="s2">"log_total_counts_outliers"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Outliers before QC"</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ring_overlay</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'low_counts_outlier'</span><span class="p">]</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">is_outlier</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'total_counts'</span><span class="p">],</span> <span class="n">direction</span><span class="o">=</span><span class="s1">'lower'</span><span class="p">)</span>
+<span class="n">adata</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">detect_outlier</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">plot_outliers</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span><span class="s2">"region"</span><span class="p">,</span> <span class="n">metric</span> <span class="o">=</span> <span class="s2">"log_total_counts"</span><span class="p">,</span> <span class="n">outliers</span><span class="o">=</span><span class="s2">"log_total_counts_outliers"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Outliers before QC"</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ring_overlay</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">adata.obs['low_counts_outlier'] = SpatialAPI.is_outlier(adata.obs['total_counts'], direction='lower')
-adata = SpatialAPI.detect_outlier(adata)
-fig = SpatialAPI.plot_outliers(adata,"region", metric = "log_total_counts", outliers="log_total_counts_outliers", title="Outliers before QC", legend=True, ring_overlay=False)</div>
+<div class="clipboard-copy-txt" id="cell-6">adata.obs['low_counts_outlier'] = STAIA.is_outlier(adata.obs['total_counts'], direction='lower')
+adata = STAIA.detect_outlier(adata)
+fig = STAIA.plot_outliers(adata,"region", metric = "log_total_counts", outliers="log_total_counts_outliers", title="Outliers before QC", legend=True, ring_overlay=False)</div>
 </div>
 </div>
 </div>
@@ -1100,7 +1100,7 @@ fig = SpatialAPI.plot_outliers(adata,"region", metric = "log_total_counts", outl
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -1114,11 +1114,11 @@ fig = SpatialAPI.plot_outliers(adata,"region", metric = "log_total_counts", outl
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># recommended threshold based on QC values and percentiles</span>
-<span class="n">thr</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">recommend_threshold</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+<span class="n">thr</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">recommend_threshold</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">thr</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-7"># recommended threshold based on QC values and percentiles
-thr = SpatialAPI.recommend_threshold(adata)
+thr = STAIA.recommend_threshold(adata)
 print(thr)</div>
 </div>
 </div>
@@ -1144,7 +1144,7 @@ print(thr)</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
@@ -1158,10 +1158,10 @@ print(thr)</div>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># perform quality control and normalization of the data</span>
-<span class="n">adata_filtered</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">perform_quality_control</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">thr</span><span class="p">)</span>
+<span class="n">adata_filtered</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">perform_quality_control</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">thr</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-8"># perform quality control and normalization of the data
-adata_filtered = SpatialAPI.perform_quality_control(adata, thr)</div>
+adata_filtered = STAIA.perform_quality_control(adata, thr)</div>
 </div>
 </div>
 </div>
@@ -1200,9 +1200,9 @@ Cells after filtering: 103479
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">plot_outliers</span><span class="p">(</span><span class="n">adata_filtered</span><span class="p">,</span><span class="s2">"region"</span><span class="p">,</span> <span class="n">metric</span> <span class="o">=</span> <span class="s2">"log_total_counts"</span><span class="p">,</span> <span class="n">outliers</span><span class="o">=</span><span class="s2">"log_total_counts_outliers"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Outliers after QC"</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ring_overlay</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">plot_outliers</span><span class="p">(</span><span class="n">adata_filtered</span><span class="p">,</span><span class="s2">"region"</span><span class="p">,</span> <span class="n">metric</span> <span class="o">=</span> <span class="s2">"log_total_counts"</span><span class="p">,</span> <span class="n">outliers</span><span class="o">=</span><span class="s2">"log_total_counts_outliers"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Outliers after QC"</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ring_overlay</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9">fig = SpatialAPI.plot_outliers(adata_filtered,"region", metric = "log_total_counts", outliers="log_total_counts_outliers", title="Outliers after QC", legend=True, ring_overlay=False)</div>
+<div class="clipboard-copy-txt" id="cell-9">fig = STAIA.plot_outliers(adata_filtered,"region", metric = "log_total_counts", outliers="log_total_counts_outliers", title="Outliers after QC", legend=True, ring_overlay=False)</div>
 </div>
 </div>
 </div>
@@ -1260,7 +1260,7 @@ sc.pp.log1p(adata_filtered)</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
@@ -1273,12 +1273,12 @@ sc.pp.log1p(adata_filtered)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">adata</span><span class="p">,</span> <span class="n">best_res</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">compute_leiden_resolution</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">fast_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">adata</span><span class="p">,</span> <span class="n">best_res</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">compute_leiden_resolution</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">fast_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Best resolution:"</span><span class="p">,</span> <span class="n">best_res</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-11">adata, best_res, table = SpatialAPI.compute_leiden_resolution(adata, fast_mode=True)
+<div class="clipboard-copy-txt" id="cell-11">adata, best_res, table = STAIA.compute_leiden_resolution(adata, fast_mode=True)
 
 print("Best resolution:", best_res)
 print(table)</div>
@@ -1341,9 +1341,9 @@ print(table)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">adata_cluster</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">adata_filtered</span><span class="p">,</span> <span class="n">n_comps</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">n_pcs</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">adata_cluster</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">adata_filtered</span><span class="p">,</span> <span class="n">n_comps</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">n_pcs</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-12">adata_cluster = SpatialAPI.cluster(adata_filtered, n_comps=50, n_neighbors=15, n_pcs=30)</div>
+<div class="clipboard-copy-txt" id="cell-12">adata_cluster = STAIA.cluster(adata_filtered, n_comps=50, n_neighbors=15, n_pcs=30)</div>
 </div>
 </div>
 </div>
@@ -1380,10 +1380,10 @@ print(table)</div>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># show the top 10 genes per cluster (Leiden)</span>
-<span class="n">adata_ranked</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">rank_genes_group</span><span class="p">(</span><span class="n">adata_cluster</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">adata_ranked</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">rank_genes_group</span><span class="p">(</span><span class="n">adata_cluster</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-13"># show the top 10 genes per cluster (Leiden)
-adata_ranked = SpatialAPI.rank_genes_group(adata_cluster, res=0.3)</div>
+adata_ranked = STAIA.rank_genes_group(adata_cluster, res=0.3)</div>
 </div>
 </div>
 </div>
@@ -1419,9 +1419,9 @@ adata_ranked = SpatialAPI.rank_genes_group(adata_cluster, res=0.3)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">SpatioFlow</span><span class="o">.</span><span class="n">run_banksy</span><span class="p">(</span><span class="n">adata_ranked</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">STAIA</span><span class="o">.</span><span class="n">run_banksy</span><span class="p">(</span><span class="n">adata_ranked</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-14">SpatioFlow.run_banksy(adata_ranked)</div>
+<div class="clipboard-copy-txt" id="cell-14">STAIA.run_banksy(adata_ranked)</div>
 </div>
 </div>
 </div>
@@ -1459,11 +1459,11 @@ adata_ranked = SpatialAPI.rank_genes_group(adata_cluster, res=0.3)</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">channel_names</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">get_channel_names</span><span class="p">(</span><span class="n">sdata</span><span class="p">[</span><span class="s2">"morphology_focus"</span><span class="p">])</span>
 
-<span class="n">SpatialAPI</span><span class="o">.</span><span class="n">multimodal_segmentation</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">channelnames</span><span class="o">=</span><span class="p">[</span><span class="s2">"DAPI"</span><span class="p">])</span>
+<span class="n">STAIA</span><span class="o">.</span><span class="n">multimodal_segmentation</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">channelnames</span><span class="o">=</span><span class="p">[</span><span class="s2">"DAPI"</span><span class="p">])</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-15">channel_names = sd.models.get_channel_names(sdata["morphology_focus"])
 
-SpatialAPI.multimodal_segmentation(sdata, channelnames=["DAPI"])</div>
+STAIA.multimodal_segmentation(sdata, channelnames=["DAPI"])</div>
 </div>
 </div>
 </div>
@@ -1489,10 +1489,10 @@ SpatialAPI.multimodal_segmentation(sdata, channelnames=["DAPI"])</div>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Get the slice of the multimodal segmentation</span>
-<span class="n">SpatialAPI</span><span class="o">.</span><span class="n">multimodal_segmentation_slice</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">channelnames</span><span class="o">=</span><span class="p">[</span><span class="s1">'DAPI'</span><span class="p">])</span>
+<span class="n">STAIA</span><span class="o">.</span><span class="n">multimodal_segmentation_slice</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">channelnames</span><span class="o">=</span><span class="p">[</span><span class="s1">'DAPI'</span><span class="p">])</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-16"># Get the slice of the multimodal segmentation
-SpatialAPI.multimodal_segmentation_slice(sdata, channelnames=['DAPI'])</div>
+STAIA.multimodal_segmentation_slice(sdata, channelnames=['DAPI'])</div>
 </div>
 </div>
 </div>
@@ -1528,9 +1528,9 @@ SpatialAPI.multimodal_segmentation_slice(sdata, channelnames=['DAPI'])</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">SpatialAPI</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">adata_ranked</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s2">"leiden"</span><span class="p">])</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">STAIA</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">adata_ranked</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s2">"leiden"</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-17">SpatialAPI.cluster(adata_ranked, colors=["leiden"])</div>
+<div class="clipboard-copy-txt" id="cell-17">STAIA.cluster(adata_ranked, colors=["leiden"])</div>
 </div>
 </div>
 </div>
@@ -1555,9 +1555,9 @@ SpatialAPI.multimodal_segmentation_slice(sdata, channelnames=['DAPI'])</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">SpatialAPI</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">adata_ranked</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">'segmentation_method'</span><span class="p">,</span> <span class="s1">'cell_labels'</span><span class="p">])</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">STAIA</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">adata_ranked</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">'segmentation_method'</span><span class="p">,</span> <span class="s1">'cell_labels'</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-18">SpatialAPI.cluster(adata_ranked, colors=['segmentation_method', 'cell_labels'])</div>
+<div class="clipboard-copy-txt" id="cell-18">STAIA.cluster(adata_ranked, colors=['segmentation_method', 'cell_labels'])</div>
 </div>
 </div>
 </div>
@@ -1596,12 +1596,12 @@ SpatialAPI.multimodal_segmentation_slice(sdata, channelnames=['DAPI'])</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">path_xenium</span> <span class="o">=</span> <span class="s2">"/path/to/xenium/outs/"</span>
 <span class="n">output_dir</span> <span class="o">=</span> <span class="s2">"output_dir"</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">run_watershed</span><span class="p">(</span><span class="n">path_xenium</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">run_watershed</span><span class="p">(</span><span class="n">path_xenium</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-19">path_xenium = "/path/to/xenium/outs/"
 output_dir = "output_dir"
 
-df = SpatialAPI.run_watershed(path_xenium, output_dir)</div>
+df = STAIA.run_watershed(path_xenium, output_dir)</div>
 </div>
 </div>
 </div>
@@ -1628,12 +1628,12 @@ df = SpatialAPI.run_watershed(path_xenium, output_dir)</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># perform manual split</span>
 <span class="n">df_split_base</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">session</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">SplitSession</span><span class="p">(</span><span class="n">df_split_base</span><span class="p">)</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">SplitSession</span><span class="p">(</span><span class="n">df_split_base</span><span class="p">)</span>
 <span class="n">session</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-20"># perform manual split
 df_split_base = df.copy()
-session = SpatialAPI.SplitSession(df_split_base)
+session = STAIA.SplitSession(df_split_base)
 session.show()</div>
 </div>
 </div>
@@ -1663,7 +1663,7 @@ session.show()</div>
 <span class="n">df_results</span><span class="p">,</span> <span class="n">ids</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 
 <span class="c1"># pass to the labelling session (LabelSession)</span>
-<span class="n">label_session</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">LabelSession</span><span class="p">(</span><span class="n">df_results</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">adata_ranked</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span>
+<span class="n">label_session</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">LabelSession</span><span class="p">(</span><span class="n">df_results</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">adata_ranked</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span>
 <span class="n">label_session</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="c1"># perform label assignment</span>
@@ -1673,7 +1673,7 @@ session.show()</div>
 df_results, ids = session.result()
 
 # pass to the labelling session (LabelSession)
-label_session = SpatialAPI.LabelSession(df_results, ids, adata=adata_ranked, output_dir=output_dir)
+label_session = STAIA.LabelSession(df_results, ids, adata=adata_ranked, output_dir=output_dir)
 label_session.show()
 
 # perform label assignment
@@ -1888,9 +1888,9 @@ adata_ranked.obs["cell_type"] = adata_ranked.obs["leiden"].map(cluster_to_cellty
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">SpatialAPI</span><span class="o">.</span><span class="n">dotplot</span><span class="p">(</span><span class="n">adata_ranked</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">STAIA</span><span class="o">.</span><span class="n">dotplot</span><span class="p">(</span><span class="n">adata_ranked</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-25">SpatialAPI.dotplot(adata_ranked)</div>
+<div class="clipboard-copy-txt" id="cell-25">STAIA.dotplot(adata_ranked)</div>
 </div>
 </div>
 </div>
@@ -1942,9 +1942,9 @@ adata_ranked.obs["cell_type"] = adata_ranked.obs["leiden"].map(cluster_to_cellty
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">SpatialAPI</span><span class="o">.</span><span class="n">dotplot</span><span class="p">(</span><span class="n">adata_test</span><span class="p">,</span> <span class="n">markers</span><span class="o">=</span><span class="p">[</span><span class="s2">"Apoe"</span><span class="p">,</span> <span class="s2">"Mmp2"</span><span class="p">,</span> <span class="s2">"Col1a2"</span><span class="p">,</span> <span class="s1">'Ryr1'</span><span class="p">])</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">STAIA</span><span class="o">.</span><span class="n">dotplot</span><span class="p">(</span><span class="n">adata_test</span><span class="p">,</span> <span class="n">markers</span><span class="o">=</span><span class="p">[</span><span class="s2">"Apoe"</span><span class="p">,</span> <span class="s2">"Mmp2"</span><span class="p">,</span> <span class="s2">"Col1a2"</span><span class="p">,</span> <span class="s1">'Ryr1'</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-27">SpatialAPI.dotplot(adata_test, markers=["Apoe", "Mmp2", "Col1a2", 'Ryr1'])</div>
+<div class="clipboard-copy-txt" id="cell-27">STAIA.dotplot(adata_test, markers=["Apoe", "Mmp2", "Col1a2", 'Ryr1'])</div>
 </div>
 </div>
 </div>
@@ -1969,9 +1969,9 @@ adata_ranked.obs["cell_type"] = adata_ranked.obs["leiden"].map(cluster_to_cellty
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">SpatialAPI</span><span class="o">.</span><span class="n">nhood_enrichment</span><span class="p">(</span><span class="n">adata_test</span><span class="p">)</span> 
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">STAIA</span><span class="o">.</span><span class="n">nhood_enrichment</span><span class="p">(</span><span class="n">adata_test</span><span class="p">)</span> 
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-28">SpatialAPI.nhood_enrichment(adata_test) </div>
+<div class="clipboard-copy-txt" id="cell-28">STAIA.nhood_enrichment(adata_test) </div>
 </div>
 </div>
 </div>
@@ -1996,9 +1996,9 @@ adata_ranked.obs["cell_type"] = adata_ranked.obs["leiden"].map(cluster_to_cellty
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">SpatialAPI</span><span class="o">.</span><span class="n">celltype_composition</span><span class="p">(</span><span class="n">adata_test</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="s2">"condition"</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">STAIA</span><span class="o">.</span><span class="n">celltype_composition</span><span class="p">(</span><span class="n">adata_test</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="s2">"condition"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-29">SpatialAPI.celltype_composition(adata_test, condition="condition")</div>
+<div class="clipboard-copy-txt" id="cell-29">STAIA.celltype_composition(adata_test, condition="condition")</div>
 </div>
 </div>
 </div>
@@ -2026,12 +2026,12 @@ adata_ranked.obs["cell_type"] = adata_ranked.obs["leiden"].map(cluster_to_cellty
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">uni</span> <span class="o">=</span> <span class="n">adata_test</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">"condition"</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]</span>
 
 <span class="c1"># Always put in the cell types and the conditions you want to perform the analysis on (list-format)</span>
-<span class="n">SpatialAPI</span><span class="o">.</span><span class="n">pseudobulk</span><span class="p">(</span><span class="n">adata_test</span><span class="p">,</span> <span class="n">celltype</span><span class="o">=</span><span class="s2">"Endothelial"</span><span class="p">,</span> <span class="n">sample_col</span><span class="o">=</span><span class="s2">"sample_id"</span><span class="p">,</span> <span class="n">cond</span><span class="o">=</span><span class="n">uni</span><span class="p">,</span> <span class="n">treatment_col</span><span class="o">=</span><span class="s2">"condition"</span><span class="p">)</span>
+<span class="n">STAIA</span><span class="o">.</span><span class="n">pseudobulk</span><span class="p">(</span><span class="n">adata_test</span><span class="p">,</span> <span class="n">celltype</span><span class="o">=</span><span class="s2">"Endothelial"</span><span class="p">,</span> <span class="n">sample_col</span><span class="o">=</span><span class="s2">"sample_id"</span><span class="p">,</span> <span class="n">cond</span><span class="o">=</span><span class="n">uni</span><span class="p">,</span> <span class="n">treatment_col</span><span class="o">=</span><span class="s2">"condition"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-30">uni = adata_test.obs["condition"].unique().tolist()[:2]
 
 # Always put in the cell types and the conditions you want to perform the analysis on (list-format)
-SpatialAPI.pseudobulk(adata_test, celltype="Endothelial", sample_col="sample_id", cond=uni, treatment_col="condition")</div>
+STAIA.pseudobulk(adata_test, celltype="Endothelial", sample_col="sample_id", cond=uni, treatment_col="condition")</div>
 </div>
 </div>
 </div>
@@ -2054,7 +2054,7 @@ SpatialAPI.pseudobulk(adata_test, celltype="Endothelial", sample_col="sample_id"
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [58]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-31">
@@ -2067,9 +2067,9 @@ SpatialAPI.pseudobulk(adata_test, celltype="Endothelial", sample_col="sample_id"
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">df_moran</span> <span class="o">=</span> <span class="n">SpatialAPI</span><span class="o">.</span><span class="n">morans_score</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">df_moran</span> <span class="o">=</span> <span class="n">STAIA</span><span class="o">.</span><span class="n">morans_score</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-31">df_moran = SpatialAPI.morans_score(adata)</div>
+<div class="clipboard-copy-txt" id="cell-31">df_moran = STAIA.morans_score(adata)</div>
 </div>
 </div>
 </div>
@@ -2155,7 +2155,7 @@ Mgp                  0.0                0.0          0.01184
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [61]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-33">
@@ -2171,12 +2171,12 @@ Mgp                  0.0                0.0          0.01184
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Plot highst Moran's I score</span>
 <span class="c1"># Dit zijn de markers met een Moran's I score boven de 0.4</span>
 <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Apoe"</span><span class="p">,</span> <span class="s2">"Grn"</span><span class="p">,</span> <span class="s2">"Vim"</span><span class="p">]</span> <span class="c1"># list with highest morans I genes</span>
-<span class="n">SpatialAPI</span><span class="o">.</span><span class="n">plot_image</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span>
+<span class="n">STAIA</span><span class="o">.</span><span class="n">plot_image</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-33"># Plot highst Moran's I score
 # Dit zijn de markers met een Moran's I score boven de 0.4
 colors = ["Apoe", "Grn", "Vim"] # list with highest morans I genes
-SpatialAPI.plot_image(adata, colors)</div>
+STAIA.plot_image(adata, colors)</div>
 </div>
 </div>
 </div>

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Size Normalization - SpatioFlow</title>
+    <title>Size Normalization - STAIA</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -31,7 +31,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="../.." class="icon icon-home"> SpatioFlow
+          <a href="../.." class="icon icon-home"> STAIA
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -65,9 +65,9 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Size Normalization</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.counts_normalized">counts_normalized</a>
+    <li class="toctree-l2"><a class="reference internal" href="#STAIA.counts_normalized">counts_normalized</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.size_normalization">size_normalization</a>
+    <li class="toctree-l2"><a class="reference internal" href="#STAIA.size_normalization">size_normalization</a>
     </li>
     </ul>
                   </li>
@@ -97,7 +97,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../..">SpatioFlow</a>
+          <a href="../..">STAIA</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -147,7 +147,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatioFlow.counts_normalized" class="doc doc-heading">
+<h2 id="STAIA.counts_normalized" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">counts_normalized</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">target_sum</span><span class="o">=</span><span class="mf">10000.0</span><span class="p">)</span></code>
 
 </h2>
@@ -217,28 +217,28 @@
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_preprocess.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">counts_normalized</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">counts_normalized</span><span class="p">(</span>
     <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
     <span class="n">target_sum</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mf">1e4</span>
 <span class="p">):</span>
@@ -269,7 +269,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatioFlow.size_normalization" class="doc doc-heading">
+<h2 id="STAIA.size_normalization" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">size_normalization</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">table_layer</span><span class="o">=</span><span class="s1">&#39;table&#39;</span><span class="p">,</span> <span class="n">shape_layer</span><span class="o">=</span><span class="s1">&#39;cell_boundaries&#39;</span><span class="p">,</span> <span class="n">cellsize_key</span><span class="o">=</span><span class="s1">&#39;shapeSize&#39;</span><span class="p">,</span> <span class="n">cell_id_col</span><span class="o">=</span><span class="s1">&#39;cell_ID&#39;</span><span class="p">,</span> <span class="n">target_sum</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">log1p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 </h2>
@@ -394,57 +394,64 @@ convention (GitHub: https://github.com/saeyslab/napari-sparrow/tree/main).</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_preprocess.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">size_normalization</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">size_normalization</span><span class="p">(</span>
     <span class="n">sdata</span><span class="p">:</span> <span class="n">SpatialData</span><span class="p">,</span>
     <span class="n">table_layer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;table&quot;</span><span class="p">,</span>
     <span class="n">shape_layer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cell_boundaries&quot;</span><span class="p">,</span>
@@ -481,6 +488,13 @@ convention (GitHub: https://github.com/saeyslab/napari-sparrow/tree/main).</p>
 <span class="sd">        - adata.layers[&#39;size_normalized&#39;]: size-normalized counts (before log1p)</span>
 <span class="sd">        - adata.X: log1p-transformed size-normalized counts (if log1p is True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check if input data is really sdata</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">AnnData</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected input is SpatialData (mandatory layer: shapes). You provided AnnData. Performing counts normalization instead.&quot;</span><span class="p">)</span>
+        <span class="n">adata</span> <span class="o">=</span> <span class="n">counts_normalized</span><span class="p">(</span><span class="n">sdata</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Counts normalization finished.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">adata</span>
+
     <span class="n">adata</span> <span class="o">=</span> <span class="n">sdata</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="n">table_layer</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">gdf</span> <span class="o">=</span> <span class="n">sdata</span><span class="o">.</span><span class="n">shapes</span><span class="p">[</span><span class="n">shape_layer</span><span class="p">]</span>
     <span class="n">cell_areas</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">area</span>

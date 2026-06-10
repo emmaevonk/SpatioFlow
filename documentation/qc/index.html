@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>QC - SpatioFlow</title>
+    <title>QC - STAIA</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -31,7 +31,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="../.." class="icon icon-home"> SpatioFlow
+          <a href="../.." class="icon icon-home"> STAIA
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -71,19 +71,19 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">QC</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.control_probes_codew">control_probes_codew</a>
+    <li class="toctree-l2"><a class="reference internal" href="#STAIA.control_probes_codew">control_probes_codew</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.detect_outlier">detect_outlier</a>
+    <li class="toctree-l2"><a class="reference internal" href="#STAIA.detect_outlier">detect_outlier</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.is_outlier">is_outlier</a>
+    <li class="toctree-l2"><a class="reference internal" href="#STAIA.is_outlier">is_outlier</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.perform_quality_control">perform_quality_control</a>
+    <li class="toctree-l2"><a class="reference internal" href="#STAIA.perform_quality_control">perform_quality_control</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot_outliers">plot_outliers</a>
+    <li class="toctree-l2"><a class="reference internal" href="#STAIA.plot_outliers">plot_outliers</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.plot_qc_metrics">plot_qc_metrics</a>
+    <li class="toctree-l2"><a class="reference internal" href="#STAIA.plot_qc_metrics">plot_qc_metrics</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#SpatioFlow.recommend_threshold">recommend_threshold</a>
+    <li class="toctree-l2"><a class="reference internal" href="#STAIA.recommend_threshold">recommend_threshold</a>
     </li>
     </ul>
                   </li>
@@ -107,7 +107,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../..">SpatioFlow</a>
+          <a href="../..">STAIA</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -157,7 +157,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatioFlow.control_probes_codew" class="doc doc-heading">
+<h2 id="STAIA.control_probes_codew" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">control_probes_codew</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span></code>
 
 </h2>
@@ -295,7 +295,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatioFlow.detect_outlier" class="doc doc-heading">
+<h2 id="STAIA.detect_outlier" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">detect_outlier</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span></code>
 
 </h2>
@@ -367,63 +367,7 @@ robust z-score (median/MAD) within each neighborhood.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span>
-<span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span>
-<span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">558</span>
 <span class="normal">559</span>
 <span class="normal">560</span>
 <span class="normal">561</span>
@@ -437,7 +381,63 @@ robust z-score (median/MAD) within each neighborhood.</p>
 <span class="normal">569</span>
 <span class="normal">570</span>
 <span class="normal">571</span>
-<span class="normal">572</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">detect_outlier</span><span class="p">(</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">detect_outlier</span><span class="p">(</span>
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnnData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -517,7 +517,7 @@ robust z-score (median/MAD) within each neighborhood.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatioFlow.is_outlier" class="doc doc-heading">
+<h2 id="STAIA.is_outlier" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">is_outlier</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">nmads</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -634,70 +634,70 @@ upper = median + nmads * MAD</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span>
-<span class="normal">465</span>
-<span class="normal">466</span>
-<span class="normal">467</span>
-<span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span>
-<span class="normal">479</span>
-<span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">492</span>
 <span class="normal">493</span>
 <span class="normal">494</span>
 <span class="normal">495</span>
 <span class="normal">496</span>
 <span class="normal">497</span>
 <span class="normal">498</span>
-<span class="normal">499</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_outlier</span><span class="p">(</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_outlier</span><span class="p">(</span>
         <span class="n">vec</span><span class="p">,</span> 
         <span class="n">nmads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> 
         <span class="n">log</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
@@ -770,7 +770,7 @@ upper = median + nmads * MAD</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatioFlow.perform_quality_control" class="doc doc-heading">
+<h2 id="STAIA.perform_quality_control" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">perform_quality_control</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">thr</span><span class="p">)</span></code>
 
 </h2>
@@ -1000,7 +1000,7 @@ upper = median + nmads * MAD</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatioFlow.plot_outliers" class="doc doc-heading">
+<h2 id="STAIA.plot_outliers" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_outliers</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">sample_id</span><span class="o">=</span><span class="s1">&#39;cell_id&#39;</span><span class="p">,</span> <span class="n">sample</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;detected&#39;</span><span class="p">,</span> <span class="n">outliers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">),</span> <span class="n">stroke</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">coord_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ring_overlay</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 </h2>
@@ -1464,7 +1464,7 @@ to check performance of filtering with this function.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatioFlow.plot_qc_metrics" class="doc doc-heading">
+<h2 id="STAIA.plot_qc_metrics" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">plot_qc_metrics</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
@@ -1768,15 +1768,18 @@ to check performance of filtering with this function.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="SpatioFlow.recommend_threshold" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">recommend_threshold</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span></code>
+<h2 id="STAIA.recommend_threshold" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">recommend_threshold</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">nmads</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">min_genes_floor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">min_counts_floor</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></code>
 
 </h2>
 
 
     <div class="doc doc-contents ">
 
-        <p>Suggest QC filtering thresholds based on percentile ranges.</p>
+        <p>Suggest QC filtering thresholds using MAD-based outlier detection on QC metrics.</p>
+<p>Computes thresholds per slide from the data itself, so it adapts
+across samples without manual tuning. Call SpatioFlow.perform_quality_control() to 
+perform the actual filtering.</p>
 
 
 <table class="field-list">
@@ -1791,12 +1794,35 @@ to check performance of filtering with this function.</p>
         <ul class="first simple">
             <li>
               <b><code>adata</code></b>
-                  (<code><span title="anndata.AnnData">AnnData</span></code>)
               –
               <div class="doc-md-description">
-                <p>Must contain:
-- total_counts
-- n_genes_by_counts</p>
+                
+              </div>
+            </li>
+            <li>
+              <b><code>nmads</code></b>
+              –
+              <div class="doc-md-description">
+                <pre><code>          3 is the standard; lower = stricter filtering.
+</code></pre>
+              </div>
+            </li>
+            <li>
+              <b><code>min_genes_floor</code></b>
+                  (<code>Hard minimum for n_genes lower bound (prevents</code>, default:
+                      <code>5</code>
+)
+              –
+              <div class="doc-md-description">
+                <pre><code>          negative threshold on very sparse data).
+</code></pre>
+              </div>
+            </li>
+            <li>
+              <b><code>min_counts_floor</code></b>
+              –
+              <div class="doc-md-description">
+                
               </div>
             </li>
         </ul>
@@ -1816,16 +1842,10 @@ to check performance of filtering with this function.</p>
       <td class="field-body">
         <ul class="first simple">
             <li>
-                  <code><span title="dict">dict</span></code>
-              –
+<b><code>thr</code></b>(                  <code>dict of the thresholds that need to be applied.</code>
+)              –
               <div class="doc-md-description">
-                <p>Recommended thresholds:
-{
-    "min_genes"
-    "max_genes"
-    "min_counts"
-    "max_counts"
-}</p>
+                
               </div>
             </li>
         </ul>
@@ -1834,104 +1854,111 @@ to check performance of filtering with this function.</p>
   </tbody>
 </table>
 
-<details class="note" open>
-  <summary>Notes</summary>
-  <p>Thresholds are based on the 1st and 99th percentiles.</p>
-</details>
-
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span>
-<span class="normal">403</span>
-<span class="normal">404</span>
-<span class="normal">405</span>
-<span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
-<span class="normal">409</span>
-<span class="normal">410</span>
-<span class="normal">411</span>
-<span class="normal">412</span>
-<span class="normal">413</span>
-<span class="normal">414</span>
-<span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recommend_threshold</span><span class="p">(</span>
-        <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recommend_threshold</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">nmads</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">min_genes_floor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">min_counts_floor</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Suggest QC filtering thresholds based on percentile ranges.</span>
+<span class="sd">    Suggest QC filtering thresholds using MAD-based outlier detection on QC metrics.</span>
+
+<span class="sd">    Computes thresholds per slide from the data itself, so it adapts</span>
+<span class="sd">    across samples without manual tuning. Call SpatioFlow.perform_quality_control() to </span>
+<span class="sd">    perform the actual filtering.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    adata : AnnData</span>
-<span class="sd">        Must contain:</span>
-<span class="sd">        - total_counts</span>
-<span class="sd">        - n_genes_by_counts</span>
+<span class="sd">    adata           : AnnData object (pre QC metrics calculation)</span>
+<span class="sd">    nmads           : Number of MADs away from median to set threshold.</span>
+<span class="sd">                      3 is the standard; lower = stricter filtering.</span>
+<span class="sd">    min_genes_floor : Hard minimum for n_genes lower bound (prevents</span>
+<span class="sd">                      negative threshold on very sparse data).</span>
+<span class="sd">    min_counts_floor: Hard minimum for total_counts lower bound.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    dict</span>
-<span class="sd">        Recommended thresholds:</span>
-<span class="sd">        {</span>
-<span class="sd">            &quot;min_genes&quot;</span>
-<span class="sd">            &quot;max_genes&quot;</span>
-<span class="sd">            &quot;min_counts&quot;</span>
-<span class="sd">            &quot;max_counts&quot;</span>
-<span class="sd">        }</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    Thresholds are based on the 1st and 99th percentiles.</span>
+<span class="sd">    thr   : dict of the thresholds that need to be applied.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">obs</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span>
-    <span class="k">if</span> <span class="s2">&quot;n_genes_by_count&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">:</span>
-        <span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">calculate_qc_metrics</span><span class="p">(</span>
-            <span class="n">adata</span><span class="p">,</span>
-            <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">percent_top</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">log1p</span><span class="o">=</span><span class="kc">False</span>
-        <span class="p">)</span>
-    <span class="n">genes</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;n_genes_by_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">counts</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;total_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="c1"># Ensure QC metrics exist</span>
+    <span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">calculate_qc_metrics</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">thresholds</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;min_genes&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">genes</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
-        <span class="s2">&quot;max_genes&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">genes</span><span class="p">,</span> <span class="mi">99</span><span class="p">)),</span>
-        <span class="s2">&quot;min_counts&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
-        <span class="s2">&quot;max_counts&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="mi">99</span><span class="p">))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_mad_bounds</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">floor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">med</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
+        <span class="n">mad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">series</span> <span class="o">-</span> <span class="n">med</span><span class="p">))</span>
+        <span class="n">lower</span> <span class="o">=</span> <span class="n">med</span> <span class="o">-</span> <span class="n">nmads</span> <span class="o">*</span> <span class="n">mad</span>
+        <span class="n">upper</span> <span class="o">=</span> <span class="n">med</span> <span class="o">+</span> <span class="n">nmads</span> <span class="o">*</span> <span class="n">mad</span>
+        <span class="k">if</span> <span class="n">floor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lower</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">floor</span><span class="p">,</span> <span class="n">lower</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;upper&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">upper</span>
+        <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;lower&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lower</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span>
+
+    <span class="c1"># Compute per-metric bounds</span>
+    <span class="n">min_genes</span><span class="p">,</span> <span class="n">max_genes</span> <span class="o">=</span> <span class="n">_mad_bounds</span><span class="p">(</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;n_genes_by_counts&quot;</span><span class="p">],</span> <span class="n">floor</span><span class="o">=</span><span class="n">min_genes_floor</span>
+    <span class="p">)</span>
+    <span class="n">min_counts</span><span class="p">,</span> <span class="n">max_counts</span> <span class="o">=</span> <span class="n">_mad_bounds</span><span class="p">(</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;total_counts&quot;</span><span class="p">],</span> <span class="n">floor</span><span class="o">=</span><span class="n">min_counts_floor</span>
+    <span class="p">)</span>
+
+    <span class="n">thr</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;min_genes&quot;</span><span class="p">:</span>   <span class="n">min_genes</span><span class="p">,</span>
+        <span class="s2">&quot;max_genes&quot;</span><span class="p">:</span>   <span class="n">max_genes</span><span class="p">,</span>
+        <span class="s2">&quot;min_counts&quot;</span><span class="p">:</span>  <span class="n">min_counts</span><span class="p">,</span>
+        <span class="s2">&quot;max_counts&quot;</span><span class="p">:</span>  <span class="n">max_counts</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">thresholds</span>
+    <span class="k">return</span> <span class="n">thr</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
