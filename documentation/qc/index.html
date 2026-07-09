@@ -255,7 +255,14 @@
 <span class="normal">275</span>
 <span class="normal">276</span>
 <span class="normal">277</span>
-<span class="normal">278</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">control_probes_codew</span><span class="p">(</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">control_probes_codew</span><span class="p">(</span>
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
@@ -278,13 +285,20 @@
 <span class="sd">    - control_codeword_counts</span>
 <span class="sd">    - total_counts</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cprobes</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;control_probe_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;total_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
-    <span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;control_probe_counts&quot;</span> <span class="ow">in</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">:</span>
+        <span class="n">cprobes</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;control_probe_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;total_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cprobes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Column `control_probe_counts` not present in adata.&quot;</span><span class="p">)</span>
 
-    <span class="n">cwords</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;control_codeword_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;total_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
-    <span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;control_codeword_counts&quot;</span> <span class="ow">in</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">:</span>
+        <span class="n">cwords</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;control_codeword_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;total_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cwords</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Column `control_codeword_counts` not present in adata.&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="p">(</span><span class="n">cprobes</span><span class="p">,</span> <span class="n">cwords</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -367,32 +381,7 @@ robust z-score (median/MAD) within each neighborhood.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">583</span>
 <span class="normal">584</span>
 <span class="normal">585</span>
 <span class="normal">586</span>
@@ -437,7 +426,32 @@ robust z-score (median/MAD) within each neighborhood.</p>
 <span class="normal">625</span>
 <span class="normal">626</span>
 <span class="normal">627</span>
-<span class="normal">628</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">detect_outlier</span><span class="p">(</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">detect_outlier</span><span class="p">(</span>
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnnData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -634,32 +648,7 @@ upper = median + nmads * MAD</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span>
-<span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span>
-<span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">517</span>
 <span class="normal">518</span>
 <span class="normal">519</span>
 <span class="normal">520</span>
@@ -697,7 +686,32 @@ upper = median + nmads * MAD</p>
 <span class="normal">552</span>
 <span class="normal">553</span>
 <span class="normal">554</span>
-<span class="normal">555</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_outlier</span><span class="p">(</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_outlier</span><span class="p">(</span>
         <span class="n">vec</span><span class="p">,</span> 
         <span class="n">nmads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> 
         <span class="n">log</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
@@ -1550,14 +1564,7 @@ to check performance of filtering with this function.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">288</span>
 <span class="normal">289</span>
 <span class="normal">290</span>
 <span class="normal">291</span>
@@ -1654,7 +1661,14 @@ to check performance of filtering with this function.</p>
 <span class="normal">382</span>
 <span class="normal">383</span>
 <span class="normal">384</span>
-<span class="normal">385</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_qc_metrics</span><span class="p">(</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_qc_metrics</span><span class="p">(</span>
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
         <span class="n">save</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">output_path</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1794,35 +1808,42 @@ perform the actual filtering.</p>
         <ul class="first simple">
             <li>
               <b><code>adata</code></b>
+                  (<code><span title="anndata.AnnData">AnnData</span></code>)
               –
               <div class="doc-md-description">
-                
+                <p>AnnData object (pre QC metrics calculation)</p>
               </div>
             </li>
             <li>
               <b><code>nmads</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>= 3</code>
+)
               –
               <div class="doc-md-description">
-                <pre><code>          3 is the standard; lower = stricter filtering.
-</code></pre>
+                <p>Number of MADs away from median to set threshold.
+3 is the standard; lower = stricter filtering.</p>
               </div>
             </li>
             <li>
               <b><code>min_genes_floor</code></b>
-                  (<code>Hard minimum for n_genes lower bound (prevents</code>, default:
-                      <code>5</code>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>= 5</code>
 )
               –
               <div class="doc-md-description">
-                <pre><code>          negative threshold on very sparse data).
-</code></pre>
+                <p>Hard minimum for n_genes lower bound (prevents
+negative threshold on very sparse data).</p>
               </div>
             </li>
             <li>
               <b><code>min_counts_floor</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>= 10 </code>
+)
               –
               <div class="doc-md-description">
-                
+                <p>Hard minimum for total_counts lower bound.</p>
               </div>
             </li>
         </ul>
@@ -1842,10 +1863,14 @@ perform the actual filtering.</p>
       <td class="field-body">
         <ul class="first simple">
             <li>
-<b><code>thr</code></b>(                  <code>dict of the thresholds that need to be applied.</code>
+<b><code>thr</code></b>(                  <code><span title="dict">dict</span></code>
 )              –
               <div class="doc-md-description">
-                
+                <p>dict of the thresholds that need to be applied, containing:
+    - min genes
+    - max genes
+    - min_counts
+    - max_counts</p>
               </div>
             </li>
         </ul>
@@ -1856,14 +1881,7 @@ perform the actual filtering.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>_qc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">445</span>
 <span class="normal">446</span>
 <span class="normal">447</span>
 <span class="normal">448</span>
@@ -1907,7 +1925,37 @@ perform the actual filtering.</p>
 <span class="normal">486</span>
 <span class="normal">487</span>
 <span class="normal">488</span>
-<span class="normal">489</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recommend_threshold</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">nmads</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">min_genes_floor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">min_counts_floor</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recommend_threshold</span><span class="p">(</span>
+    <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span> 
+    <span class="n">nmads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> 
+    <span class="n">min_genes_floor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> 
+    <span class="n">min_counts_floor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span><span class="mi">10</span>
+    <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Suggest QC filtering thresholds using MAD-based outlier detection on QC metrics.</span>
 
@@ -1917,19 +1965,32 @@ perform the actual filtering.</p>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    adata           : AnnData object (pre QC metrics calculation)</span>
-<span class="sd">    nmads           : Number of MADs away from median to set threshold.</span>
-<span class="sd">                      3 is the standard; lower = stricter filtering.</span>
-<span class="sd">    min_genes_floor : Hard minimum for n_genes lower bound (prevents</span>
-<span class="sd">                      negative threshold on very sparse data).</span>
-<span class="sd">    min_counts_floor: Hard minimum for total_counts lower bound.</span>
+<span class="sd">    adata : anndata.AnnData</span>
+<span class="sd">        AnnData object (pre QC metrics calculation)</span>
+<span class="sd">    nmads : int, default = 3</span>
+<span class="sd">        Number of MADs away from median to set threshold.</span>
+<span class="sd">        3 is the standard; lower = stricter filtering.</span>
+<span class="sd">    min_genes_floor : int, default = 5</span>
+<span class="sd">        Hard minimum for n_genes lower bound (prevents</span>
+<span class="sd">        negative threshold on very sparse data).</span>
+<span class="sd">    min_counts_floor : int, default = 10 </span>
+<span class="sd">        Hard minimum for total_counts lower bound.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    thr   : dict of the thresholds that need to be applied.</span>
+<span class="sd">    thr : dict</span>
+<span class="sd">        dict of the thresholds that need to be applied, containing:</span>
+<span class="sd">            - min genes</span>
+<span class="sd">            - max genes</span>
+<span class="sd">            - min_counts</span>
+<span class="sd">            - max_counts</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Ensure QC metrics exist</span>
-    <span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">calculate_qc_metrics</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">calculate_qc_metrics</span><span class="p">(</span>
+        <span class="n">adata</span><span class="p">,</span>
+        <span class="n">percent_top</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_mad_bounds</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">floor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">med</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
