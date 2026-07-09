@@ -124,7 +124,7 @@ def convert_sdata_adata(
     adata= sdata.tables[table_key].copy()
 
     # add leiden column to it for later visualizations
-    sc.tl.leiden(adata, resolution=leiden_resolution)
+    # sc.tl.leiden(adata, resolution=leiden_resolution)
     return adata
 
 def roi(

@@ -5,5 +5,6 @@ from ._banksy import (
 
 from ._cellcharter import (
     run_cellcharter,
-    stability_cellcharter
+    stability_cellcharter,
+    prepare_cellcharter
 )

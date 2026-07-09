@@ -1,11 +1,14 @@
 import squidpy as sq
 import matplotlib.pyplot as plt
 from anndata import AnnData
+import os
+import scanpy as sc
 
 def nhood_enrichment(
         adata: AnnData,
         cluster_key: str = "leiden",
-        show: bool = True
+        show: bool = True,
+        save: str | bool = False,
 ) -> plt.Figure:
     """
     Compute and visualize neighborhood enrichment between clusters.
@@ -26,6 +29,10 @@ def nhood_enrichment(
         Column in adata.obs containing cluster labels.
     show : bool, default = True
         Whether to display the plot.
+    save : bool, default=False
+        A boolean deciding whether or not the neighborhood enrichment is being saved. 
+        If the data is saved (so not False), provide the path to the 
+        output directory.
 
     Returns
     -------
@@ -50,21 +57,35 @@ def nhood_enrichment(
     --------
     >>> import squidpy as sq
     >>> sq.gr.spatial_neighbors(adata)
-    >>> fig = nhood_enrichment(adata, cluster_key="leiden")
+    >>> nhood_enrichment(adata, cluster_key="leiden", save=output_dir)
     """
-    # Compute enrichment
-    sq.gr.spatial_neighbors(adata) # if error when running this function, change this line (add if statement)
+    if save != False:
+        folder_path = os.path.dirname(save)
+        if folder_path:
+            os.makedirs(folder_path, exist_ok=True)
+
+    # Single figure — ax and fig stay linked
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    sq.gr.spatial_neighbors(adata)
     sq.gr.nhood_enrichment(adata, cluster_key=cluster_key)
 
-    # Create figure
-    fig = plt.figure(figsize=(8, 8))
     sq.pl.nhood_enrichment(
         adata,
         cluster_key=cluster_key,
         figsize=(8, 8),
         title="Neighborhood enrichment adata",
+        ax=ax,
     )
-    fig.show()
+
+    if save != False:
+        fig.savefig(save, bbox_inches='tight', dpi=300)
+
+    if show:
+        plt.show()
+    else:
+        plt.close(fig)
+
     return fig
 
 

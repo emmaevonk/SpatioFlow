@@ -65,7 +65,8 @@ def _crop0(
 
 def multimodal_segmentation(
         sdata: SpatialData,
-        channelnames: list | None = None
+        channelnames: list | None = None,
+        img_layer: str = "morphology_focus"
 ) -> None:
     """
     Visualize morphology channels for multimodal segmentation inspection.
@@ -76,16 +77,18 @@ def multimodal_segmentation(
         Must contain ``sdata["morphology_focus"]``.
     channelnames : list of str or None
         Channels to display. If None, all channels are shown.
+    img_layer : str, default = "morphology_focus"
+        The image layer of the SpatialData object
 
     Notes
     -----
     Useful for evaluating segmentation quality across imaging channels.
     """
     if channelnames is None:
-        channelnames = sd.models.get_channel_names(sdata["morphology_focus"])
+        channelnames = sd.models.get_channel_names(sdata[img_layer])
     
     for i in channelnames:
-        sdata.pl.render_images("morphology_focus", channel=i).pl.show(
+        sdata.pl.render_images(img_layer, channel=i).pl.show(
         figsize=(6, 6)
     )
         
@@ -96,7 +99,8 @@ def multimodal_segmentation_slice(
         sdata: SpatialData,
         channelnames: list | None = None,
         min_coord: list | None = None,
-        max_coord: list | None = None
+        max_coord: list | None = None,
+        img_layer: str = "morphology_focus"
 ) -> None:
     """
     Visualize selected morphology channels within a spatial region.
@@ -110,6 +114,8 @@ def multimodal_segmentation_slice(
         Minimum [x, y] crop coordinates.
     max_coord : list or None
         Maximum [x, y] crop coordinates.
+    img_layer : str, default = "morphology_focus"
+        The image layer of the SpatialData object
 
     Notes
     -----
@@ -117,9 +123,9 @@ def multimodal_segmentation_slice(
     """
     # Some redundant code, need to improve this.
     if channelnames is None:
-        channelnames = sd.models.get_channel_names(sdata["morphology_focus"])
+        channelnames = sd.models.get_channel_names(sdata[img_layer])
 
     for i in channelnames: 
-        _crop0(sdata, min_coord, max_coord).pl.render_images("morphology_focus", channel=i).pl.show(
+        _crop0(sdata, min_coord, max_coord).pl.render_images(img_layer, channel=i).pl.show(
             title=i, figsize=(10, 3)
         )

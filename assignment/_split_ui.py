@@ -293,6 +293,11 @@ class LabelSession:
     output_dir : str, optional
     """
 
+    # Namespaced so it never collides with a user's own "sample_id" column.
+    # If this column already exists on adata.obs when exporting, STAIA warns
+    # and leaves it untouched rather than silently overwriting it.
+    OBS_SAMPLE_ID_COL = "sample_id_STAIA"
+
     def __init__(self, df, ids, adata=None, output_dir="."):
         self._df         = df.copy()
         self._ids        = list(ids)
@@ -379,75 +384,116 @@ class LabelSession:
             w_status.value = "<span style='color:#f39c12'>⏳ Saving...</span>"
             w_btn_export.disabled = True
 
-            if "sample_id" not in self._adata.obs.columns:
-                # Prefer a globally unique cell identifier over cell_ID,
-                # which is only unique within a FOV on Xenium slides
-                unique_col = next(
-                    (col for col in self._adata.obs.columns 
-                    if col.lower() in ("unique_cell_id", "unique_cell_index")),
-                    None
+            # Always (re)derive the sample_id mapping from the *current* session's
+            # df, as a local variable first. It's written to adata.obs under a
+            # namespaced column name (OBS_SAMPLE_ID_COL, "sample_id_STAIA") so
+            # it can never collide with a user's own "sample_id" column. If
+            # that namespaced column somehow already exists (e.g. exported
+            # once, then the session was re-labelled and re-run without
+            # reloading adata), STAIA warns rather than silently overwriting
+            # it — the previous behaviour of writing straight to
+            # adata.obs["sample_id"] made it impossible to tell whether that
+            # column was STAIA's output or pre-existing user data.
+
+            # Prefer a globally unique cell identifier over cell_ID,
+            # which is only unique within a FOV on Xenium slides
+            unique_col = next(
+                (col for col in self._adata.obs.columns
+                if col.lower() in ("unique_cell_id", "unique_cell_index")),
+                None
+            )
+            cell_id_col = unique_col or next(
+                (col for col in self._adata.obs.columns if col.lower() == "cell_id"),
+                None
+            )
+
+            if cell_id_col is None:
+                w_status.value = "<span style='color:#e74c3c'>❌ Could not find a cell ID column in adata.obs.</span>"
+                w_btn_export.disabled = False
+                return
+
+            if cell_id_col not in self._df.columns:
+                w_status.value = (f"<span style='color:#e74c3c'>❌ Column '{cell_id_col}' not found in "
+                                f"df. Make sure to call reset_index() on the watershed output.</span>")
+                w_btn_export.disabled = False
+                return
+
+            if self._df[cell_id_col].duplicated().any():
+                w_status.value = (f"<span style='color:#e74c3c'>❌ Column '{cell_id_col}' has duplicate "
+                                f"values in df — use a globally unique cell ID column instead.</span>")
+                w_btn_export.disabled = False
+                return
+
+            mapped_sample_id = (
+                self._adata.obs[cell_id_col]
+                .map(self._df.set_index(cell_id_col)["sample_id"])
+            )
+
+            # Guard against a silent merge failure (dtype/formatting mismatch
+            # between adata.obs[cell_id_col] and df[cell_id_col], or a df that
+            # doesn't actually correspond to this adata). Without this check,
+            # a fully-NaN mapped_sample_id sails through to
+            # .fillna("unassigned") and every cell gets labelled "unassigned"
+            # with no indication that the merge itself failed.
+            match_frac = mapped_sample_id.notna().mean()
+            if match_frac < 0.5:
+                w_status.value = (
+                    f"<span style='color:#e74c3c'>❌ Only {match_frac:.0%} of cells in adata.obs "
+                    f"matched '{cell_id_col}' values in df. Check that adata and df come from the "
+                    f"same cells and that '{cell_id_col}' has matching dtype/formatting in both.</span>"
                 )
-                cell_id_col = unique_col or next(
-                    (col for col in self._adata.obs.columns if col.lower() == "cell_id"),
-                    None
-                )
+                w_btn_export.disabled = False
+                return
 
-                if cell_id_col is None:
-                    w_status.value = "<span style='color:#e74c3c'>❌ Could not find a cell ID column in adata.obs.</span>"
-                    w_btn_export.disabled = False
-                    return
-
-                if cell_id_col not in self._df.columns:
-                    w_status.value = (f"<span style='color:#e74c3c'>❌ Column '{cell_id_col}' not found in "
-                                    f"df. Make sure to call reset_index() on the watershed output.</span>")
-                    w_btn_export.disabled = False
-                    return
-
-                if self._df[cell_id_col].duplicated().any():
-                    w_status.value = (f"<span style='color:#e74c3c'>❌ Column '{cell_id_col}' has duplicate "
-                                    f"values in df — use a globally unique cell ID column instead.</span>")
-                    w_btn_export.disabled = False
-                    return
-
-                self._adata.obs["sample_id"] = (
-                    self._adata.obs[cell_id_col]
-                    .map(self._df.set_index(cell_id_col)["sample_id"])
-                )
-            # if "sample_id" not in self._adata.obs.columns:
-            #     # find the cell ID column case-insensitively
-            #     cell_id_col = next(
-            #         (col for col in self._adata.obs.columns if col.lower() == "cell_id"),
-            #         None
-            #     )
-            #     if cell_id_col is None:
-            #         w_status.value = "<span style='color:#e74c3c'>❌ Could not find a 'cell_id' column in adata.obs.</span>"
-            #         w_btn_export.disabled = False
-            #         return
-            #     self._adata.obs["sample_id"] = (
-            #         self._adata.obs[cell_id_col]
-            #         .map(self._df.set_index(cell_id_col)["sample_id"])
-            #     )
-
-            print(self._adata.obs)
-            condition_col = self._adata.obs["sample_id"].map(self._conditions).fillna("unassigned")
+            condition_col = mapped_sample_id.map(self._conditions).fillna("unassigned")
             self._adata.obs["label"] = condition_col
 
-            # Save annotated cells from adata.obs
+            # Write the STAIA sample id under its namespaced column — but only
+            # if that name isn't already taken. If it is, warn instead of
+            # overwriting; "label" and the CSV outputs below are unaffected
+            # either way, so the export still completes.
+            collision_warning = None
+            if self.OBS_SAMPLE_ID_COL in self._adata.obs.columns:
+                collision_warning = (
+                    f"⚠️ adata.obs['{self.OBS_SAMPLE_ID_COL}'] already exists — "
+                    f"STAIA left it untouched instead of overwriting it. "
+                    f"(adata.obs['label'] and the CSV files were still written normally.)"
+                )
+            else:
+                self._adata.obs[self.OBS_SAMPLE_ID_COL] = mapped_sample_id
+
+            # Save annotated cells from adata.obs. sample_id is included here
+            # as a plain output column (freshly computed, independent of
+            # whichever branch above ran) so the exported CSV is always
+            # correct and self-contained even if OBS_SAMPLE_ID_COL was skipped.
             cells_path = os.path.join(self._output_dir, "cells_annotated.csv")
-            self._adata.obs.assign(condition=condition_col).to_csv(cells_path, index=False)
+            self._adata.obs.assign(
+                sample_id=mapped_sample_id,
+                condition=condition_col,
+            ).to_csv(cells_path, index=False)
 
             # Conditions summary
             cond_df = pd.DataFrame([
                 {"sample_id": k, "label": v,
-                "n_cells": int((self._adata.obs["sample_id"] == k).sum())}
+                "n_cells": int((mapped_sample_id == k).sum())}
                 for k, v in self._conditions.items()
             ])
             cond_path = os.path.join(self._output_dir, "sample_labels.csv")
             cond_df.to_csv(cond_path, index=False)
 
             w_btn_export.disabled = False
-            w_status.value = (f"<span style='color:#2ecc71'>✅ Saved!<br>- {cells_path}<br>"
-                            f"- {cond_path}<br>- adata.obs updated</span>")
+            status_lines = [f"✅ Saved!<br>- {cells_path}<br>- {cond_path}<br>- adata.obs['label'] updated"]
+            if collision_warning:
+                status_lines.append(collision_warning)
+                w_status.value = (
+                    "<span style='color:#2ecc71'>" + status_lines[0] + "</span><br>"
+                    "<span style='color:#f39c12'>" + status_lines[1] + "</span>"
+                )
+            else:
+                status_lines.append(f"adata.obs['{self.OBS_SAMPLE_ID_COL}'] updated")
+                w_status.value = (
+                    "<span style='color:#2ecc71'>" + status_lines[0] + "<br>- " + status_lines[1] + "</span>"
+                )
 
             self._w_table.clear_output(wait=True)
             with self._w_table:

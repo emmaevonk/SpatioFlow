@@ -1,22 +1,22 @@
 
 ## 🚀 Quick Start 
-A small example of steps that can be taken with SpatioFlow. 
+A small example of steps that can be taken with STAIA. 
 
 1. Load Xenium data
 ```py
-import SpatioFlow
-sdata = SpatioFlow.read_data(path_xenium)
-adata = SpatioFlow.tables["table"].copy()
+import STAIA
+sdata = STAIA.read_data(path_xenium)
+adata = STAIA.tables["table"].copy()
 ``` 
 2. Obtain metrics (percentage transcripts and staining positive pixels allocated)
 ```py
-perc_transcripts, s_pos = SpatioFlow.metrics(sdata)
+perc_transcripts, s_pos = STAIA.metrics(sdata)
 ``` 
 3. QC
 ```py
-SpatioFlow.plot_qc_metrics(adata, save=True)
-thr = SpatioFlow.recommend_threshold(adata)
-adata_filtered = SpatioFlow.perform_quality_control(adata, thr)
+STAIA.plot_qc_metrics(adata, save=True)
+thr = STAIA.recommend_threshold(adata)
+adata_filtered = STAIA.perform_quality_control(adata, thr)
 ```
 4. Log normalize adata
 ```py
@@ -25,16 +25,16 @@ sc.pp.log1p(adata_filtered)
 ```
 5. Assigning conditions
 ```py
-adata = SpatioFlow.run_watershed(adata, sdata)
+adata = STAIA.run_watershed(adata, sdata)
 df_split_base = df.copy()
-session = SpatioFlow.SplitSession(df_split_base)
+session = STAIA.SplitSession(df_split_base)
 session.show()
 ```
 6. Perform annotation
 7. Analysis
 ```py
-SpatioFlow.dotplot(adata)
-SpatioFlow.nhood_enrichment(adata) 
-SpatioFlow.celltype_composition(adata)
-SpatioFlow.pseudobulk(adata, celltype="Endothelial cells")
+STAIA.dotplot(adata)
+STAIA.nhood_enrichment(adata) 
+STAIA.celltype_composition(adata)
+STAIA.pseudobulk(adata, celltype="Endothelial cells")
 ```

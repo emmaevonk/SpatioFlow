@@ -10,7 +10,8 @@ from .plot import (
     run_banksy,
     run_cellcharter,
     stability_cellcharter,
-    plot_count_distr
+    plot_count_distr,
+    prepare_cellcharter
 )
 
 from .table import (

@@ -12,7 +12,8 @@ from anndata import AnnData
 def dotplot(
     adata: AnnData,
     markers: list | None = None,
-    cluster: str = 'leiden'
+    cluster: str = 'leiden',
+    n_genes : int = 5
 ):  
     """
     Generating dotplots showing markers and their expression in the cells.
@@ -27,6 +28,8 @@ def dotplot(
         List of the markers shown in the dotplot.
     cluster : str, default = 'leiden'
         Clusters shown in the dotplot.
+    n_genes : int, default = 5
+        Number of genes to show in the dotplot.
 
     Notes
     ------
@@ -39,7 +42,7 @@ def dotplot(
         #     n_genes=5,
         #     save="/exports/archive/hg-funcgenom-research/evonk/assigning_labels/_dotplotv2.png"
         # )
-        sc.pl.rank_genes_groups_dotplot(adata, n_genes=5)
+        sc.pl.rank_genes_groups_dotplot(adata, n_genes=n_genes)
     else:
         sc.pl.dotplot(adata, var_names=markers, groupby=cluster, show=True, use_raw=False)
 
@@ -51,6 +54,29 @@ def celltype_composition(
         show: bool = True,
         save: bool = False
 ):
+    """
+    Generating a cell type composition graph, showing
+    the fractions of cell types per condition(s)
+
+    Parameters
+    ----------
+    adata : AnnData
+        Annotated data matrix. It must contain the 
+        counts in the data.
+    condition : str, default = "condition"
+        Column in `adata.obs` containing the conditions
+        of the samples.
+    celltype : str, default = 'cell_type'
+        Column in `adata.obs` containing cell types.
+    output_path : str, default = None
+        An output path where to write the 
+        resulting PNG file.
+    show : bool, default = True 
+        Show the cell type composition graph
+    save : bool, default = False
+        Boolean deciding whether or not to save
+        the cell type composition graph separately.
+    """
     composition_counts = adata.obs.groupby([condition, celltype]).size().reset_index(name='count')
     composition_counts['fraction'] = composition_counts.groupby(condition)['count'].transform(lambda x: x / x.sum())
 

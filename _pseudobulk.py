@@ -13,6 +13,110 @@ from itertools import combinations
 This module performs pseudobulk DE analysis per condition
 """
 
+import numpy as np
+
+def plot_volcano(
+    de_df: pd.DataFrame,
+    celltype: str = "",
+    contrast: str = "",
+    lfc_thresh: float = 0.25,
+    padj_thresh: float = 0.05,
+    top_n_labels: int = 10,
+    save: bool = False,
+    output_path: str | None = None,
+):
+    """
+    Generate a volcano plot from DESeq2 results.
+
+    Parameters
+    ----------
+    de_df : pd.DataFrame
+        Full results DataFrame from DeseqStats (must contain 'log2FoldChange' and 'padj').
+    celltype : str
+        Cell type label, used in the plot title.
+    contrast : str
+        Contrast string (e.g. "WT_vs_TEST"), used in the plot title.
+    lfc_thresh : float, default=0.25
+        Log2 fold change threshold for significance.
+    padj_thresh : float, default=0.05
+        Adjusted p-value threshold for significance.
+    top_n_labels : int, default=10
+        Number of top significant genes (by padj) to label on the plot.
+    save : bool, default=False
+        Whether to save the figure to disk.
+    output_path : str or None
+        Path for saving the figure. If None, saves to the current directory.
+    """
+    df = de_df.dropna(subset=["log2FoldChange", "padj"]).copy()
+    df["-log10padj"] = -np.log10(df["padj"].clip(lower=1e-300))
+
+    # Classify each gene
+    conditions = [
+        (df["padj"] < padj_thresh) & (df["log2FoldChange"] > lfc_thresh),
+        (df["padj"] < padj_thresh) & (df["log2FoldChange"] < -lfc_thresh),
+    ]
+    colors_map = ["#d62728", "#1f77b4"]  # red = up, blue = down
+    df["color"] = "#aaaaaa"  # default: not significant
+    for cond, color in zip(conditions, colors_map):
+        df.loc[cond, "color"] = color
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    # Plot by group so we get a clean legend
+    groups = {
+        f"Up (LFC > {lfc_thresh}, padj < {padj_thresh})": "#d62728",
+        f"Down (LFC < -{lfc_thresh}, padj < {padj_thresh})": "#1f77b4",
+        "Not significant": "#aaaaaa",
+    }
+    for label, color in groups.items():
+        mask = df["color"] == color
+        ax.scatter(
+            df.loc[mask, "log2FoldChange"],
+            df.loc[mask, "-log10padj"],
+            c=color,
+            s=10,
+            alpha=0.6,
+            linewidths=0,
+            label=f"{label} (n={mask.sum()})",
+            rasterized=True,
+        )
+
+    # Threshold lines
+    ax.axhline(-np.log10(padj_thresh), color="black", linestyle="--", linewidth=0.8, alpha=0.7)
+    ax.axvline(lfc_thresh, color="black", linestyle="--", linewidth=0.8, alpha=0.7)
+    ax.axvline(-lfc_thresh, color="black", linestyle="--", linewidth=0.8, alpha=0.7)
+
+    # Label top significant genes
+    sig = df[df["color"] != "#aaaaaa"].nsmallest(top_n_labels, "padj")
+    for gene, row in sig.iterrows():
+        ax.text(
+            row["log2FoldChange"],
+            row["-log10padj"],
+            gene,
+            fontsize=7,
+            ha="left",
+            va="bottom",
+        )
+
+    title = f"Volcano plot — {celltype}"
+    if contrast:
+        title += f"\n{contrast}"
+    ax.set_title(title, fontsize=12)
+    ax.set_xlabel("log2 Fold Change", fontsize=11)
+    ax.set_ylabel("-log10(padj)", fontsize=11)
+    ax.legend(fontsize=8, markerscale=2, framealpha=0.5)
+    plt.tight_layout()
+
+    if save:
+        if output_path is None:
+            fname = f"volcano_{celltype}_{contrast}.png".replace(" ", "_")
+            output_path = os.path.join(os.getcwd(), fname)
+        plt.savefig(output_path, dpi=150, bbox_inches="tight")
+        print(f"Volcano plot saved to: {output_path}")
+
+    plt.show()
+    return fig, ax
+
 def _make_pseudobulk(
     adata,
     celltype_col,
@@ -104,13 +208,14 @@ def _make_pseudobulk(
 def pseudobulk(
     adata: AnnData,
     celltype: str = "Macrophages",
-    cond: list = ["WT", "TEST"],
+    cond: list = ["HC", "TEST"],
     save: bool = True,
     output_path: str | None = None,
     sample_col: str = "sample_id",
     treatment_col="condition",
     pb_dict: dict | None = None,
-    celltype_col: str = "cell_type"
+    celltype_col: str = "cell_type",
+    plot: bool = True,
 ):
     """
     Perform pseudobulk diferential expression analysis for a specific cell type.
@@ -127,7 +232,7 @@ def pseudobulk(
         Annotated data matrix containing raw counts and metadata.
     celltype : str, default = "Macrophages"
         Cell type to analyze.
-    cond : list[str], default = ["WT_PBS", "MDX52_ASO_GIVI"].
+    cond : list[str], default = ["HC", "TEST"].
         Two treatment groups to compare. [reference_condition, comparison_condition]
     save : bool, default = True
         Whether to save the significant genes to a CSV file.
@@ -140,6 +245,8 @@ def pseudobulk(
         Column in annotated data matrix referring to assigned labels of the samples.
     pb_dict : dict, optional
         Pre-built pseudobulk dict from outside.
+    plot : bool, default = True
+        A boolean deciding whether or not to plot the volcano plot.
 
     Returns
     -------
@@ -195,6 +302,15 @@ def pseudobulk(
     stat_res.summary()
 
     de_df = stat_res.results_df
+
+    if plot:
+        plot_volcano(
+            de_df,
+            celltype=celltype,
+            contrast=f"{cond[0]}_vs_{cond[1]}",
+            save=save,
+            output_path=output_path.replace(".csv", "_volcano.png") if output_path else None
+        )
 
     # Get significant genes
     sig = de_df.query("padj < 0.05 & abs(log2FoldChange) > 0.25")

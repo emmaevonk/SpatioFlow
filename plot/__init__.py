@@ -22,5 +22,6 @@ from ._segmentation import (
 from .spatial_clustering import (
     run_banksy,
     run_cellcharter,
-    stability_cellcharter
+    stability_cellcharter,
+    prepare_cellcharter
 )

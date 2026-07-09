@@ -124,7 +124,7 @@ def plot_labels(
     categories = conditions.cat.categories
 
     # Define colors
-    palette = plt.cm.tab10.colors      
+    palette = plt.cm.tab20.colors      
     color_map = {cat: palette[i] for i, cat in enumerate(categories)}
     colors = [color_map[c] for c in conditions]
 
@@ -147,8 +147,9 @@ def plot_labels(
     )
 
     # Flip axis to keep original coordinate system of Xenium
-    ax.invert_yaxis()
-    ax.set_ylim(22000, 0)
+    ax.set_ylim(coords[:, 1].max(), coords[:, 1].min())
+    # ax.invert_yaxis()
+    # ax.set_ylim(22000, 0) TODO: I removed this, test if it's okay now.
 
     # Equal aspect ratio so coordinates are not distorted
     ax.set_aspect("equal", adjustable="box")

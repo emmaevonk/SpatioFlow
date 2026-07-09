@@ -5,6 +5,8 @@
 
 [Documentation](https://emmaevonk.github.io/STAIA/) can be found [here](https://emmaevonk.github.io/STAIA/).
 
+Please note that STAIA is built for python 3.10, 3.11, and 3.12 (for now).
+
 ## 🌟 Highlights
 
 - End-to-end analyses in one pipeline!

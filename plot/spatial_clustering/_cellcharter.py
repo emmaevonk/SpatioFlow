@@ -205,6 +205,66 @@ def _cluster(
     return adata
 
 
+def prepare_cellcharter(
+        adata: AnnData,
+        epoch: int = 20,
+        plot: bool = True,
+        library_key: str = "sample",
+    ):
+    """
+    Run CellCharter's preprocessing pipeline: scVI dimensionality reduction
+    followed by spatial neighborhood-graph construction and neighbor
+    embedding aggregation.
+
+    This produces ``adata.obsm["X_cellcharter"]``, the representation used
+    by both :func:`stability_cellcharter` (to help choose the number of
+    spatial domains) and :func:`run_cellcharter` (to perform the final
+    clustering). Splitting this out of ``run_cellcharter`` means the
+    stability analysis can run *before* committing to a cluster count,
+    rather than being forced through a full clustering pass first.
+
+    Parameters
+    ----------
+    adata : AnnData
+        Annotated data matrix containing raw gene expression counts and
+        spatial coordinates.
+    epoch : int, default = 20
+        Maximum number of scVI training epochs. Early stopping may halt
+        training before this limit is reached.
+    plot : bool, default = True
+        If ``True``, display the scVI training loss curve after model fitting.
+    library_key : str, default = "sample"
+        Column in ``adata.obs`` used to distinguish tissue sections or
+        samples.
+
+    Returns
+    -------
+    AnnData
+        The input ``adata`` object, updated in-place with:
+        - ``adata.obsm["X_scVI"]``: scVI latent representation (float32)
+        - ``adata.obsp["spatial_connectivities"]``: spatial connectivity matrix
+        - ``adata.obsm["X_cellcharter"]``: aggregated neighbor embeddings
+
+    Notes
+    -----
+    Recommended workflow::
+
+        prepare_cellcharter(adata)
+        stability_cellcharter(adata, output_dir="results")   # inspect plot, pick k
+        run_cellcharter(adata, n_clusters=k, output_dir="results")
+    """
+    seed_everything(12345)
+    scvi.settings.seed = 12345
+
+    model = _dim_red(adata, epoch=epoch)
+    if plot:
+        _plot_epoch(model)
+
+    adata.obsm["X_scVI"] = model.get_latent_representation(adata).astype(np.float32)
+    adata = _neigh_aggr(adata, library_key=library_key)
+    return adata
+
+
 def stability_cellcharter(
     adata: AnnData,
     n_clusters: tuple[int] = (2, 10),
@@ -218,7 +278,10 @@ def stability_cellcharter(
     Parameters
     ----------
     adata : AnnData
-        Annotated data matrix containing CellCharter results
+        Annotated data matrix containing CellCharter results — i.e.
+        ``adata.obsm["X_cellcharter"]`` must already exist. Call
+        :func:`prepare_cellcharter` (or :func:`run_cellcharter`, which calls
+        it automatically) first.
     n_clusters : tuple[int], default = (2, 10)
         The amount of clusters checked (min, max).
     max_runs : int, default = 10
@@ -227,6 +290,9 @@ def stability_cellcharter(
         Convergence tolerance for the clustering stability. If the Mean Absolute Percentage
         Error between consecutive iterations is below `convergence_tol` the algorithm stops
         at `max_runs`.
+    output_dir : Path or str, default = ""
+        Directory the stability plot is saved to. Coerced to a ``Path``
+        internally and created if it doesn't exist yet.
 
     Returns
     -------
@@ -236,6 +302,16 @@ def stability_cellcharter(
     -----
     The clustering stability plot is saved as 'clustering_stability_cellcharter.png'.
     """
+    if "X_cellcharter" not in adata.obsm:
+        raise ValueError(
+            "adata.obsm['X_cellcharter'] not found. Run `prepare_cellcharter(adata)` "
+            "(or `run_cellcharter(adata)`, which calls it automatically) before "
+            "`stability_cellcharter`."
+        )
+
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
     autok = cc.tl.ClusterAutoK(
         n_clusters=n_clusters, 
         max_runs=max_runs,
@@ -247,19 +323,23 @@ def stability_cellcharter(
 
 def run_cellcharter(
         adata: AnnData,
+        n_clusters: int = 18,
         output_dir: Path | None = None,
         plot: bool = True,
         epoch: int = 20,
-        library_key: str = "sample" 
+        library_key: str = "sample",
+        force_recompute: bool = False,
     ):
     """
     End-to-end CellCharter pipeline for spatial domain identification.
 
     Orchestrate the full analysis pipeline:
-    1. Dimensionality reduction via scVI
-    2. Spatial neighborhood graph construction and neighbor embedding aggregation
-    3. Gaussian Mixture Model clustering into spatial domains
-    4. Saving the annotated data matrix (AnnData) to disk
+    1. Dimensionality reduction via scVI and neighbor embedding aggregation
+       (skipped if ``adata.obsm["X_cellcharter"]`` already exists — e.g. from
+       a prior call to :func:`prepare_cellcharter` or :func:`stability_cellcharter` —
+       unless ``force_recompute=True``)
+    2. Gaussian Mixture Model clustering into ``n_clusters`` spatial domains
+    3. Saving the annotated data matrix (AnnData) to disk
 
     Parameters
     ----------
@@ -267,19 +347,30 @@ def run_cellcharter(
         Annotated data matrix containing raw gene expression counts and
         spatial coordinates. Must contain a ``sample_id`` column in 
         ``adata.obs`` to distinguish tissue sections.
+    n_clusters : int, default = 18
+        Number of spatial domains (GMM components) to identify. Use
+        :func:`stability_cellcharter` beforehand to inform this choice.
     output_dir : Path or None, optional
         Directory where outputs are saved. If ``None`` the ``.h5ad`` file
         is written to the current working directory and figures are not 
         saved to disk.
     plot : bool, optional
-        If ``True``, display the scVI training loss curve after model fitting.
+        If ``True``, display the scVI training loss curve after model fitting
+        (only relevant if ``X_cellcharter`` doesn't already exist, or if
+        ``force_recompute=True``).
         Default is ``True``.
     epoch: int, default = 20
-        Maximum number of training epochs. Early stopping may halt training before
-        this limit is reached. Default is 20.
+        Maximum number of training epochs. Only takes effect if
+        ``X_cellcharter`` doesn't already exist or ``force_recompute=True``
+        — otherwise it's silently unused, so a warning is printed if it
+        differs from being applied.
     library_key : str, default = "sample"
         Column in ``adata.obs`` used to distinguish tissue sections or 
-        samples.
+        samples. Same caveat as ``epoch`` above.
+    force_recompute : bool, default = False
+        If ``True``, always re-run scVI + neighbor aggregation even if
+        ``adata.obsm["X_cellcharter"]`` already exists, using the ``epoch``
+        and ``library_key`` given here.
 
     Returns
     -------
@@ -287,9 +378,10 @@ def run_cellcharter(
         Results are saved to disk as ``adata_with_spatial_domains.h5ad``
         (gzip-compressed). The ``adata`` object is modified in-place with
         the following additions:
-        - ``adata.obsm["X_scI"]``: scVI latent representation (float32)
-        - ``adata.obsp["spatial_connectivities"]``: spatial connectivity matrix.
-        - ``adata.obs["spatial_domain"]``: predicted spatial domain labels.
+        - ``adata.obsm["X_scVI"]``: scVI latent representation (float32), if not already present
+        - ``adata.obsp["spatial_connectivities"]``: spatial connectivity matrix, if not already present
+        - ``adata.obsm["X_cellcharter"]``: aggregated neighbor embeddings, if not already present
+        - ``adata.obs["spatial_domain"]``: predicted spatial domain labels
 
     Notes
     -----
@@ -299,22 +391,25 @@ def run_cellcharter(
 
     Examples
     --------
-    >>> run_cellcharter(adata, output_dir=Path("results/"), plot=True)
+    >>> prepare_cellcharter(adata)
+    >>> stability_cellcharter(adata, output_dir=Path("results/"))  # pick n_clusters from the plot
+    >>> run_cellcharter(adata, n_clusters=7, output_dir=Path("results/"))
     """
-    # set params
     seed_everything(12345)
     scvi.settings.seed = 12345
-    sc.settings.figdir = str(output_dir)
+    if output_dir is not None:
+        sc.settings.figdir = str(output_dir)
 
-    # perform dimensionality reduction
-    model = _dim_red(adata, epoch=epoch) 
-    if plot:
-        _plot_epoch(model)
+    if "X_cellcharter" not in adata.obsm or force_recompute:
+        adata = prepare_cellcharter(adata, epoch=epoch, plot=plot, library_key=library_key)
+    else:
+        print(
+            "adata.obsm['X_cellcharter'] already exists — reusing it and skipping "
+            "scVI/neighbor-aggregation. 'epoch' and 'library_key' had no effect this "
+            "call. Pass force_recompute=True to recompute from scratch."
+        )
 
-    adata.obsm["X_scVI"] = model.get_latent_representation(adata).astype(np.float32)
-
-    adata = _neigh_aggr(adata, library_key=library_key) 
-    adata = _cluster(adata)
+    adata = _cluster(adata, n_cluster=n_clusters)
     if output_dir is None:
         adata.write_h5ad("adata_with_spatial_domains.h5ad", compression="gzip")
     else:

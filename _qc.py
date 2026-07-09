@@ -268,13 +268,20 @@ def control_probes_codew(
     - control_codeword_counts
     - total_counts
     """
-    cprobes = (
-    adata.obs["control_probe_counts"].sum() / adata.obs["total_counts"].sum() * 100
-    )
+    if "control_probe_counts" in adata.obs:
+        cprobes = (
+        adata.obs["control_probe_counts"].sum() / adata.obs["total_counts"].sum() * 100
+        )
+    else:
+        cprobes = ("Column `control_probe_counts` not present in adata.")
 
-    cwords = (
-        adata.obs["control_codeword_counts"].sum() / adata.obs["total_counts"].sum() * 100
-    )
+    if "control_codeword_counts" in adata.obs:
+        cwords = (
+            adata.obs["control_codeword_counts"].sum() / adata.obs["total_counts"].sum() * 100
+        )
+    else:
+        cwords = ("Column `control_codeword_counts` not present in adata.")
+
     return (cprobes, cwords)
 
 
@@ -435,7 +442,12 @@ def plot_qc_metrics(
 import numpy as np
 import scanpy as sc
 
-def recommend_threshold(adata, nmads=3, min_genes_floor=5, min_counts_floor=10):
+def recommend_threshold(
+    adata: AnnData, 
+    nmads: int = 3, 
+    min_genes_floor: int = 5, 
+    min_counts_floor: int =10
+    ):
     """
     Suggest QC filtering thresholds using MAD-based outlier detection on QC metrics.
     
@@ -445,19 +457,32 @@ def recommend_threshold(adata, nmads=3, min_genes_floor=5, min_counts_floor=10):
 
     Parameters
     ----------
-    adata           : AnnData object (pre QC metrics calculation)
-    nmads           : Number of MADs away from median to set threshold.
-                      3 is the standard; lower = stricter filtering.
-    min_genes_floor : Hard minimum for n_genes lower bound (prevents
-                      negative threshold on very sparse data).
-    min_counts_floor: Hard minimum for total_counts lower bound.
+    adata : anndata.AnnData
+        AnnData object (pre QC metrics calculation)
+    nmads : int, default = 3
+        Number of MADs away from median to set threshold.
+        3 is the standard; lower = stricter filtering.
+    min_genes_floor : int, default = 5
+        Hard minimum for n_genes lower bound (prevents
+        negative threshold on very sparse data).
+    min_counts_floor : int, default = 10 
+        Hard minimum for total_counts lower bound.
 
     Returns
     -------
-    thr   : dict of the thresholds that need to be applied.
+    thr : dict
+        dict of the thresholds that need to be applied, containing:
+            - min genes
+            - max genes
+            - min_counts
+            - max_counts
     """
     # Ensure QC metrics exist
-    sc.pp.calculate_qc_metrics(adata, inplace=True)
+    sc.pp.calculate_qc_metrics(
+        adata,
+        percent_top=None,
+        inplace=True,
+    )
 
     def _mad_bounds(series, direction="both", floor=None):
         med = np.median(series)

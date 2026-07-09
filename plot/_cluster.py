@@ -13,6 +13,8 @@ def cluster(
     color_map: str = "viridis",
     palette: str | None = None,
     save: str | bool = False,
+    random_state: int = 0,
+    resolution: float = 0.3
 ):
     """
     Compute UMAP clustering for specified columns. 
@@ -42,6 +44,11 @@ def cluster(
         A boolean deciding whether or not the UMAP is being saved. 
         If the data is saved (so not False), provide the path to the 
         output directory.
+    random_state : int, default = 0
+        Random seed for reproducibility of the data.
+    resolution : float, default = 0.3
+        The Leiden resolution used for clustering. If Leiden clustering
+        has already been performed on the data, this parameter can be ignored.
 
     Returns
     -------
@@ -61,7 +68,7 @@ def cluster(
 
     # PCA
     if "pca" not in adata.uns:
-        sc.tl.pca(adata, n_comps=n_comps)
+        sc.tl.pca(adata, n_comps=n_comps, random_state=random_state)
 
     # Neighbor graph
     if "neighbors" not in adata.uns:
@@ -70,13 +77,14 @@ def cluster(
             adata,
             n_neighbors=n_neighbors,
             n_pcs=n_pcs,
+            random_state=random_state
         )
 
     if len(colors) == 1 and colors[0] == "leiden" and "leiden" not in adata.obs:
-        sc.tl.leiden(adata, resolution=0.3)
+        sc.tl.leiden(adata, resolution=reolution, random_state=random_state)
 
     # UMAP
-    sc.tl.umap(adata)
+    sc.tl.umap(adata, random_state=random_state)
 
     if save != False:
         folder_path = os.path.dirname(save)
