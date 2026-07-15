@@ -1,7 +1,15 @@
 # importing the packages
 from __future__ import annotations
 import matplotlib
-matplotlib.use("module://matplotlib_inline.backend_inline")
+
+# NOTE: the backend is intentionally left for the notebook to choose,
+# rather than forced here. Vertical/horizontal/diagonal splits work fine
+# under the default inline backend, but the freehand split tool needs a
+# live, event-driven backend to receive mouse events. Before creating a
+# SplitSession, run in a notebook cell:
+#     %matplotlib widget
+# (requires `pip install ipympl`). If you only ever use straight-line
+# splits, `%matplotlib inline` continues to work as before.
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -303,6 +311,82 @@ SplitRecord = dict  # {"type", "sample_id", "single_value"?  "x_points"? "y_poin
 SplitHistory = list[SplitRecord]
 
 
+def _split_by_curve(
+    cx: np.ndarray,
+    cy: np.ndarray,
+    x_points: list[float],
+    y_points: list[float],
+) -> np.ndarray:
+    """
+    Classify points relative to an open, possibly curved polyline.
+
+    For each point, this finds the closest point on the polyline (checked
+    across all of its segments) and uses the perpendicular signed side of
+    that nearest segment to decide which side of the cut the point falls
+    on. This generalizes the straight-line cross-product test used for
+    vertical/horizontal/diagonal splits to an arbitrary hand-drawn curve,
+    without requiring the curve to be closed into a polygon first — which
+    matters here since a hand-drawn cut is naturally open (it starts and
+    ends at the edge of a sample, it doesn't loop back on itself).
+
+    Parameters
+    ----------
+    cx, cy : np.ndarray
+        Coordinates of the cells belonging to the sample being split.
+    x_points, y_points : list[float]
+        Vertices of the cut polyline, in the order they were drawn.
+        Must contain at least two points each.
+
+    Returns
+    -------
+    np.ndarray of bool
+        ``True`` for cells on the "positive" side of the curve, ``False``
+        for the other side. Matches the ``cross >= 0`` convention used
+        elsewhere in this module for vertical/horizontal/diagonal splits.
+
+    Notes
+    -----
+    This assumes the drawn curve reasonably separates the sample into two
+    sides (i.e. it spans across the sample rather than looping around a
+    small region within it). For a curve that self-intersects or loops,
+    the "nearest segment" side test is not guaranteed to match a
+    conventional inside/outside polygon definition.
+    """
+    pts = np.column_stack([np.asarray(x_points, dtype=float),
+                            np.asarray(y_points, dtype=float)])
+    cells = np.column_stack([np.asarray(cx, dtype=float),
+                              np.asarray(cy, dtype=float)])
+
+    if len(pts) < 2:
+        raise ValueError("A freehand cut needs at least two points.")
+
+    n_cells = len(cells)
+    best_dist2 = np.full(n_cells, np.inf)
+    best_side  = np.zeros(n_cells)
+
+    for p1, p2 in zip(pts[:-1], pts[1:]):
+        seg = p2 - p1
+        seg_len2 = seg @ seg
+        if seg_len2 == 0:
+            continue  # duplicate consecutive points (e.g. a mouse-jitter
+                      # artifact) — skip the degenerate segment
+
+        # Closest point on the segment to each cell (clamped to the segment)
+        t = np.clip(((cells - p1) @ seg) / seg_len2, 0.0, 1.0)
+        proj = p1 + t[:, None] * seg
+        dist2 = np.sum((cells - proj) ** 2, axis=1)
+
+        # Signed perpendicular side of *this* segment
+        cross = seg[0] * (cells[:, 1] - p1[1]) - seg[1] * (cells[:, 0] - p1[0])
+        side = np.sign(cross)
+
+        closer = dist2 < best_dist2
+        best_dist2[closer] = dist2[closer]
+        best_side[closer]  = side[closer]
+
+    return best_side >= 0
+
+
 #  split helpers
 def _do_one_split(
     df: pd.DataFrame,
@@ -321,14 +405,18 @@ def _do_one_split(
         Must contain columns ``x``, ``y``, ``sample_id``.
     sample_id : int
         The raw sample ID to split.
-    split_type : {"vertical", "horizontal", "diagonal"}
-        Type of geometric split.
+    split_type : {"vertical", "horizontal", "diagonal", "freehand"}
+        Type of geometric split. "freehand" accepts an arbitrary polyline
+        (two or more points, in drawing order) tracing a possibly curved
+        cut, e.g. hand-drawn with the mouse in the notebook UI.
     single_value : float, optional
         Cut position for vertical (x = value) or horizontal (y = value) splits.
     x_points : list[float], optional
-        Two x-coordinates defining a diagonal split line.
+        x-coordinates defining the cut line. Exactly two values for a
+        "diagonal" split; two or more (in drawing order) for "freehand".
     y_points : list[float], optional
-        Two y-coordinates defining a diagonal split line.
+        y-coordinates defining the cut line, paired index-for-index with
+        ``x_points``.
 
     Returns
     -------
@@ -354,9 +442,14 @@ def _do_one_split(
         x1, x2 = x_points
         y1, y2 = y_points
         cross = (x2 - x1) * (cy - y1) - (y2 - y1) * (cx - x1)
+    elif split_type == "freehand":
+        if x_points is None or y_points is None or len(x_points) < 2:
+            raise ValueError("Freehand split requires at least two (x, y) points.")
+        on_positive_side = _split_by_curve(cx.to_numpy(), cy.to_numpy(), x_points, y_points)
+        cross = pd.Series(np.where(on_positive_side, 1.0, -1.0), index=cx.index)
     else:
         raise ValueError(f"Unknown split_type: {split_type!r}. "
-                         "Expected 'vertical', 'horizontal', or 'diagonal'.")
+                         "Expected 'vertical', 'horizontal', 'diagonal', or 'freehand'.")
 
     max_id = int(df["sample_id"].max())
     side_a = is_target & pd.Series(cross >= 0, index=df.index).fillna(False)
@@ -468,6 +561,24 @@ def _make_diagonal_record(
         "sample_id": sample_id,
         "x_points": [x1, x2],
         "y_points": [y1, y2],
+    }
+
+
+def _make_freehand_record(
+    sample_id: int,
+    x_points: list[float],
+    y_points: list[float],
+) -> SplitRecord:
+    """Return a split record for a freehand (hand-drawn, possibly curved) cut."""
+    if len(x_points) < 2 or len(x_points) != len(y_points):
+        raise ValueError(
+            "Freehand record needs matching, non-empty x/y point lists (>= 2 points)."
+        )
+    return {
+        "type": "freehand",
+        "sample_id": sample_id,
+        "x_points": list(x_points),
+        "y_points": list(y_points),
     }
 
 

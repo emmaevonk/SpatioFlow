@@ -23,4 +23,5 @@ scikit-learn<1.7
 igraph
 leidenalg
 spatialdata-io==0.6.0
+ipympl  
 # pybanksy[notebooks] # install this later, cannot be installed via a requirements file

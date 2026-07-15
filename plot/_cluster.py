@@ -81,7 +81,7 @@ def cluster(
         )
 
     if len(colors) == 1 and colors[0] == "leiden" and "leiden" not in adata.obs:
-        sc.tl.leiden(adata, resolution=reolution, random_state=random_state)
+        sc.tl.leiden(adata, resolution=resolution, random_state=random_state)
 
     # UMAP
     sc.tl.umap(adata, random_state=random_state)

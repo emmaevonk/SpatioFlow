@@ -6,14 +6,38 @@ the assignment module.  It handles all ipywidgets / matplotlib concerns and
 manages the mutable split-session state (history, pending preview) in a
 local object rather than in global variables.
 
+Split types
+-----------
+- vertical / horizontal: a single straight cut at a given x or y value.
+- diagonal: a single straight cut through two user-given points.
+- freehand: a hand-drawn, possibly curved cut — useful for samples that
+  aren't neatly separated by a straight line. Click "Start drawing" and
+  drag the mouse across the plot; release to finish, then Preview as usual.
+
+Backend requirement for freehand drawing
+-----------------------------------------
+Freehand drawing needs a *live* matplotlib backend that can forward mouse
+events to Python — the static inline backend cannot do this. Before
+creating a SplitSession, run once in a notebook cell:
+
+>>> %matplotlib widget
+
+This requires the ``ipympl`` package (``pip install ipympl``); restart the
+kernel after installing if it was just added. This works fine over a
+remote JupyterHub/HPC connection since all interactivity goes over the
+same browser/websocket connection as the rest of the notebook — no X11
+forwarding is needed. If you only use vertical/horizontal/diagonal
+splits, the default inline backend continues to work unchanged.
+
 Typical usage (in a Jupyter notebook)
 --------------------------------------
+>>> %matplotlib widget
 >>> from split_ui import SplitSession
 >>> session = SplitSession(df_base)   # df_base has columns x, y, sample_id
 >>> session.show()                    # renders the interactive widget
 >>>
 >>> # After you are done splitting:
->>> df_result, ids = session.result()s
+>>> df_result, ids = session.result()
 """
 
 from __future__ import annotations
@@ -30,6 +54,7 @@ from ._assignment_module import (
     _make_vertical_record,
     _make_horizontal_record,
     _make_diagonal_record,
+    _make_freehand_record,
     plot_samples
 )
 
@@ -41,15 +66,31 @@ def _draw_cut(ax: plt.Axes, record: dict) -> None:
         ax.axvline(record["single_value"], color="white", lw=2, ls="--", alpha=0.85)
     elif stype == "horizontal":
         ax.axhline(record["single_value"], color="white", lw=2, ls="--", alpha=0.85)
-    else:
+    elif stype == "diagonal":
         x1, x2 = record["x_points"]
         y1, y2 = record["y_points"]
         ax.plot([x1, x2], [y1, y2], color="white", lw=2, ls="--", alpha=0.85)
         ax.scatter([x1, x2], [y1, y2], color="white", s=50, zorder=6)
+    else:  # freehand — an arbitrary-length polyline, not just two points
+        xs, ys = record["x_points"], record["y_points"]
+        ax.plot(xs, ys, color="white", lw=2, ls="--", alpha=0.85)
+        ax.scatter([xs[0], xs[-1]], [ys[0], ys[-1]], color="white", s=50, zorder=6)
 
 
-def _render(w_out: widgets.Output, df, ids: list[int], record: dict | None = None) -> None:
-    """Clear *w_out* and draw the current segmentation (with optional cut preview)."""
+def _render(
+    w_out: widgets.Output, df, ids: list[int], record: dict | None = None
+) -> tuple[plt.Figure, plt.Axes]:
+    """
+    Clear *w_out* and draw the current segmentation (with optional cut preview).
+
+    Returns the (fig, ax) pair so callers can attach mouse-event handlers to
+    ``fig.canvas`` (used for freehand drawing). Note this intentionally does
+    NOT call plt.close(fig) — under the ipympl ("%matplotlib widget") backend
+    the figure needs to stay alive for its canvas to remain interactive.
+    Callers that create a new figure on top of an old one should close the
+    previous figure themselves (see SplitSession._close_active_fig) to avoid
+    accumulating open figures over a long session.
+    """
     w_out.clear_output(wait=True)
     with w_out:
         fig, ax = plt.subplots(figsize=(12, 8))
@@ -59,7 +100,7 @@ def _render(w_out: widgets.Output, df, ids: list[int], record: dict | None = Non
             _draw_cut(ax, record)
         plt.tight_layout()
         plt.show()
-        plt.close(fig)
+    return fig, ax
 
 
 class SplitSession:
@@ -79,6 +120,20 @@ class SplitSession:
         self._df, self._ids = replay_all_splits(self._base_df, self._history)
         self._w_out     = widgets.Output()
         self._container = widgets.Output()
+
+        # Freehand drawing state
+        self._freehand_points: list[tuple[float, float]] = []
+        self._freehand_drawing: bool = False
+        self._active_fig: plt.Figure | None = None
+
+    def _close_active_fig(self) -> None:
+        """Close the previously-rendered figure, if any, before drawing a new one."""
+        if self._active_fig is not None:
+            try:
+                plt.close(self._active_fig)
+            except Exception:
+                pass
+            self._active_fig = None
 
     def result(self):
         return self._df.copy(), list(self._ids)
@@ -123,7 +178,7 @@ class SplitSession:
             </script>
         """))
         w_type = widgets.RadioButtons(
-            options=["vertical (x)", "horizontal (y)", "diagonal"],
+            options=["vertical (x)", "horizontal (y)", "diagonal", "freehand"],
             value="vertical (x)",
             description="Split type:",
             style={"description_width": "100px"},
@@ -145,6 +200,21 @@ class SplitSession:
         w_diag_rows = widgets.VBox([widgets.HBox([w_x1, w_y1]), widgets.HBox([w_x2, w_y2])])
         w_diag_rows.layout.display = "none"
 
+        w_freehand_help = widgets.HTML(
+            "<small style='color:grey'>Click 'Start drawing', then click-and-drag on the plot "
+            "below to trace a (possibly curved) cut line. Release the mouse to finish, then "
+            "click Preview. Requires <code>%matplotlib widget</code> — see module docstring.</small>"
+        )
+        w_btn_draw_start = widgets.Button(description="✏️ Start drawing", button_style="info",
+                                           layout=widgets.Layout(width="140px"))
+        w_btn_draw_clear = widgets.Button(description="🧹 Clear", layout=widgets.Layout(width="90px"))
+        w_draw_status = widgets.HTML("")
+        w_freehand_row = widgets.VBox([
+            w_freehand_help,
+            widgets.HBox([w_btn_draw_start, w_btn_draw_clear, w_draw_status]),
+        ])
+        w_freehand_row.layout.display = "none"
+
         w_btn_preview = widgets.Button(description="Preview",     button_style="primary", layout=widgets.Layout(width="120px"))
         w_btn_confirm = widgets.Button(description="✅ Confirm",  button_style="success", layout=widgets.Layout(width="120px"), disabled=True)
         w_btn_discard = widgets.Button(description="❌ Discard",  button_style="danger",  layout=widgets.Layout(width="120px"), disabled=True)
@@ -164,10 +234,12 @@ class SplitSession:
                     desc = f"S{s['sample_id']} — vertical at x = {s['single_value']:.1f}"
                 elif s["type"] == "horizontal":
                     desc = f"S{s['sample_id']} — horizontal at y = {s['single_value']:.1f}"
-                else:
+                elif s["type"] == "diagonal":
                     desc = (f"S{s['sample_id']} — diagonal "
                             f"({s['x_points'][0]:.0f}, {s['y_points'][0]:.0f}) → "
                             f"({s['x_points'][1]:.0f}, {s['y_points'][1]:.0f})")
+                else:  # freehand
+                    desc = f"S{s['sample_id']} — freehand cut ({len(s['x_points'])} points)"
                 lines.append(f"&nbsp;&nbsp;{i+1}. {desc}<br>")
             w_log.value = "".join(lines)
 
@@ -179,10 +251,62 @@ class SplitSession:
         def on_type_change(change):
             if change["name"] != "value":
                 return
-            is_diag = change["new"] == "diagonal"
-            w_diag_rows.layout.display  = "" if is_diag else "none"
-            w_single_row.layout.display = "none" if is_diag else ""
-            w_single_label.value = "Cut at x =" if change["new"] == "vertical (x)" else "Cut at y ="
+            val = change["new"]
+            is_diag     = val == "diagonal"
+            is_freehand = val == "freehand"
+            w_diag_rows.layout.display     = "" if is_diag else "none"
+            w_freehand_row.layout.display  = "" if is_freehand else "none"
+            w_single_row.layout.display    = "" if val in ("vertical (x)", "horizontal (y)") else "none"
+            if val == "vertical (x)":
+                w_single_label.value = "Cut at x ="
+            elif val == "horizontal (y)":
+                w_single_label.value = "Cut at y ="
+
+        def on_draw_start(_):
+            """Show a live plot and start capturing a freehand cut line."""
+            self._freehand_points = []
+            self._freehand_drawing = False
+            w_draw_status.value = ("<span style='color:#f39c12'>Drawing mode: click-and-drag on "
+                                   "the plot below, release to finish.</span>")
+
+            df_current, ids_current = replay_all_splits(self._base_df, self._history)
+            self._close_active_fig()
+            fig, ax = _render(self._w_out, df_current, ids_current, record=None)
+            self._active_fig = fig
+
+            def on_press(event):
+                if event.inaxes != ax or event.xdata is None:
+                    return
+                self._freehand_points = [(event.xdata, event.ydata)]
+                self._freehand_drawing = True
+
+            def on_move(event):
+                if not self._freehand_drawing or event.inaxes != ax or event.xdata is None:
+                    return
+                self._freehand_points.append((event.xdata, event.ydata))
+                if len(self._freehand_points) >= 2:
+                    xs, ys = zip(*self._freehand_points[-2:])
+                    ax.plot(xs, ys, color="white", lw=2, alpha=0.85)
+                    fig.canvas.draw_idle()
+
+            def on_release(event):
+                self._freehand_drawing = False
+                n = len(self._freehand_points)
+                if n >= 2:
+                    w_draw_status.value = (f"<span style='color:#2ecc71'>Captured {n} point(s). "
+                                           f"Click Preview to see the split.</span>")
+                else:
+                    w_draw_status.value = ("<span style='color:#e74c3c'>Line too short — "
+                                           "click Start drawing and try again.</span>")
+
+            fig.canvas.mpl_connect("button_press_event", on_press)
+            fig.canvas.mpl_connect("motion_notify_event", on_move)
+            fig.canvas.mpl_connect("button_release_event", on_release)
+
+        def on_draw_clear(_):
+            self._freehand_points = []
+            w_draw_status.value = "<i style='color:grey'>Drawing cleared.</i>"
+            on_draw_start(None)
 
         def on_preview(_):
             _reset_pending()
@@ -203,13 +327,24 @@ class SplitSession:
                 record = _make_vertical_record(sample_id_display, w_single_value.value)
             elif split_type_raw == "horizontal (y)":
                 record = _make_horizontal_record(sample_id_display, w_single_value.value)
-            else:
+            elif split_type_raw == "diagonal":
                 record = _make_diagonal_record(sample_id_display, w_x1.value, w_y1.value, w_x2.value, w_y2.value)
+            else:  # freehand
+                if len(self._freehand_points) < 2:
+                    w_status.value = ("<span style='color:#e74c3c'>No freehand line captured yet. "
+                                      "Click 'Start drawing' first, then drag across the plot.</span>")
+                    return
+                xs, ys = zip(*self._freehand_points)
+                record = _make_freehand_record(sample_id_display, list(xs), list(ys))
 
-            df_after = _do_one_split(df_current, sample_id_display, record["type"],
-                                    single_value=record.get("single_value"),
-                                    x_points=record.get("x_points"),
-                                    y_points=record.get("y_points"))
+            try:
+                df_after = _do_one_split(df_current, sample_id_display, record["type"],
+                                        single_value=record.get("single_value"),
+                                        x_points=record.get("x_points"),
+                                        y_points=record.get("y_points"))
+            except ValueError as exc:
+                w_status.value = f"<span style='color:#e74c3c'>{exc}</span>"
+                return
             df_after, new_ids = _renumber(df_after)
             # new_ids = df_after["sample_id"].unique().tolist()
 
@@ -217,7 +352,9 @@ class SplitSession:
             self._pending["df"]     = df_after
             self._pending["ids"]    = new_ids
 
-            _render(self._w_out, df_after, new_ids, record=record)  # uses self._w_out
+            self._close_active_fig()
+            fig, ax = _render(self._w_out, df_after, new_ids, record=record)  # uses self._w_out
+            self._active_fig = fig
             w_status.value = (f"<span style='color:#f39c12'>Preview: {len(new_ids)} samples "
                               f"— confirm or discard?</span>")
             w_btn_confirm.disabled = False
@@ -238,8 +375,12 @@ class SplitSession:
             w_btn_confirm.disabled = True
             w_btn_discard.disabled = True
             _update_log()
-            _render(self._w_out, self._df, self._ids, record=None)
+            self._close_active_fig()
+            fig, ax = _render(self._w_out, self._df, self._ids, record=None)
+            self._active_fig = fig
             _reset_pending()
+            self._freehand_points = []
+            w_draw_status.value = ""
 
         def on_discard(_):
             _reset_pending()
@@ -247,7 +388,11 @@ class SplitSession:
             w_btn_discard.disabled = True
             w_status.value = "<span style='color:#e74c3c'>❌ Discarded.</span>"
             df_now, ids_now = replay_all_splits(self._base_df, self._history)
-            _render(self._w_out, df_now, ids_now, record=None)  # uses self._w_out
+            self._close_active_fig()
+            fig, ax = _render(self._w_out, df_now, ids_now, record=None)  # uses self._w_out
+            self._active_fig = fig
+            self._freehand_points = []
+            w_draw_status.value = ""
 
         def on_undo(_):
             if not self._history:
@@ -258,21 +403,26 @@ class SplitSession:
             w_status.value = (f"<span style='color:#f39c12'>↩ Undid: {removed['type']} on "
                               f"S{removed['sample_id']}. {len(self._history)} split(s) remaining.</span>")
             _update_log()
-            _render(self._w_out, self._df, self._ids, record=None)  # uses self._w_out
+            self._close_active_fig()
+            fig, ax = _render(self._w_out, self._df, self._ids, record=None)  # uses self._w_out
+            self._active_fig = fig
 
         w_type.observe(on_type_change)
         w_btn_preview.on_click(on_preview)
+        w_btn_draw_start.on_click(on_draw_start)
+        w_btn_draw_clear.on_click(on_draw_clear)
         w_btn_confirm.on_click(on_confirm)
         w_btn_discard.on_click(on_discard)
         w_btn_undo.on_click(on_undo)
 
         _update_log()
-        _render(self._w_out, self._df, self._ids, record=None)  # initial render into self._w_out
+        fig, ax = _render(self._w_out, self._df, self._ids, record=None)  # initial render into self._w_out
+        self._active_fig = fig
 
         return widgets.VBox([
             widgets.HTML("<b>Manual split tool</b><br>"
                          "<small style='color:grey'>Sample IDs in the plot = what you type in 'Sample ID'.</small>"),
-            w_type, w_sample, w_single_row, w_diag_rows,
+            w_type, w_sample, w_single_row, w_diag_rows, w_freehand_row,
             widgets.HBox([w_btn_preview, w_btn_confirm, w_btn_discard, w_btn_undo]),
             w_status, w_log,
             self._w_out,   # the persistent plot output — always the same object

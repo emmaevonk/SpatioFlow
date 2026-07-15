@@ -169,7 +169,7 @@ def plot_outliers(
         plt.legend(handles=legend_elements, loc="upper right", frameon=True)
 
     plt.tight_layout()
-    plt.savefig('assigning_labels/QCplotv2.png', dpi=500)
+    # plt.savefig('assigning_labels/QCplotv2.png', dpi=500)
     return plt.gcf()
     
 
