@@ -410,7 +410,11 @@ def run_cellcharter(
         )
 
     adata = _cluster(adata, n_cluster=n_clusters)
+
     if output_dir is None:
         adata.write_h5ad("adata_with_spatial_domains.h5ad", compression="gzip")
+        print(f"Written the spatial clusters found by CellCharter to 'adata_with_spatial_domains.h5ad'")
+        
     else:
         adata.write_h5ad(f"{output_dir}/adata_with_spatial_domains.h5ad", compression="gzip")
+        print(f"Written the spatial clusters found by CellCharter to '{output_dir}/adata_with_spatial_domains.h5ad'")

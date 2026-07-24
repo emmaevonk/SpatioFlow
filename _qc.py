@@ -26,7 +26,6 @@ This module provides functions for:
 Designed for AnnData objects derived from SpatialData or similar pipelines.
 """
 
-# TODO; add option for whole slide analysis
 def plot_outliers(
     adata: AnnData,
     sample_id: str = "cell_id",

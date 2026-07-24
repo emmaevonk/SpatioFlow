@@ -6,7 +6,8 @@ import os
 
 def cluster(
     adata: AnnData,
-    colors: list = ["transcript_counts", "nucleus_count", "cell_area", "segmentation_method"],
+    # colors: list = ["transcript_counts", "nucleus_count", "cell_area", "segmentation_method"],
+    colors: list = ["leiden"],
     n_comps: int = 50,
     n_neighbors: int = 15,
     n_pcs: int = 30,
@@ -65,7 +66,8 @@ def cluster(
     >>> cluster(adata, colors=["n_counts"], n_neighbors=10)
 
     """     
-
+    if type(colors) != list:
+        colors = list(colors)
     # PCA
     if "pca" not in adata.uns:
         sc.tl.pca(adata, n_comps=n_comps, random_state=random_state)
@@ -81,7 +83,9 @@ def cluster(
         )
 
     if len(colors) == 1 and colors[0] == "leiden" and "leiden" not in adata.obs:
+        print("Computing Leiden clusters...")
         sc.tl.leiden(adata, resolution=resolution, random_state=random_state)
+        print("Leiden clusters computed.")
 
     # UMAP
     sc.tl.umap(adata, random_state=random_state)
@@ -91,25 +95,25 @@ def cluster(
         if folder_path:
             os.makedirs(folder_path, exist_ok=True)
         sc.settings.figdir = save
-    fig, ax = plt.subplots(figsize=(6, 5))
 
-    if palette is None:
-        sc.pl.umap(
-            adata,
-            color=colors,
-            color_map=color_map,
-            ncols=3,
-            ax=ax
-        )
-    else:
-        sc.pl.umap(
-            adata,
-            color=colors,
-            color_map=color_map,
-            palette=palette,
-            ncols=3,
-            ax=ax
-        )
+    single_panel = len(colors) == 1
+    ax = plt.subplots(figsize=(6, 5))[1] if single_panel else None
+
+    plot_kwargs = dict(
+        adata=adata,
+        color=colors,
+        color_map=color_map,
+        ncols=3,
+        show=False,
+        return_fig=not single_panel,  # get a Figure back for multi-panel case
+    )
+    if palette is not None:
+        plot_kwargs["palette"] = palette
+    if single_panel:
+        plot_kwargs["ax"] = ax
+
+    result = sc.pl.umap(**plot_kwargs)
+    fig = ax.figure if single_panel else result
 
     if save != False:
         fig.savefig(save, bbox_inches='tight', dpi=300)
