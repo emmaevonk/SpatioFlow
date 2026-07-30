@@ -15,7 +15,8 @@ from .plot import (
 )
 
 from .table import (
-    add_nuclei
+    add_nuclei,
+    get_adata_nuclei
 )
 
 from .assignment import (
