@@ -250,15 +250,7 @@
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>table/_allocation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">16</span>
 <span class="normal">17</span>
 <span class="normal">18</span>
 <span class="normal">19</span>
@@ -288,7 +280,20 @@
 <span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
-<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_nuclei</span><span class="p">(</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_nuclei</span><span class="p">(</span>
     <span class="n">sdata</span> <span class="p">:</span> <span class="n">SpatialData</span><span class="p">,</span>
     <span class="n">path_xenium</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">label_id</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;label_id&quot;</span><span class="p">,</span>
@@ -316,6 +321,11 @@
 <span class="sd">    sdata : sdata where a new shape which includes the nuclei in the cells has been added in shape</span>
 <span class="sd">    ``nucleus_boundaries_fixed``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">path_xenium</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">path_xenium</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+            <span class="n">path_xenium</span> <span class="o">=</span> <span class="n">path_xenium</span> <span class="o">+</span> <span class="s2">&quot;nucleus_boundaries.parquet&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">path_xenium</span> <span class="o">=</span> <span class="n">path_xenium</span> <span class="o">+</span> <span class="s2">&quot;/nucleus_boundaries.parquet&quot;</span>
     <span class="c1"># check if path to xenium output exists</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path_xenium</span><span class="p">):</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">path_xenium</span><span class="p">)</span>
@@ -325,7 +335,7 @@
         <span class="c1"># sdata_fixed = sdata.shapes[shapes_layer]</span>
         <span class="k">return</span> <span class="n">sdata</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The path to the Xenium output does not exist. The nuclei have not been added to sdata. Change the path to an existing path with Xenium output and try again.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The path to the Xenium output (containing the `nucleus_boundaries.parquet` file) does not exist. The nuclei have not been added to sdata. Change the path to an existing path with Xenium output and try again.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
 </code></pre></div></td></tr></table></div>
             </details>
