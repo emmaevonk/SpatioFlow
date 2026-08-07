@@ -1,4 +1,5 @@
 import os
+import warnings
 import scanpy as sc
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,6 +7,11 @@ from spatialdata import SpatialData
 from anndata import AnnData
 
 from typing import List, Tuple
+warnings.filterwarnings(
+    "ignore",
+    category=UserWarning,
+    module=r"banksy(\..*)?",
+)
 
 from banksy.initialize_banksy import initialize_banksy
 from banksy.embed_banksy import generate_banksy_matrix
@@ -13,7 +19,6 @@ from banksy.main import concatenate_all
 from banksy_utils.umap_pca import pca_umap
 from banksy.cluster_methods import run_Leiden_partition
 from banksy.plot_banksy import plot_results
-
 
 def _preprocess(
         adata: AnnData,

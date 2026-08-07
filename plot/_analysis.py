@@ -13,8 +13,8 @@ def dotplot(
     adata: AnnData,
     markers: list | None = None,
     cluster: str = 'leiden',
-    n_genes : int = 5
-):  
+    n_genes: int = 5
+) -> plt.Figure:
     """
     Generating dotplots showing markers and their expression in the cells.
 
@@ -31,20 +31,38 @@ def dotplot(
     n_genes : int, default = 5
         Number of genes to show in the dotplot.
 
+    Returns
+    -------
+    matplotlib.figure.Figure
+        The generated dotplot figure, so it can be saved or displayed
+        by the caller (e.g. an agent).
+
     Notes
     ------
     sc.tl.rank_genes needs to be run first before calling this function.
     """
     if markers is None:
-        # sc.settings.set_figure_params(dpi=100)
-        # sc.pl.rank_genes_groups_dotplot(
-        #     adata,
-        #     n_genes=5,
-        #     save="/exports/archive/hg-funcgenom-research/evonk/assigning_labels/_dotplotv2.png"
-        # )
-        sc.pl.rank_genes_groups_dotplot(adata, n_genes=n_genes)
+        plot = sc.pl.rank_genes_groups_dotplot(
+            adata,
+            n_genes=n_genes,
+            show=False,
+            return_fig=True,
+        )
     else:
-        sc.pl.dotplot(adata, var_names=markers, groupby=cluster, show=True, use_raw=False)
+        plot = sc.pl.dotplot(
+            adata,
+            var_names=markers,
+            groupby=cluster,
+            use_raw=False,
+            show=False,
+            return_fig=True,
+        )
+
+    # DotPlot objects are lazy — this actually builds the axes/figure
+    plot.make_figure()
+    fig = plot.fig
+
+    return fig
 
 def celltype_composition(
         adata: AnnData,
