@@ -30,7 +30,10 @@ with warnings.catch_warnings():
         run_cellcharter,
         stability_cellcharter,
         plot_count_distr,
-        prepare_cellcharter
+        prepare_cellcharter,
+        niche_analysis_train,
+        niche_analysis_load,
+        save_gp_dict
     )
     from .table import (
         add_nuclei,

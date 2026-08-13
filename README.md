@@ -68,7 +68,7 @@ cd STAIA
 pip install -e .
 ```
 
-Minimum requirements: look at requirements.txt file 
+Minimum requirements: look at requirements_v2.txt file 
 
 ## 🚀 Quick Start 
 A small example of steps that can be taken with STAIA. 

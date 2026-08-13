@@ -17,3 +17,9 @@ with warnings.catch_warnings():
         stability_cellcharter,
         prepare_cellcharter
     )
+
+    from ._nichecompass import (
+        niche_analysis_train,
+        niche_analysis_load,
+        save_gp_dict
+    )

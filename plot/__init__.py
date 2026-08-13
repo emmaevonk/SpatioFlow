@@ -33,5 +33,8 @@ with warnings.catch_warnings():
         run_banksy,
         run_cellcharter,
         stability_cellcharter,
-        prepare_cellcharter
+        prepare_cellcharter,
+        niche_analysis_train,
+        niche_analysis_load,
+        save_gp_dict
     )
