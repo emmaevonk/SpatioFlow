@@ -1,0 +1,19 @@
+/* docs/css/mkdocstrings.css */
+.doc-symbol {
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-right: 5px;
+  text-transform: uppercase;
+}
+
+.doc-symbol-module   { background-color: #6c757d; color: #fff; }
+.doc-symbol-function,
+.doc-symbol-method    { background-color: #2980B9; color: #fff; } /* RTD blue */
+.doc-symbol-class     { background-color: #343131; color: #fff; } /* RTD dark */
+.doc-symbol-attribute { background-color: #E67E22; color: #000; }
+
+/* Optional: indent function/method entries a bit more in the sidebar
+   so the hierarchy reads clearly even without color */
+.wy-menu-vertical li.toctree-l4 { padding-left: 1.5em; }

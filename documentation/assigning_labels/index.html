@@ -943,6 +943,63 @@ shown in both the annotation and legend.</p>
                 <p>Path to the desired output directory.</p>
               </div>
             </li>
+            <li>
+              <b><code>pixel_size_um</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>20</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Pixel size of the intermediate spatial grid in micrometers.
+Larger values produce a coarser grid and faster processing but
+may reduce segmentation resolution.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>blur_sigma</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>3</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Standard deviation of the Gaussian filter applied to the density
+grid. Controls smoothing of the spatial density map.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>closing_radius</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>5</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Radius of the morphological closing operation used to fill small
+gaps in the binary mask.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>erosion_radius</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>30</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Radius of the morphological erosion used to generate seed regions
+for watershed segmentation. Larger values enforce stronger separation 
+between nearby samples.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>min_cells</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>500</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Minimum number of cells required for a segmented region to be considered
+a valid sample. Regions with fewer cells are laballed as noise.</p>
+              </div>
+            </li>
         </ul>
       </td>
     </tr>
@@ -1041,7 +1098,29 @@ adata.obs: centroid_x, x, X, x_centroid, x_location</p>
 <span class="normal">639</span>
 <span class="normal">640</span>
 <span class="normal">641</span>
-<span class="normal">642</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_watershed</span><span class="p">(</span> 
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_watershed</span><span class="p">(</span> 
         <span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span>
         <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">pixel_size_um</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
@@ -1059,6 +1138,28 @@ adata.obs: centroid_x, x, X, x_centroid, x_location</p>
 <span class="sd">        Annotated data matrix containing x and y coordinates.</span>
 <span class="sd">    output_dir : str</span>
 <span class="sd">        Path to the desired output directory.</span>
+<span class="sd">    pixel_size_um : int, default=20</span>
+<span class="sd">        Pixel size of the intermediate spatial grid in micrometers.</span>
+<span class="sd">        Larger values produce a coarser grid and faster processing but</span>
+<span class="sd">        may reduce segmentation resolution.</span>
+
+<span class="sd">    blur_sigma : int, default=3</span>
+<span class="sd">        Standard deviation of the Gaussian filter applied to the density</span>
+<span class="sd">        grid. Controls smoothing of the spatial density map.</span>
+
+<span class="sd">    closing_radius : int, default=5</span>
+<span class="sd">        Radius of the morphological closing operation used to fill small</span>
+<span class="sd">        gaps in the binary mask.</span>
+
+<span class="sd">    erosion_radius : int, default=30</span>
+<span class="sd">        Radius of the morphological erosion used to generate seed regions</span>
+<span class="sd">        for watershed segmentation. Larger values enforce stronger separation </span>
+<span class="sd">        between nearby samples.</span>
+
+<span class="sd">    min_cells : int, default=500</span>
+<span class="sd">        Minimum number of cells required for a segmented region to be considered</span>
+<span class="sd">        a valid sample. Regions with fewer cells are laballed as noise.</span>
+
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
