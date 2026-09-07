@@ -2,8 +2,8 @@ site_name: STAIA
 
 # themes: https://pawamoy.github.io/mkdocs-gallery/
 # original: material
-theme:
-  name: readthedocs
+theme: # flatly
+  name: readthedocs 
 
 plugins:
   - search

@@ -600,6 +600,28 @@ def run_watershed(
         Annotated data matrix containing x and y coordinates.
     output_dir : str
         Path to the desired output directory.
+    pixel_size_um : int, default=20
+        Pixel size of the intermediate spatial grid in micrometers.
+        Larger values produce a coarser grid and faster processing but
+        may reduce segmentation resolution.
+    
+    blur_sigma : int, default=3
+        Standard deviation of the Gaussian filter applied to the density
+        grid. Controls smoothing of the spatial density map.
+
+    closing_radius : int, default=5
+        Radius of the morphological closing operation used to fill small
+        gaps in the binary mask.
+
+    erosion_radius : int, default=30
+        Radius of the morphological erosion used to generate seed regions
+        for watershed segmentation. Larger values enforce stronger separation 
+        between nearby samples.
+
+    min_cells : int, default=500
+        Minimum number of cells required for a segmented region to be considered
+        a valid sample. Regions with fewer cells are laballed as noise.
+
 
     Returns
     -------
